@@ -117,6 +117,16 @@ public:
     return data_.data();
   }
 
+  auto& operator () (int i, int j)
+  {
+    return data_[ByteSize(format) * (j + i * width_)];
+  }
+
+  auto& operator () (int i, int j, int component)
+  {
+    return data_[ByteSize(format) * (j + i * width_) + component];
+  }
+
 private:
   unsigned int width_ = 0;
   unsigned int height_ = 0;

@@ -2,6 +2,7 @@
 #define SOFTPHYS_PHYSICS_OBJECT_RIGID_BODY_H_
 
 #include "softphys/physics/object/object.h"
+#include "softphys/shape/shape.h"
 
 namespace softphys
 {
@@ -9,8 +10,23 @@ class RigidBody : public Object
 {
 public:
   RigidBody() = delete;
-  RigidBody(double mass);
+  RigidBody(double mass, std::shared_ptr<Shape> shape);
   ~RigidBody();
+
+  bool IsRigidBody() const noexcept override
+  {
+    return true;
+  }
+
+  const auto& GetCom()
+  {
+    return com_;
+  }
+
+  const auto& GetRotation()
+  {
+    return rotation_;
+  }
 
   void SetCom(const Eigen::Vector3d& com)
   {
@@ -29,18 +45,30 @@ public:
 
   void ApplyImpulse(const Eigen::Vector3d& j) override;
   void ApplyForce(const Eigen::Vector3d& f) override;
+  void ApplyGravity(const Eigen::Vector3d& g) override;
   void Simulate(double time) override;
 
+  auto GetShape() const noexcept
+  {
+    return shape_;
+  }
+
 protected:
-  // status
+  // property
   double mass_;
+
+  // status (linear)
   Eigen::Vector3d com_{ 0., 0., 0. };
   Eigen::Vector3d momentum_{ 0., 0., 0. };
+
+  // status (rotation)
+  Eigen::Matrix3d rotation_{ Eigen::Matrix3d::Identity() };
 
   // simulation
   Eigen::Vector3d force_{ 0., 0., 0. };
 
 private:
+  std::shared_ptr<Shape> shape_;
 };
 }
 

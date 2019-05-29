@@ -2,8 +2,8 @@
 
 namespace softphys
 {
-RigidBody::RigidBody(double mass)
-  : mass_(mass)
+RigidBody::RigidBody(double mass, std::shared_ptr<Shape> shape)
+  : mass_(mass), shape_(shape)
 {
 }
 
@@ -19,10 +19,15 @@ void RigidBody::ApplyForce(const Eigen::Vector3d& f)
   force_ += f;
 }
 
+void RigidBody::ApplyGravity(const Eigen::Vector3d& g)
+{
+  force_ += g * mass_;
+}
+
 void RigidBody::Simulate(double time)
 {
   // Status change due to a uniform force over time
-  com_ += momentum_ * time + 0.5 * force_ * time * time;
+  com_ += (momentum_ * time + 0.5 * force_ * time * time) / mass_;
   momentum_ += force_ * time;
 
   // After a simulation of a timestep, reset forces to 0

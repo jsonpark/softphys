@@ -7,6 +7,8 @@
 #include <Eigen/Dense>
 
 #include "softphys/engine.h"
+#include "softphys/physics/object/rigid_body.h"
+#include "softphys/shape/sphere.h"
 
 namespace softphys
 {
@@ -125,51 +127,21 @@ void Viewer::Initialize()
   mouse_.SetStatus(Mouse::Button::MiddleButton, Mouse::Status::Released);
 
   // Scene
-  std::vector<float> vertices = {
-    // positions          // colors           // texture coords
-    -1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,
-     1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f,
-     1.0f,  1.0f, 1.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,
-    -1.0f,  1.0f, 1.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f,
-  };
-  std::vector<unsigned int> indices = {
-    0, 1, 3, // first triangle
-    1, 2, 3  // second triangle
-  };
-  Texture<> texture1("..\\textures\\container.png");
-  Texture<> texture2("..\\textures\\awesomeface.png");
-
-  vertex_buffer_ = GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::StaticDraw>(vertices);
-  index_buffer_ = GlBuffer<unsigned int, GlBufferTarget::ElementArrayBuffer, GlBufferUsage::StaticDraw>(indices);
-
-  vertex_array_.VertexAttribPointer(0, 3, vertex_buffer_, 8, 0);
-  vertex_array_.VertexAttribPointer(1, 3, vertex_buffer_, 8, 3);
-  vertex_array_.VertexAttribPointer(2, 2, vertex_buffer_, 8, 6);
-
-  std::vector<float> axis_vertices = {
-    0.f, 0.f, 0.f,  1.f, 0.f, 0.f,
-    1.f, 0.f, 0.f,  1.f, 0.f, 0.f,
-    0.f, 0.f, 0.f,  0.f, 1.f, 0.f,
-    0.f, 1.f, 0.f,  0.f, 1.f, 0.f,
-    0.f, 0.f, 0.f,  0.f, 0.f, 1.f,
-    0.f, 0.f, 1.f,  0.f, 0.f, 1.f,
-  };
-
-  axis_buffer_ = GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::StaticDraw>(axis_vertices);
-
-  axis_vertex_array_.VertexAttribPointer(0, 3, axis_buffer_, 6, 0);
-  axis_vertex_array_.VertexAttribPointer(1, 3, axis_buffer_, 6, 3);
-
   texture_program_.Attach(GlVertexShader("..\\src\\shader\\texture.vert"));
   texture_program_.Attach(GlFragmentShader("..\\src\\shader\\texture.frag"));
   texture_program_.Link();
 
-  gl_texture1_ = GlTexture<GlTextureType::Texture2D>(texture1);
-  gl_texture2_ = GlTexture<GlTextureType::Texture2D>(texture2);
-
   texture_program_.Use();
   texture_program_.Uniform("texture_image1", 0);
   texture_program_.Uniform("texture_image2", 1);
+
+  uniform_color_program_.Attach(GlVertexShader("..\\src\\shader\\uniform_color.vert"));
+  uniform_color_program_.Attach(GlFragmentShader("..\\src\\shader\\uniform_color.frag"));
+  uniform_color_program_.Link();
+
+  ground_program_.Attach(GlVertexShader("..\\src\\shader\\ground.vert"));
+  ground_program_.Attach(GlFragmentShader("..\\src\\shader\\ground.frag"));
+  ground_program_.Link();
 
   camera_.SetNear(0.001);
 
@@ -186,6 +158,10 @@ void Viewer::Initialize()
   glyph_array_.VertexAttribPointer(0, 4, glyph_buffer_);
 
   glyphs_ = GlGlyphs(GetEngine()->LoadFont("consola"));
+
+  // Prepare models for physics scene
+  sphere_model_ = std::make_unique<SphereModel>(3);
+  ground_model_ = std::make_unique<GroundModel>();
 
   // Timestamp
   timestamp_ = GetEngine()->GetTime();
@@ -210,6 +186,56 @@ void Viewer::Display()
   texture_program_.Uniform("view", camera_.Viewf());
 
   // Display physics objects
+  ground_program_.Use();
+  ground_program_.Uniform("projection", camera_.Projectionf());
+  ground_program_.Uniform("view", camera_.Viewf());
+
+  uniform_color_program_.Use();
+  uniform_color_program_.Uniform("projection", camera_.Projectionf());
+  uniform_color_program_.Uniform("view", camera_.Viewf());
+
+  for (auto object : physics_->GetObjects())
+  {
+    if (object->IsRigidBody())
+    {
+      auto rb = std::dynamic_pointer_cast<RigidBody>(object);
+      auto shape = rb->GetShape();
+
+      const auto& com = rb->GetCom();
+      const auto& rotation = rb->GetRotation();
+
+      if (shape->IsSphere())
+      {
+        auto sphere = std::dynamic_pointer_cast<Sphere>(shape);
+        const auto r = sphere->Radius();
+        const auto& c = sphere->Center();
+
+        Eigen::Matrix4f model;
+        model.block(0, 0, 3, 3) = (rotation * r).cast<float>();
+        model.block(3, 0, 1, 3).setZero();
+        model.block(0, 3, 3, 1) = (com + c).cast<float>();
+        model(3, 3) = 1.f;
+
+        uniform_color_program_.Use();
+        uniform_color_program_.Uniform("color", 1.f, 0.f, 0.f);
+        uniform_color_program_.Uniform("model", model);
+
+        sphere_model_->Draw();
+      }
+    }
+
+    else if (object->IsGround())
+    {
+      // TODO: rotate ground
+      Eigen::Matrix4f model;
+      model.setIdentity();
+
+      ground_program_.Use();
+      ground_program_.Uniform("model", model);
+
+      ground_model_->Draw();
+    }
+  }
 
   // Display physics simulator time
   float w = Width();

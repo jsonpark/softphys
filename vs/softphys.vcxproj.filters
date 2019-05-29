@@ -37,6 +37,9 @@
     <Filter Include="src\shader">
       <UniqueIdentifier>{d9b3976c-8fc4-48a0-8c0c-987bdde79eeb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\softphys\viewer\model">
+      <UniqueIdentifier>{b79bb923-6bbb-401e-aa57-82a848451942}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\glad\glad.c">
@@ -84,9 +87,6 @@
     <ClCompile Include="..\src\softphys\viewer\gl_vertex_array.cc">
       <Filter>src\softphys\viewer</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\softphys\viewer\model.cc">
-      <Filter>src\softphys\viewer</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\softphys\viewer\mouse.cc">
       <Filter>src\softphys\viewer</Filter>
     </ClCompile>
@@ -113,6 +113,15 @@
     </ClCompile>
     <ClCompile Include="..\src\softphys\shape\plane.cc">
       <Filter>src\softphys\shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\model\model.cc">
+      <Filter>src\softphys\viewer\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\model\sphere_model.cc">
+      <Filter>src\softphys\viewer\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\model\ground_model.cc">
+      <Filter>src\softphys\viewer\model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -167,9 +176,6 @@
     <ClInclude Include="..\src\softphys\viewer\gl_vertex_array.h">
       <Filter>src\softphys\viewer</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\softphys\viewer\model.h">
-      <Filter>src\softphys\viewer</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\mouse.h">
       <Filter>src\softphys\viewer</Filter>
     </ClInclude>
@@ -203,6 +209,15 @@
     <ClInclude Include="..\src\softphys\shape\plane.h">
       <Filter>src\softphys\shape</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\model\model.h">
+      <Filter>src\softphys\viewer\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\model\sphere_model.h">
+      <Filter>src\softphys\viewer\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\model\ground_model.h">
+      <Filter>src\softphys\viewer\model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\shader\color.frag">
@@ -227,6 +242,18 @@
       <Filter>src\shader</Filter>
     </None>
     <None Include="..\src\shader\texture.vert">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\uniform_color.vert">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\uniform_color.frag">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\ray_ground.frag">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\ray_ground.vert">
       <Filter>src\shader</Filter>
     </None>
   </ItemGroup>

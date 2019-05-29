@@ -12,6 +12,11 @@ public:
   Ground(const Eigen::Vector3d& normal, const Eigen::Vector3d& center);
   ~Ground();
 
+  bool IsGround() const noexcept override
+  {
+    return true;
+  }
+
 private:
   Eigen::Vector3d normal_;
   Eigen::Vector3d center_;

@@ -11,8 +11,19 @@ public:
   Object();
   virtual ~Object();
 
+  virtual bool IsRigidBody() const noexcept
+  {
+    return false;
+  }
+
+  virtual bool IsGround() const noexcept
+  {
+    return false;
+  }
+
   virtual void ApplyImpulse(const Eigen::Vector3d& impulse);
   virtual void ApplyForce(const Eigen::Vector3d& f);
+  virtual void ApplyGravity(const Eigen::Vector3d& g);
   virtual void Simulate(double time);
 
 private:

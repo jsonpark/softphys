@@ -11,6 +11,11 @@ public:
   Shape();
   virtual ~Shape();
 
+  virtual bool IsSphere() const noexcept
+  {
+    return false;
+  }
+
 private:
 };
 }

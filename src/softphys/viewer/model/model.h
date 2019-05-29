@@ -1,5 +1,5 @@
-#ifndef SOFTPHYS_VIEWER_MODEL_H_
-#define SOFTPHYS_VIEWER_MODEL_H_
+#ifndef SOFTPHYS_VIEWER_MODEL_MODEL_H_
+#define SOFTPHYS_VIEWER_MODEL_MODEL_H_
 
 #include <vector>
 
@@ -12,10 +12,12 @@ class Model
 {
 public:
   Model();
-  ~Model();
+  virtual ~Model();
+
+  virtual void Draw();
 
 private:
 };
 }
 
-#endif // SOFTPHYS_VIEWER_MODEL_H_
+#endif // SOFTPHYS_VIEWER_MODEL_MODEL_H_

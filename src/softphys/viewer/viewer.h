@@ -12,6 +12,8 @@
 #include "softphys/font/font_face.h"
 #include "softphys/font/gl_glyphs.h"
 #include "softphys/physics/physics.h"
+#include "softphys/viewer/model/sphere_model.h"
+#include "softphys/viewer/model/ground_model.h"
 
 namespace softphys
 {
@@ -44,15 +46,10 @@ private:
   Camera camera_;
   Mouse mouse_;
 
-  // Rectangle viewer
+  // Shaders
   GlProgram texture_program_;
-  GlVertexArray vertex_array_;
-  GlVertexArray axis_vertex_array_;
-  GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::StaticDraw> vertex_buffer_;
-  GlBuffer<unsigned int, GlBufferTarget::ElementArrayBuffer, GlBufferUsage::StaticDraw> index_buffer_;
-  GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::StaticDraw> axis_buffer_;
-  GlTexture<GlTextureType::Texture2D> gl_texture1_;
-  GlTexture<GlTextureType::Texture2D> gl_texture2_;
+  GlProgram uniform_color_program_;
+  GlProgram ground_program_;
 
   // Font
   void RenderText(const std::wstring& s, float x, float y, float font_size, Eigen::Vector3f color);
@@ -65,6 +62,9 @@ private:
   bool animation_ = false;
   double timestamp_ = 0.;
   std::unique_ptr<Physics> physics_;
+
+  std::unique_ptr<SphereModel> sphere_model_;
+  std::unique_ptr<GroundModel> ground_model_;
 };
 }
 

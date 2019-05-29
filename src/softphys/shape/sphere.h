@@ -14,6 +14,21 @@ public:
 
   ~Sphere();
 
+  bool IsSphere() const noexcept override
+  {
+    return true;
+  }
+
+  auto Radius() const noexcept
+  {
+    return radius_;
+  }
+
+  const auto& Center() const noexcept
+  {
+    return center_;
+  }
+
 private:
   double radius_ = 1.;
   Eigen::Vector3d center_{ 0., 0., 0. };

@@ -55,7 +55,17 @@ public:
   }
 
   template<typename T, GlBufferTarget target, GlBufferUsage usage>
-  void DrawElements(DrawType type, const GlBuffer<T, target, usage>& element_buffer, int count = element_buffer.NumElements(), int offset = 0)
+  void DrawElements(DrawType type, const GlBuffer<T, target, usage>& element_buffer)
+  {
+    Bind();
+    element_buffer.Bind();
+    glDrawElements(DrawTypeToGlEnum(type), element_buffer.NumElements(), BaseTypeToGlEnum<T>(), (void*)0);
+    Unbind();
+    element_buffer.Unbind();
+  }
+
+  template<typename T, GlBufferTarget target, GlBufferUsage usage>
+  void DrawElements(DrawType type, const GlBuffer<T, target, usage>& element_buffer, int count, int offset = 0)
   {
     Bind();
     element_buffer.Bind();

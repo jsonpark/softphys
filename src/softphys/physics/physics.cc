@@ -16,6 +16,11 @@ void Physics::SetGravity(const Eigen::Vector3d& g)
   gravity_ = g;
 }
 
+void Physics::SetEarthGravity()
+{
+  SetGravity(9.80665);
+}
+
 void Physics::Simulate(double time)
 {
   // TODO: collision detection and response
@@ -28,7 +33,7 @@ void Physics::Simulate(double time)
 
   // Gravity
   for (auto object : objects_)
-    object->ApplyForce(gravity_);
+    object->ApplyGravity(gravity_);
 
   // Simulation for single objects
   for (auto object : objects_)

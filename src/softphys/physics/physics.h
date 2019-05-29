@@ -20,6 +20,8 @@ public:
     auto object = std::make_shared<ObjectType>(std::forward<Ts>(args)...);
 
     objects_.push_back(object);
+
+    return object;
   }
 
   auto GetTime() const noexcept
@@ -29,8 +31,14 @@ public:
 
   void SetGravity(double g);
   void SetGravity(const Eigen::Vector3d& g);
+  void SetEarthGravity();
 
   void Simulate(double time);
+
+  const auto& GetObjects() const
+  {
+    return objects_;
+  }
 
 private:
   double time_ = 0.;

@@ -40,7 +40,9 @@
     <ClCompile Include="..\src\softphys\viewer\camera.cc" />
     <ClCompile Include="..\src\softphys\viewer\gl_program.cc" />
     <ClCompile Include="..\src\softphys\viewer\gl_vertex_array.cc" />
-    <ClCompile Include="..\src\softphys\viewer\model.cc" />
+    <ClCompile Include="..\src\softphys\viewer\model\ground_model.cc" />
+    <ClCompile Include="..\src\softphys\viewer\model\model.cc" />
+    <ClCompile Include="..\src\softphys\viewer\model\sphere_model.cc" />
     <ClCompile Include="..\src\softphys\viewer\mouse.cc" />
     <ClCompile Include="..\src\softphys\viewer\viewer.cc" />
     <ClCompile Include="..\src\softphys\viewer\window.cc" />
@@ -70,7 +72,9 @@
     <ClInclude Include="..\src\softphys\viewer\gl_shader.h" />
     <ClInclude Include="..\src\softphys\viewer\gl_texture.h" />
     <ClInclude Include="..\src\softphys\viewer\gl_vertex_array.h" />
-    <ClInclude Include="..\src\softphys\viewer\model.h" />
+    <ClInclude Include="..\src\softphys\viewer\model\ground_model.h" />
+    <ClInclude Include="..\src\softphys\viewer\model\model.h" />
+    <ClInclude Include="..\src\softphys\viewer\model\sphere_model.h" />
     <ClInclude Include="..\src\softphys\viewer\mouse.h" />
     <ClInclude Include="..\src\softphys\viewer\mouse_event.h" />
     <ClInclude Include="..\src\softphys\viewer\viewer.h" />
@@ -79,6 +83,10 @@
   <ItemGroup>
     <None Include="..\src\shader\color.frag" />
     <None Include="..\src\shader\color.vert" />
+    <None Include="..\src\shader\ray_ground.frag" />
+    <None Include="..\src\shader\ray_ground.vert" />
+    <None Include="..\src\shader\uniform_color.frag" />
+    <None Include="..\src\shader\uniform_color.vert" />
     <None Include="..\src\shader\ground.frag" />
     <None Include="..\src\shader\ground.vert" />
     <None Include="..\src\shader\text.frag" />

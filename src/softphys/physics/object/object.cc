@@ -14,6 +14,10 @@ void Object::ApplyForce(const Eigen::Vector3d& f)
 {
 }
 
+void Object::ApplyGravity(const Eigen::Vector3d& g)
+{
+}
+
 void Object::Simulate(double time)
 {
 }
