@@ -1,0 +1,20 @@
+#ifndef SOFTPHYS_SHAPE_PLANE_H_
+#define SOFTPHYS_SHAPE_PLANE_H_
+
+#include "softphys/shape/shape.h"
+
+namespace softphys
+{
+class Plane : public Shape
+{
+public:
+  Plane();
+  Plane(const Eigen::Vector4d& equation);
+  ~Plane();
+
+private:
+  Eigen::Vector4d equation_{ 0., 0., 1., 0. };
+};
+}
+
+#endif // SOFTPHYS_SHAPE_PLANE_H_

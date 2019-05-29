@@ -1,4 +1,4 @@
-#include "viewer/viewer.h"
+#include "softphys/viewer/viewer.h"
 
 #include <iostream>
 
@@ -6,7 +6,7 @@
 #include <GLFW/glfw3.h>
 #include <Eigen/Dense>
 
-#include "softphys/engine/engine.h"
+#include "softphys/engine.h"
 
 namespace softphys
 {
@@ -20,11 +20,22 @@ Viewer::~Viewer()
 {
 }
 
+void Viewer::DisplayPhysicsScene(std::unique_ptr<Physics> physics)
+{
+  physics_ = std::move(physics);
+}
+
 void Viewer::Resize(int width, int height)
 {
   Window::Resize(width, height);
 
   camera_.SetAspect(width, height);
+}
+
+void Viewer::Keyboard(int key, int action, int mods)
+{
+  if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+    animation_ = !animation_;
 }
 
 void Viewer::MouseMove(double x, double y)
@@ -161,24 +172,61 @@ void Viewer::Initialize()
   texture_program_.Uniform("texture_image2", 1);
 
   camera_.SetNear(0.001);
+
+  // Text rendering preparation
+  text_program_.Attach(GlVertexShader("..\\src\\shader\\text.vert"));
+  text_program_.Attach(GlFragmentShader("..\\src\\shader\\text.frag"));
+  text_program_.Link();
+
+  text_program_.Use();
+  text_program_.Uniform("glyph", 0);
+
+  glyph_buffer_ = GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::DynamicDraw>(16);
+
+  glyph_array_.VertexAttribPointer(0, 4, glyph_buffer_);
+
+  glyphs_ = GlGlyphs(GetEngine()->LoadFont("consola"));
+
+  // Timestamp
+  timestamp_ = GetEngine()->GetTime();
 }
 
 void Viewer::Display()
 {
+  // Timestamp
+  double now = GetEngine()->GetTime();
+  double time = now - timestamp_;
+  timestamp_ = now;
+
+  // Physics simulation
+  if (animation_)
+    physics_->Simulate(time);
+
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  // Objects
+  // Setting camera
   texture_program_.Use();
   texture_program_.Uniform("projection", camera_.Projectionf());
   texture_program_.Uniform("view", camera_.Viewf());
 
-  Eigen::Matrix4d rect_model;
-  rect_model.setIdentity();
-  texture_program_.Uniform("model", rect_model.cast<float>());
+  // Display physics objects
 
-  gl_texture1_.Bind(0);
-  gl_texture2_.Bind(1);
-  vertex_array_.DrawElements(GlVertexArray::DrawType::Triangles, index_buffer_, 6);
+  // Display physics simulator time
+  float w = Width();
+  float h = Height();
+  Eigen::Matrix4f font_projection;
+  font_projection.setZero();
+  font_projection(0, 0) = 2.f / w;
+  font_projection(1, 1) = 2.f / h;
+  font_projection(2, 2) = 1.f;
+  font_projection(3, 3) = 1.f;
+
+  text_program_.Use();
+  text_program_.Uniform("projection", font_projection);
+
+  double simulator_time = physics_->GetTime();
+
+  RenderText(L"Time: " + std::to_wstring(simulator_time) + L"s", -w / 2.f + 10.f, h / 2.f - 20, 0.12f, Eigen::Vector3f(0.f, 0.f, 0.f));
 }
 
 void Viewer::RenderText(const std::wstring& s, float x, float y, float font_size, Eigen::Vector3f color)
@@ -196,7 +244,7 @@ void Viewer::RenderText(const std::wstring& s, float x, float y, float font_size
   // Iterate through all characters
   for (auto c = s.begin(); c != s.end(); c++)
   {
-    if (*c == '\n')
+    if (*c == L'\n')
     {
       x = original_x;
       y -= 128 * font_size;
@@ -221,7 +269,7 @@ void Viewer::RenderText(const std::wstring& s, float x, float y, float font_size
     };
 
     // Render glyph texture over quad
-    glyph_texture.Bind();
+    glyph_texture.Bind(0);
 
     // Update content of VBO memory
     glyph_buffer_.BufferSubData(vertices);

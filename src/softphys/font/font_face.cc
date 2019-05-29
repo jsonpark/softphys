@@ -4,14 +4,14 @@
 
 #include "softphys/font/font_faces.h"
 #include "softphys/font/glyph.h"
-#include "softphys/engine/texture.h"
+#include "softphys/data/texture.h"
 
 namespace softphys
 {
 FontFace::FontFace(FontFaces* ft, const std::string& font)
   : ft_(ft), is_constructed_(false), glyphs_(num_glyphs_)
 {
-  auto error = FT_New_Face(*ft->Library(), (std::string("C:\\Windows\\Fonts\\") + font + ".ttc").c_str(), 0, &face_);
+  auto error = FT_New_Face(*ft->Library(), (std::string("C:\\Windows\\Fonts\\") + font + ".ttf").c_str(), 0, &face_);
   if (error == FT_Err_Unknown_File_Format)
   {
     std::cout << "FreeType: The font file could be openedand read, but it appears that its font format is unsupported." << std::endl;

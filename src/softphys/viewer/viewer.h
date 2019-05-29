@@ -1,16 +1,17 @@
-#ifndef MODERNGL_VIEWER_H_
-#define MODERNGL_VIEWER_H_
+#ifndef SOFTPHYS_VIEWER_VIEWER_H_
+#define SOFTPHYS_VIEWER_VIEWER_H_
 
-#include "softphys/engine/window.h"
+#include "softphys/viewer/window.h"
 
-#include "softphys/engine/texture.h"
-#include "softphys/engine/gl_texture.h"
-#include "softphys/engine/gl_buffer.h"
-#include "softphys/engine/gl_program.h"
-#include "softphys/engine/gl_shader.h"
-#include "softphys/engine/gl_vertex_array.h"
+#include "softphys/data/texture.h"
+#include "softphys/viewer/gl_texture.h"
+#include "softphys/viewer/gl_buffer.h"
+#include "softphys/viewer/gl_program.h"
+#include "softphys/viewer/gl_shader.h"
+#include "softphys/viewer/gl_vertex_array.h"
 #include "softphys/font/font_face.h"
 #include "softphys/font/gl_glyphs.h"
+#include "softphys/physics/physics.h"
 
 namespace softphys
 {
@@ -29,7 +30,10 @@ public:
   Viewer(Viewer&& rhs) = default;
   Viewer& operator = (Viewer&& rhs) = default;
 
+  void DisplayPhysicsScene(std::unique_ptr<Physics> physics);
+
   void Resize(int width, int height) override;
+  void Keyboard(int key, int action, int mods) override;
   void MouseMove(double x, double y) override;
   void MouseButton(int button, int action, int mods) override;
 
@@ -56,7 +60,12 @@ private:
   GlGlyphs glyphs_;
   GlVertexArray glyph_array_;
   GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::DynamicDraw> glyph_buffer_;
+
+  // Physics
+  bool animation_ = false;
+  double timestamp_ = 0.;
+  std::unique_ptr<Physics> physics_;
 };
 }
 
-#endif // MODERNGL_VIEWER_H_
+#endif // SOFTPHYS_VIEWER_VIEWER_H_

@@ -1,5 +1,5 @@
-#ifndef SOFTPHYS_ENGINE_GL_BUFFER_H_
-#define SOFTPHYS_ENGINE_GL_BUFFER_H_
+#ifndef SOFTPHYS_VIEWER_GL_BUFFER_H_
+#define SOFTPHYS_VIEWER_GL_BUFFER_H_
 
 #include <vector>
 
@@ -175,4 +175,4 @@ private:
 };
 }
 
-#endif // SOFTPHYS_ENGINE_GL_BUFFER_H_
+#endif // SOFTPHYS_VIEWER_GL_BUFFER_H_

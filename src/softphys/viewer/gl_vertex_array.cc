@@ -1,4 +1,4 @@
-#include "softphys/engine/gl_vertex_array.h"
+#include "softphys/viewer/gl_vertex_array.h"
 
 namespace softphys
 {

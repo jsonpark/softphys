@@ -1,5 +1,5 @@
-#ifndef SOFTPHYS_ENGINE_GL_SHADER_H_
-#define SOFTPHYS_ENGINE_GL_SHADER_H_
+#ifndef SOFTPHYS_VIEWER_GL_SHADER_H_
+#define SOFTPHYS_VIEWER_GL_SHADER_H_
 
 #include <fstream>
 #include <sstream>
@@ -139,4 +139,4 @@ using GlVertexShader = GlShader<GlShaderType::VertexShader>;
 using GlFragmentShader = GlShader<GlShaderType::FragmentShader>;
 }
 
-#endif // SOFTPHYS_ENGINE_GL_SHADER_H_
+#endif // SOFTPHYS_VIEWER_GL_SHADER_H_

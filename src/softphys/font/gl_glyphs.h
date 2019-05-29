@@ -5,7 +5,7 @@
 
 #include "softphys/font/font_face.h"
 #include "softphys/font/glyph.h"
-#include "softphys/engine/gl_texture.h"
+#include "softphys/viewer/gl_texture.h"
 
 namespace softphys
 {
@@ -38,6 +38,8 @@ public:
     is_glyph_loaded_ = std::move(rhs.is_glyph_loaded_);
     textures_ = std::move(rhs.textures_);
     glyph_sizes_ = std::move(rhs.glyph_sizes_);
+
+    return *this;
   }
 
   TextureType& GetTexture(wchar_t c);

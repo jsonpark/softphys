@@ -2,11 +2,17 @@
 
 namespace softphys
 {
-Sphere::Sphere()
+Sphere::Sphere() = default;
+
+Sphere::Sphere(double radius)
+  : radius_(radius)
 {
 }
 
-Sphere::~Sphere()
+Sphere::Sphere(double radius, const Eigen::Vector3d& center)
+  : radius_(radius), center_(center)
 {
 }
+
+Sphere::~Sphere() = default;
 }

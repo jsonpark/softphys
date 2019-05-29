@@ -33,7 +33,7 @@ void GlGlyphs::Load(wchar_t c)
   {
     const auto& face_character = face_->operator[](c);
     glyph_sizes_[c] = face_character.GetSize();
-    textures_[c] = TextureType(face_character.Texture());
+    textures_[c] = TextureType(face_character.Texture(), 2);
     textures_[c].Bind();
     textures_[c].WrapS(GlTextureWrapping::ClampToEdge);
     textures_[c].WrapT(GlTextureWrapping::ClampToEdge);

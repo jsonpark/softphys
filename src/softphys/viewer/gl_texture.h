@@ -1,9 +1,9 @@
-#ifndef SOFTPHYS_ENGINE_GL_TEXTURE_H_
-#define SOFTPHYS_ENGINE_GL_TEXTURE_H_
+#ifndef SOFTPHYS_VIEWER_GL_TEXTURE_H_
+#define SOFTPHYS_VIEWER_GL_TEXTURE_H_
 
 #include <glad/glad.h>
 
-#include "softphys/engine/texture.h"
+#include "softphys/data/texture.h"
 
 namespace softphys
 {
@@ -243,4 +243,4 @@ private:
 };
 }
 
-#endif // SOFTPHYS_ENGINE_GL_TEXTURE_H_
+#endif // SOFTPHYS_VIEWER_GL_TEXTURE_H_

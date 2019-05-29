@@ -1,10 +1,10 @@
-#ifndef SOFTPHYS_ENGINE_GL_PROGRAM_H_
-#define SOFTPHYS_ENGINE_GL_PROGRAM_H_
+#ifndef SOFTPHYS_VIEWER_GL_PROGRAM_H_
+#define SOFTPHYS_VIEWER_GL_PROGRAM_H_
 
 #include <glad/glad.h>
 #include <Eigen/Dense>
 
-#include "softphys/engine/gl_shader.h"
+#include "softphys/viewer/gl_shader.h"
 
 namespace softphys
 {
@@ -47,4 +47,4 @@ private:
 };
 }
 
-#endif // SOFTPHYS_ENGINE_GL_PROGRAM_H_
+#endif // SOFTPHYS_VIEWER_GL_PROGRAM_H_

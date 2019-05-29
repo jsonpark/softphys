@@ -1,4 +1,4 @@
-#include "softphys/engine/window.h"
+#include "softphys/viewer/window.h"
 
 #include <iostream>
 
@@ -6,12 +6,12 @@
 #include <GLFW/glfw3.h>
 #include <Eigen/Dense>
 
-#include "softphys/engine/texture.h"
-#include "softphys/engine/gl_texture.h"
-#include "softphys/engine/gl_buffer.h"
-#include "softphys/engine/gl_program.h"
-#include "softphys/engine/gl_shader.h"
-#include "softphys/engine/gl_vertex_array.h"
+#include "softphys/data/texture.h"
+#include "softphys/viewer/gl_texture.h"
+#include "softphys/viewer/gl_buffer.h"
+#include "softphys/viewer/gl_program.h"
+#include "softphys/viewer/gl_shader.h"
+#include "softphys/viewer/gl_vertex_array.h"
 
 namespace softphys
 {
@@ -72,6 +72,10 @@ void Window::Move(int x, int y)
 {
   x_ = x;
   y_ = y;
+}
+
+void Window::Keyboard(int key, int action, int mods)
+{
 }
 
 void Window::MouseMove(double x, double y)

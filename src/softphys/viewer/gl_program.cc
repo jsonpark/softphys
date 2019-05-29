@@ -1,4 +1,4 @@
-#include "softphys/engine/gl_program.h"
+#include "softphys/viewer/gl_program.h"
 
 namespace softphys
 {

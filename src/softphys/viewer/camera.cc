@@ -1,4 +1,4 @@
-#include "softphys/engine/camera.h"
+#include "softphys/viewer/camera.h"
 
 namespace softphys
 {

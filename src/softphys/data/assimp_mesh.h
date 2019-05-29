@@ -1,5 +1,5 @@
-#ifndef SOFTPHYS_ENGINE_ASSIMP_MESH_H_
-#define SOFTPHYS_ENGINE_ASSIMP_MESH_H_
+#ifndef SOFTPHYS_DATA_ASSIMP_MESH_H_
+#define SOFTPHYS_DATA_ASSIMP_MESH_H_
 
 #include <string>
 
@@ -19,4 +19,4 @@ private:
 };
 }
 
-#endif // SOFTPHYS_ENGINE_ASSIMP_MESH_H_
+#endif // SOFTPHYS_DATA_ASSIMP_MESH_H_

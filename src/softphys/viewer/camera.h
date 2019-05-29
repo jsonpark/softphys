@@ -1,5 +1,5 @@
-#ifndef SOFTPHYS_ENGINE_CAMERA_H_
-#define SOFTPHYS_ENGINE_CAMERA_H_
+#ifndef SOFTPHYS_VIEWER_CAMERA_H_
+#define SOFTPHYS_VIEWER_CAMERA_H_
 
 #include <vector>
 
@@ -127,4 +127,4 @@ private:
 };
 }
 
-#endif // SOFTPHYS_ENGINE_CAMERA_H_
+#endif // SOFTPHYS_VIEWER_CAMERA_H_

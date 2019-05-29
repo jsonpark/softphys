@@ -1,11 +1,11 @@
-#ifndef SOFTPHYS_ENGINE_WINDOW_H_
-#define SOFTPHYS_ENGINE_WINDOW_H_
+#ifndef SOFTPHYS_VIEWER_WINDOW_H_
+#define SOFTPHYS_VIEWER_WINDOW_H_
 
 #include <memory>
 
-#include "softphys/engine/mouse.h"
-#include "softphys/engine/mouse_event.h"
-#include "softphys/engine/camera.h"
+#include "softphys/viewer/mouse.h"
+#include "softphys/viewer/mouse_event.h"
+#include "softphys/viewer/camera.h"
 
 struct GLFWwindow;
 
@@ -42,6 +42,7 @@ public:
 
   virtual void Resize(int width, int height);
   virtual void Move(int x, int y);
+  virtual void Keyboard(int key, int action, int mods);
   virtual void MouseMove(double x, double y);
   virtual void MouseButton(int button, int action, int mods);
 
@@ -73,4 +74,4 @@ private:
 };
 }
 
-#endif // MODERNGL_WINDOW_H_
+#endif // SOFTPHYS_VIEWER_WINDOW_H_

@@ -19,14 +19,23 @@
     <Filter Include="src\softphys\shape">
       <UniqueIdentifier>{538e05b8-f3dc-4e4a-826b-bd0771dbdf3b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\softphys\engine">
-      <UniqueIdentifier>{cfcf63a4-9c09-41f2-acc4-2ae949563161}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\softphys\font">
       <UniqueIdentifier>{4894c415-8cad-4f80-a1ce-ce56d88c695d}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\softphys\viewer">
       <UniqueIdentifier>{99e81650-a29d-4039-9768-7316ded01691}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\softphys\physics">
+      <UniqueIdentifier>{cfcf63a4-9c09-41f2-acc4-2ae949563161}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\softphys\data">
+      <UniqueIdentifier>{a0e15b13-debf-4a8c-99b8-20c22036a545}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\softphys\physics\object">
+      <UniqueIdentifier>{e66b785f-4fd2-4723-a392-6e80274f4263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\shader">
+      <UniqueIdentifier>{d9b3976c-8fc4-48a0-8c0c-987bdde79eeb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -35,30 +44,6 @@
     </ClCompile>
     <ClCompile Include="..\lib\lodepng\lodepng.cpp">
       <Filter>lib\lodepng</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\engine\assimp_mesh.cc">
-      <Filter>src\softphys\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\engine\camera.cc">
-      <Filter>src\softphys\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\engine\engine.cc">
-      <Filter>src\softphys\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\engine\gl_program.cc">
-      <Filter>src\softphys\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\engine\gl_vertex_array.cc">
-      <Filter>src\softphys\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\engine\model.cc">
-      <Filter>src\softphys\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\engine\mouse.cc">
-      <Filter>src\softphys\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\engine\window.cc">
-      <Filter>src\softphys\engine</Filter>
     </ClCompile>
     <ClCompile Include="..\src\softphys\font\font_face.cc">
       <Filter>src\softphys\font</Filter>
@@ -84,11 +69,50 @@
     <ClCompile Include="..\src\softphys\shape\sphere.cc">
       <Filter>src\softphys\shape</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\viewer\viewer.cc">
-      <Filter>src\softphys\viewer</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\main.cc">
       <Filter>src\softphys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\engine.cc">
+      <Filter>src\softphys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\camera.cc">
+      <Filter>src\softphys\viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\gl_program.cc">
+      <Filter>src\softphys\viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\gl_vertex_array.cc">
+      <Filter>src\softphys\viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\model.cc">
+      <Filter>src\softphys\viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\mouse.cc">
+      <Filter>src\softphys\viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\viewer.cc">
+      <Filter>src\softphys\viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\window.cc">
+      <Filter>src\softphys\viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\data\assimp_mesh.cc">
+      <Filter>src\softphys\data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\physics.cc">
+      <Filter>src\softphys\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\object\ground.cc">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\object\object.cc">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\object\rigid_body.cc">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\shape\plane.cc">
+      <Filter>src\softphys\shape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,45 +121,6 @@
     </ClInclude>
     <ClInclude Include="..\lib\glad\glad.h">
       <Filter>lib\glad</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\engine\assimp_mesh.h">
-      <Filter>src\softphys\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\engine\camera.h">
-      <Filter>src\softphys\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\engine\engine.h">
-      <Filter>src\softphys\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\engine\gl_buffer.h">
-      <Filter>src\softphys\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\engine\gl_program.h">
-      <Filter>src\softphys\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\engine\gl_shader.h">
-      <Filter>src\softphys\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\engine\gl_texture.h">
-      <Filter>src\softphys\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\engine\gl_vertex_array.h">
-      <Filter>src\softphys\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\engine\model.h">
-      <Filter>src\softphys\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\engine\mouse.h">
-      <Filter>src\softphys\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\engine\mouse_event.h">
-      <Filter>src\softphys\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\engine\texture.h">
-      <Filter>src\softphys\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\engine\window.h">
-      <Filter>src\softphys\engine</Filter>
     </ClInclude>
     <ClInclude Include="..\src\softphys\font\font_face.h">
       <Filter>src\softphys\font</Filter>
@@ -161,8 +146,88 @@
     <ClInclude Include="..\src\softphys\shape\sphere.h">
       <Filter>src\softphys\shape</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\viewer\viewer.h">
+    <ClInclude Include="..\src\softphys\engine.h">
+      <Filter>src\softphys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\camera.h">
       <Filter>src\softphys\viewer</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\gl_buffer.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\gl_program.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\gl_shader.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\gl_texture.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\gl_vertex_array.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\model.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\mouse.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\mouse_event.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\viewer.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\window.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\data\texture.h">
+      <Filter>src\softphys\data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\data\assimp_mesh.h">
+      <Filter>src\softphys\data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\physics.h">
+      <Filter>src\softphys\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\object\ground.h">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\object\object.h">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\object\rigid_body.h">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\shape\plane.h">
+      <Filter>src\softphys\shape</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\shader\color.frag">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\color.vert">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\ground.frag">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\ground.vert">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\text.frag">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\text.vert">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\texture.frag">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\texture.vert">
+      <Filter>src\shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

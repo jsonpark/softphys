@@ -1,5 +1,5 @@
-#ifndef SOFTPHYS_ENGINE_TEXTURE_H_
-#define SOFTPHYS_ENGINE_TEXTURE_H_
+#ifndef SOFTPHYS_DATA_TEXTURE_H_
+#define SOFTPHYS_DATA_TEXTURE_H_
 
 #include <string>
 #include <vector>
@@ -124,4 +124,4 @@ private:
 };
 }
 
-#endif // SOFTPHYS_ENGINE_TEXTURE_H_
+#endif // SOFTPHYS_DATA_TEXTURE_H_

@@ -1,5 +1,5 @@
-#ifndef SOFTPHYS_ENGINE_MOUSE_H_
-#define SOFTPHYS_ENGINE_MOUSE_H_
+#ifndef SOFTPHYS_VIEWER_MOUSE_H_
+#define SOFTPHYS_VIEWER_MOUSE_H_
 
 #include <vector>
 
@@ -72,4 +72,4 @@ private:
 };
 }
 
-#endif // SOFTPHYS_ENGINE_MOUSE_H_
+#endif // SOFTPHYS_VIEWER_MOUSE_H_

@@ -1,4 +1,4 @@
-#include "softphys/engine/assimp_mesh.h"
+#include "softphys/data/assimp_mesh.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>

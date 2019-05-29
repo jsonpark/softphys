@@ -1,8 +1,6 @@
-#include "softphys/engine/engine.h"
+#include "softphys/engine.h"
 
 #include <iostream>
-
-#include "viewer/viewer.h"
 
 namespace softphys
 {
@@ -32,6 +30,12 @@ void CursorPosCallback(GLFWwindow* glfw_window, double xpos, double ypos)
   window->MouseMove(xpos, ypos);
 }
 
+void KeyCallback(GLFWwindow* glfw_window, int key, int scancode, int action, int mods)
+{
+  auto window = ToWindow(glfw_window);
+  window->Keyboard(key, action, mods);
+}
+
 // @window  The window that received the event.
 // @button  The mouse button that was pressed or released.
 // @action  One of GLFW_PRESS or GLFW_RELEASE.
@@ -44,6 +48,7 @@ void MouseButtonCallback(GLFWwindow* glfw_window, int button, int action, int mo
 }
 
 Engine::Engine()
+  : start_time_(Clock::now())
 {
   glfwInit();
 }
@@ -100,5 +105,10 @@ void Engine::Run()
 
     glfwPollEvents();
   }
+}
+
+double Engine::GetTime()
+{
+  return Duration(Clock::now() - start_time_).count();
 }
 }

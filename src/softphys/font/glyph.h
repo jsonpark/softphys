@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "softphys/engine/texture.h"
+#include "softphys/data/texture.h"
 
 namespace softphys
 {

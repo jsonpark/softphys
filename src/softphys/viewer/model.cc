@@ -1,4 +1,4 @@
-#include "softphys/engine/model.h"
+#include "softphys/viewer/model.h"
 
 namespace softphys
 {

@@ -1,4 +1,4 @@
-#include "softphys/engine/mouse.h"
+#include "softphys/viewer/mouse.h"
 
 namespace softphys
 {

@@ -1,7 +1,7 @@
-#ifndef SOFTPHYS_ENGINE_MOUSE_EVENT_H_
-#define SOFTPHYS_ENGINE_MOUSE_EVENT_H_
+#ifndef SOFTPHYS_VIEWER_MOUSE_EVENT_H_
+#define SOFTPHYS_VIEWER_MOUSE_EVENT_H_
 
-#include "softphys/engine/mouse.h"
+#include "softphys/viewer/mouse.h"
 
 namespace softphys
 {
@@ -84,4 +84,4 @@ private:
 };
 }
 
-#endif // SOFTPHYS_ENGINE_MOUSE_EVENT_H_
+#endif // SOFTPHYS_VIEWER_MOUSE_EVENT_H_
