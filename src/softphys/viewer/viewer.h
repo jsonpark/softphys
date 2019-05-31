@@ -48,6 +48,8 @@ public:
     return scene_;
   }
 
+  void LoadScene(const std::string& filename);
+
 private:
   Camera camera_;
   Mouse mouse_;

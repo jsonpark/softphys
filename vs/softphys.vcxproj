@@ -42,6 +42,7 @@
     <ClCompile Include="..\src\softphys\physics\object\rigid_body.cc" />
     <ClCompile Include="..\src\softphys\physics\physics.cc" />
     <ClCompile Include="..\src\softphys\scene\scene.cc" />
+    <ClCompile Include="..\src\softphys\scene\scene_loader.cc" />
     <ClCompile Include="..\src\softphys\viewer\camera.cc" />
     <ClCompile Include="..\src\softphys\viewer\gl_program.cc" />
     <ClCompile Include="..\src\softphys\viewer\gl_vertex_array.cc" />
@@ -62,6 +63,7 @@
     <ClInclude Include="..\src\softphys\font\font_faces.h" />
     <ClInclude Include="..\src\softphys\font\glyph.h" />
     <ClInclude Include="..\src\softphys\font\gl_glyphs.h" />
+    <ClInclude Include="..\src\softphys\json\json.h" />
     <ClInclude Include="..\src\softphys\object\cylinder.h" />
     <ClInclude Include="..\src\softphys\object\mesh.h" />
     <ClInclude Include="..\src\softphys\object\object.h" />
@@ -77,6 +79,7 @@
     <ClInclude Include="..\src\softphys\physics\object\rigid_body.h" />
     <ClInclude Include="..\src\softphys\physics\physics.h" />
     <ClInclude Include="..\src\softphys\scene\scene.h" />
+    <ClInclude Include="..\src\softphys\scene\scene_loader.h" />
     <ClInclude Include="..\src\softphys\viewer\camera.h" />
     <ClInclude Include="..\src\softphys\viewer\gl_buffer.h" />
     <ClInclude Include="..\src\softphys\viewer\gl_program.h" />
@@ -94,6 +97,7 @@
     <ClInclude Include="..\src\softphys\viewer\window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\data\scene.json" />
     <None Include="..\src\shader\color.frag" />
     <None Include="..\src\shader\color.vert" />
     <None Include="..\src\shader\light.frag" />

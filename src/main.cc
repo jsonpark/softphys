@@ -67,6 +67,8 @@ int main()
   scene->AddLight(light2);
   scene->AddLight(light3);
 
+  viewer->LoadScene("..\\data\\scene.json");
+
   engine.Run();
 
   return 0;

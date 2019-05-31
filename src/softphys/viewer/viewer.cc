@@ -9,6 +9,7 @@
 #include "softphys/engine.h"
 #include "softphys/physics/object/rigid_body.h"
 #include "softphys/physics/object/primitive_sphere.h"
+#include "softphys/scene/scene_loader.h"
 
 namespace softphys
 {
@@ -103,6 +104,12 @@ void Viewer::MouseButton(int button, int action, int mods)
   }
 
   mouse_.SetStatus(mouse_button, mouse_status);
+}
+
+void Viewer::LoadScene(const std::string& filename)
+{
+  SceneLoader loader;
+  scene_ = loader.LoadFromJson(filename);
 }
 
 void Viewer::Initialize()

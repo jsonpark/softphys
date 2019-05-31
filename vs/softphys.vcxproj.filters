@@ -46,6 +46,12 @@
     <Filter Include="src\softphys\scene">
       <UniqueIdentifier>{1e631a14-8310-421d-a3e3-5c0bb3e12ff9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\softphys\json">
+      <UniqueIdentifier>{c198a6a6-515d-4eaa-a137-6167961f8441}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{344503aa-0bd4-40e4-8ee2-7ef579b42f76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\glad\glad.c">
@@ -142,6 +148,9 @@
       <Filter>src\softphys\object</Filter>
     </ClCompile>
     <ClCompile Include="..\src\softphys\scene\scene.cc">
+      <Filter>src\softphys\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\scene\scene_loader.cc">
       <Filter>src\softphys\scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -263,6 +272,12 @@
     <ClInclude Include="..\src\softphys\viewer\light.h">
       <Filter>src\softphys\viewer</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\softphys\scene\scene_loader.h">
+      <Filter>src\softphys\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\json\json.h">
+      <Filter>src\softphys\json</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\shader\color.frag">
@@ -306,6 +321,9 @@
     </None>
     <None Include="..\src\shader\light.vert">
       <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\data\scene.json">
+      <Filter>data</Filter>
     </None>
   </ItemGroup>
 </Project>
