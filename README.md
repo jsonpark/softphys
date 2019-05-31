@@ -1,2 +1,2 @@
-# modern-gl
-OpenGL 4.x for modern c++
+# softphys
+Physics simulator for modern c++
