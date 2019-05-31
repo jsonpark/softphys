@@ -2,8 +2,10 @@
 #define SOFTPHYS_SCENE_SCENE_H_
 
 #include <vector>
+#include <unordered_map>
 
 #include "softphys/viewer/light.h"
+#include "softphys/viewer/material.h"
 
 namespace softphys
 {
@@ -17,6 +19,7 @@ public:
   ~Scene();
 
   void AddLight(const Light& light);
+  void AddMaterial(const std::string& name, const Material& material);
 
   const auto& GetLights() const
   {
@@ -25,6 +28,7 @@ public:
 
 private:
   std::vector<Light> lights_;
+  std::unordered_map<std::string, Material> materials_;
 };
 }
 

@@ -1,4 +1,48 @@
 {
+  "materials": [
+    {
+      "name": "emerald",
+      "ambient": [ 0.0215, 0.1745, 0.0215 ],
+      "diffuse": [ 0.07568, 0.61424, 0.07568 ],
+      "specular": [ 0.633, 0.727811, 0.633 ],
+      "shininess": 0.6
+    },
+    {
+      "name": "ruby",
+      "ambient": [ 0.1745, 0.01175, 0.01175 ],
+      "diffuse": [ 0.61424, 0.04136, 0.04136 ],
+      "specular": [ 0.727811, 0.626959, 0.626959 ],
+      "shininess": 0.6
+    }
+  ],
+  "objects": [
+    {
+      "type": "ground",
+      "normal": [ 0.0, 0.0, 1.0 ],
+      "center": [ 0.0, 0.0, 0.0 ]
+    },
+    {
+      "type": "rigidbody",
+      "primitives": [
+        {
+          "type": "sphere",
+          "density": 0.1,
+          "radius": 0.1,
+          "position": [ 0.0, 0.0, -0.1 ],
+          "orientation": [ 1.0, 0.0, 0.0, 0.0 ],
+          "material": "ruby"
+        },
+        {
+          "type": "sphere",
+          "density": 0.1,
+          "radius": 0.1,
+          "position": [ 0.0, 0.0, 0.1 ],
+          "orientation": [ 1.0, 0.0, 0.0, 0.0 ],
+          "material": "emerald"
+        }
+      ]
+    }
+  ],
   "lights": [
     {
       "type": "directional",

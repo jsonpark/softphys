@@ -10,4 +10,9 @@ void Scene::AddLight(const Light& light)
 {
   lights_.push_back(light);
 }
+
+void Scene::AddMaterial(const std::string& name, const Material& material)
+{
+  materials_[name] = material;
+}
 }

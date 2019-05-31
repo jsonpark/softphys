@@ -7,9 +7,10 @@ namespace softphys
 {
 struct Material
 {
-  Eigen::Vector4f ambient_;
-  Eigen::Vector4f diffuse_;
-  Eigen::Vector4f specular_;
+  Eigen::Vector3f ambient;
+  Eigen::Vector3f diffuse;
+  Eigen::Vector3f specular;
+  float shininess;
 };
 }
 

@@ -68,6 +68,25 @@ std::shared_ptr<Scene> SceneLoader::LoadFromJson(const std::string& filename)
     scene->AddLight(light);
   }
 
+  // Material
+  const auto& materials = json["materials"];
+  for (int i = 0; i < materials.Size(); i++)
+  {
+    const auto& json_material = materials[i];
+    Material material;
+
+    std::string name = json_material.At("name").Get<std::string>();
+
+    material.ambient = JsonArrayToVector3f(json_material.At("ambient"));
+    material.diffuse = JsonArrayToVector3f(json_material.At("diffuse"));
+    material.specular = JsonArrayToVector3f(json_material.At("specular"));
+    material.shininess = json_material.At("shininess").Get<float>();
+
+    scene->AddMaterial(name, material);
+  }
+
+  // TODO: Objects
+
   return scene;
 }
 }
