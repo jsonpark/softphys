@@ -33,6 +33,8 @@ Window::Window(Engine* engine, int x, int y, int width, int height)
   glfwSetWindowPos(window_, x, y);
 
   MakeCurrent();
+  glfwSwapInterval(1);
+
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
   {
     std::cout << "Failed to initialize GLAD" << std::endl;
