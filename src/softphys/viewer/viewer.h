@@ -14,6 +14,7 @@
 #include "softphys/physics/physics.h"
 #include "softphys/viewer/model/sphere_model.h"
 #include "softphys/viewer/model/ground_model.h"
+#include "softphys/scene/scene.h"
 
 namespace softphys
 {
@@ -42,6 +43,11 @@ public:
   void Initialize() override;
   void Display() override;
 
+  auto GetScene()
+  {
+    return scene_;
+  }
+
 private:
   Camera camera_;
   Mouse mouse_;
@@ -50,6 +56,7 @@ private:
   GlProgram texture_program_;
   GlProgram uniform_color_program_;
   GlProgram ground_program_;
+  GlProgram light_program_;
 
   // Font
   void RenderText(const std::wstring& s, float x, float y, float font_size, Eigen::Vector3f color);
@@ -65,6 +72,9 @@ private:
 
   std::unique_ptr<SphereModel> sphere_model_;
   std::unique_ptr<GroundModel> ground_model_;
+
+  // Scene
+  std::shared_ptr<Scene> scene_;
 };
 }
 

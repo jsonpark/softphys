@@ -1,4 +1,4 @@
-#include "softphys/shape/mesh.h"
+#include "softphys/object/mesh.h"
 
 namespace softphys
 {

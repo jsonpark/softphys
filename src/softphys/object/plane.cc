@@ -1,4 +1,4 @@
-#include "softphys/shape/plane.h"
+#include "softphys/object/plane.h"
 
 namespace softphys
 {

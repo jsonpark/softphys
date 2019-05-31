@@ -75,23 +75,28 @@ void GlProgram::Stop()
   glUseProgram(0);
 }
 
-void GlProgram::Uniform(const char* name, float v0, float v1, float v2)
+void GlProgram::Uniform(const std::string& name, float v0, float v1, float v2)
 {
-  glUniform3f(glGetUniformLocation(id_, name), v0, v1, v2);
+  glUniform3f(glGetUniformLocation(id_, name.c_str()), v0, v1, v2);
 }
 
-void GlProgram::Uniform(const char* name, float v0, float v1, float v2, float v3)
+void GlProgram::Uniform(const std::string& name, float v0, float v1, float v2, float v3)
 {
-  glUniform4f(glGetUniformLocation(id_, name), v0, v1, v2, v3);
+  glUniform4f(glGetUniformLocation(id_, name.c_str()), v0, v1, v2, v3);
 }
 
-void GlProgram::Uniform(const char* name, int i)
+void GlProgram::Uniform(const std::string& name, int i)
 {
-  glUniform1i(glGetUniformLocation(id_, name), i);
+  glUniform1i(glGetUniformLocation(id_, name.c_str()), i);
 }
 
-void GlProgram::Uniform(const char* name, const Eigen::Matrix4f& m)
+void GlProgram::Uniform(const std::string& name, float v)
 {
-  glUniformMatrix4fv(glGetUniformLocation(id_, name), 1, GL_FALSE, m.data());
+  glUniform1f(glGetUniformLocation(id_, name.c_str()), v);
+}
+
+void GlProgram::Uniform(const std::string& name, const Eigen::Matrix4f& m)
+{
+  glUniformMatrix4fv(glGetUniformLocation(id_, name.c_str()), 1, GL_FALSE, m.data());
 }
 }

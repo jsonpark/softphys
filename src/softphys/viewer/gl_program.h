@@ -33,10 +33,11 @@ public:
   void Use();
   void Stop();
 
-  void Uniform(const char* name, float v0, float v1, float v2);
-  void Uniform(const char* name, float v0, float v1, float v2, float v3);
-  void Uniform(const char* name, int i);
-  void Uniform(const char* name, const Eigen::Matrix4f& m);
+  void Uniform(const std::string& name, float v0, float v1, float v2);
+  void Uniform(const std::string& name, float v0, float v1, float v2, float v3);
+  void Uniform(const std::string& name, int i);
+  void Uniform(const std::string& name, float v);
+  void Uniform(const std::string& name, const Eigen::Matrix4f& m);
 
 private:
   bool is_created_;

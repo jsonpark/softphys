@@ -1,4 +1,4 @@
-#include "softphys/shape/sphere.h"
+#include "softphys/object/sphere.h"
 
 namespace softphys
 {

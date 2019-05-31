@@ -1,18 +1,16 @@
 #ifndef SOFTPHYS_PHYSICS_OBJECT_RIGID_BODY_H_
 #define SOFTPHYS_PHYSICS_OBJECT_RIGID_BODY_H_
 
-#include "softphys/physics/object/object.h"
+#include "softphys/physics/object/simulation_object.h"
 #include "softphys/physics/object/primitive_object.h"
 
 #include <vector>
 
 #include <Eigen/StdVector>
 
-#include "softphys/shape/shape.h"
-
 namespace softphys
 {
-class RigidBody : public Object
+class RigidBody : public SimulationObject
 {
 private:
   using Affine3dVector = std::vector<Eigen::Affine3d, Eigen::aligned_allocator<Eigen::Affine3d>>;

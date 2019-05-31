@@ -1,11 +1,11 @@
-#ifndef SOFTPHYS_SHAPE_SPHERE_H_
-#define SOFTPHYS_SHAPE_SPHERE_H_
+#ifndef SOFTPHYS_OBJECT_SPHERE_H_
+#define SOFTPHYS_OBJECT_SPHERE_H_
 
-#include "softphys/shape/shape.h"
+#include "softphys/object/object.h"
 
 namespace softphys
 {
-class Sphere : public Shape
+class Sphere : public Object
 {
 public:
   Sphere();
@@ -28,4 +28,4 @@ private:
 };
 }
 
-#endif // SOFTPHYS_SHAPE_SPHERE_H_
+#endif // SOFTPHYS_OBJECT_SPHERE_H_

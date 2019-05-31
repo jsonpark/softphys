@@ -16,6 +16,7 @@ Viewer::Viewer(Engine* engine, int x, int y, int width, int height)
   : Window(engine, x, y, width, height),
   camera_(Camera::Type::Perspective)
 {
+  scene_ = std::make_shared<Scene>();
 }
 
 Viewer::~Viewer()
@@ -143,6 +144,10 @@ void Viewer::Initialize()
   ground_program_.Attach(GlFragmentShader("..\\src\\shader\\ground.frag"));
   ground_program_.Link();
 
+  light_program_.Attach(GlVertexShader("..\\src\\shader\\light.vert"));
+  light_program_.Attach(GlFragmentShader("..\\src\\shader\\light.frag"));
+  light_program_.Link();
+
   camera_.SetNear(0.001);
 
   // Text rendering preparation
@@ -190,6 +195,42 @@ void Viewer::Display()
   ground_program_.Uniform("projection", camera_.Projectionf());
   ground_program_.Uniform("view", camera_.Viewf());
 
+  light_program_.Use();
+  light_program_.Uniform("projection", camera_.Projectionf());
+  light_program_.Uniform("view", camera_.Viewf());
+
+  Eigen::Vector3f eye = camera_.GetEye().cast<float>();
+  light_program_.Uniform("eye", eye(0), eye(1), eye(2));
+
+  const auto& lights = scene_->GetLights();
+  for (int i = 0; i < lights.size() && i < Scene::max_lights; i++)
+  {
+    const auto& light = lights[i];
+
+    std::string name = "lights[" + std::to_string(i) + "]";
+    light_program_.Uniform(name + ".use", 1);
+
+    switch (light.type)
+    {
+    case Light::Type::Directional:
+      light_program_.Uniform(name + ".type", 0);
+      break;
+    case Light::Type::Point:
+      light_program_.Uniform(name + ".type", 1);
+      break;
+    default:
+      light_program_.Uniform(name + ".type", 2);
+      break;
+    }
+
+    light_program_.Uniform(name + ".position", light.position(0), light.position(1), light.position(2));
+    light_program_.Uniform(name + ".ambient", light.ambient(0), light.ambient(1), light.ambient(2));
+    light_program_.Uniform(name + ".diffuse", light.diffuse(0), light.diffuse(1), light.diffuse(2));
+    light_program_.Uniform(name + ".specular", light.specular(0), light.specular(1), light.specular(2));
+  }
+  for (int i = lights.size(); i < Scene::max_lights; i++)
+    light_program_.Uniform("lights[" + std::to_string(i) + "].use", 0);
+
   uniform_color_program_.Use();
   uniform_color_program_.Uniform("projection", camera_.Projectionf());
   uniform_color_program_.Uniform("view", camera_.Viewf());
@@ -222,11 +263,26 @@ void Viewer::Display()
           model.block(0, 3, 3, 1) = (position + com + transform.translation()).cast<float>();
           model(3, 3) = 1.f;
 
+          /*
           uniform_color_program_.Use();
           uniform_color_program_.Uniform("color", 1.f, 0.f, 0.f);
           uniform_color_program_.Uniform("model", model);
 
           sphere_model_->Draw();
+          */
+
+          light_program_.Use();
+          light_program_.Uniform("model", model);
+          model.block(0, 3, 3, 1).setZero();
+          light_program_.Uniform("model_inv_transpose", model.inverse().transpose());
+          light_program_.Uniform("material.ambient", 0.1745f, 0.01175f, 0.01175f);
+          light_program_.Uniform("material.diffuse", 0.61424f, 0.04136f, 0.04136f);
+          light_program_.Uniform("material.specular", 0.727811f, 0.626959f, 0.626959f);
+          light_program_.Uniform("material.shininess", 2.f);
+
+          sphere_model_->Draw();
+
+          uniform_color_program_.Use();
         }
       }
     }

@@ -40,8 +40,8 @@ void RigidBody::ApplyGravity(const Eigen::Vector3d& g)
 void RigidBody::Simulate(double time)
 {
   // Status change due to a uniform force over time
-  position_ += (momentum_ * time + 0.5 * force_ * time * time) / mass_;
   momentum_ += force_ * time;
+  position_ += momentum_ * time / mass_;
 
   // After a simulation of a timestep, reset forces to 0
   force_.setZero();

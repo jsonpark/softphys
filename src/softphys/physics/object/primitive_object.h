@@ -3,8 +3,6 @@
 
 #include <Eigen/Dense>
 
-#include "softphys/shape/shape.h"
-
 namespace softphys
 {
 class PrimitiveObject

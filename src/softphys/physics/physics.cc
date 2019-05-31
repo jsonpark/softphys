@@ -23,7 +23,7 @@ void Physics::SetEarthGravity()
   SetGravity(9.80665);
 }
 
-void Physics::FindContacts(std::shared_ptr<Object> object1, std::shared_ptr<Object> object2, double time)
+void Physics::FindContacts(std::shared_ptr<SimulationObject> object1, std::shared_ptr<SimulationObject> object2, double time)
 {
   if (object1->IsGround())
   {
@@ -31,7 +31,7 @@ void Physics::FindContacts(std::shared_ptr<Object> object1, std::shared_ptr<Obje
       return;
     if (object2->IsRigidBody())
     {
-      FindContactsGroundRigidBody(std::dynamic_pointer_cast<Ground>(object1), std::dynamic_pointer_cast<RigidBody>(object2), time);
+      FindContactsGroundRigidBody(std::dynamic_pointer_cast<SimulationGround>(object1), std::dynamic_pointer_cast<RigidBody>(object2), time);
       return;
     }
   }
@@ -48,7 +48,7 @@ void Physics::FindContacts(std::shared_ptr<Object> object1, std::shared_ptr<Obje
   FindContacts(object2, object1, time);
 }
 
-void Physics::FindContactsGroundRigidBody(std::shared_ptr<Ground> ground, std::shared_ptr<RigidBody> rigid_body, double time)
+void Physics::FindContactsGroundRigidBody(std::shared_ptr<SimulationGround> ground, std::shared_ptr<RigidBody> rigid_body, double time)
 {
   const auto& primitives = rigid_body->GetPrimitives();
   const auto& transforms = rigid_body->GetTransforms();
@@ -80,14 +80,14 @@ void Physics::FindContactsGroundRigidBody(std::shared_ptr<Ground> ground, std::s
         // Contact
         if (std::abs(n.dot(v)) <= 1e-6)
         {
-          Eigen::Vector3d reflect = v - 2. * n * n.dot(v);
+          Eigen::Vector3d reflect = - n * n.dot(v);
           rigid_body->ApplyImpulse(rigid_body->GetMass() * reflect);
         }
 
         // Impulse
         else if (n.dot(v) <= -1e-6)
         {
-          Eigen::Vector3d reflect = v - 2.5 * n * n.dot(v);
+          Eigen::Vector3d reflect = - 2 * n * n.dot(v);
           rigid_body->ApplyImpulse(rigid_body->GetMass() * reflect);
         }
       }

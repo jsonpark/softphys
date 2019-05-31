@@ -16,9 +16,6 @@
     <Filter Include="src\softphys">
       <UniqueIdentifier>{de0348bf-44fa-4163-a32d-0118848288b2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\softphys\shape">
-      <UniqueIdentifier>{538e05b8-f3dc-4e4a-826b-bd0771dbdf3b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\softphys\font">
       <UniqueIdentifier>{4894c415-8cad-4f80-a1ce-ce56d88c695d}</UniqueIdentifier>
     </Filter>
@@ -43,8 +40,11 @@
     <Filter Include="src\softphys\physics\contact">
       <UniqueIdentifier>{2b0c36f5-3567-4a38-9415-d551d1c9e80b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\softphys\shape\collision">
-      <UniqueIdentifier>{24507a69-9528-496a-8388-e0e7e1fe305c}</UniqueIdentifier>
+    <Filter Include="src\softphys\object">
+      <UniqueIdentifier>{538e05b8-f3dc-4e4a-826b-bd0771dbdf3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\softphys\scene">
+      <UniqueIdentifier>{1e631a14-8310-421d-a3e3-5c0bb3e12ff9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -65,18 +65,6 @@
     </ClCompile>
     <ClCompile Include="..\src\softphys\font\glyph.cc">
       <Filter>src\softphys\font</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\shape\capsule.cc">
-      <Filter>src\softphys\shape</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\shape\mesh.cc">
-      <Filter>src\softphys\shape</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\shape\shape.cc">
-      <Filter>src\softphys\shape</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\shape\sphere.cc">
-      <Filter>src\softphys\shape</Filter>
     </ClCompile>
     <ClCompile Include="..\src\main.cc">
       <Filter>src\softphys</Filter>
@@ -108,17 +96,8 @@
     <ClCompile Include="..\src\softphys\physics\physics.cc">
       <Filter>src\softphys\physics</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\softphys\physics\object\ground.cc">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\physics\object\object.cc">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\softphys\physics\object\rigid_body.cc">
       <Filter>src\softphys\physics\object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\shape\plane.cc">
-      <Filter>src\softphys\shape</Filter>
     </ClCompile>
     <ClCompile Include="..\src\softphys\viewer\model\model.cc">
       <Filter>src\softphys\viewer\model</Filter>
@@ -128,9 +107,6 @@
     </ClCompile>
     <ClCompile Include="..\src\softphys\viewer\model\ground_model.cc">
       <Filter>src\softphys\viewer\model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\shape\collision\collision.cc">
-      <Filter>src\softphys\shape\collision</Filter>
     </ClCompile>
     <ClCompile Include="..\src\softphys\physics\object\primitive_object.cc">
       <Filter>src\softphys\physics\object</Filter>
@@ -143,6 +119,30 @@
     </ClCompile>
     <ClCompile Include="..\src\softphys\physics\contact\moving_primitive.cc">
       <Filter>src\softphys\physics\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\object\simulation_object.cc">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\object\simulation_ground.cc">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\object\mesh.cc">
+      <Filter>src\softphys\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\object\object.cc">
+      <Filter>src\softphys\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\object\plane.cc">
+      <Filter>src\softphys\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\object\sphere.cc">
+      <Filter>src\softphys\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\object\cylinder.cc">
+      <Filter>src\softphys\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\scene\scene.cc">
+      <Filter>src\softphys\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,18 +163,6 @@
     </ClInclude>
     <ClInclude Include="..\src\softphys\font\glyph.h">
       <Filter>src\softphys\font</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\shape\capsule.h">
-      <Filter>src\softphys\shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\shape\mesh.h">
-      <Filter>src\softphys\shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\shape\shape.h">
-      <Filter>src\softphys\shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\shape\sphere.h">
-      <Filter>src\softphys\shape</Filter>
     </ClInclude>
     <ClInclude Include="..\src\softphys\engine.h">
       <Filter>src\softphys</Filter>
@@ -218,17 +206,8 @@
     <ClInclude Include="..\src\softphys\physics\physics.h">
       <Filter>src\softphys\physics</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\softphys\physics\object\ground.h">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\physics\object\object.h">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\softphys\physics\object\rigid_body.h">
       <Filter>src\softphys\physics\object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\shape\plane.h">
-      <Filter>src\softphys\shape</Filter>
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\model\model.h">
       <Filter>src\softphys\viewer\model</Filter>
@@ -238,12 +217,6 @@
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\model\ground_model.h">
       <Filter>src\softphys\viewer\model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\shape\collision\collision.h">
-      <Filter>src\softphys\shape\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\shape\collision\collision_result.h">
-      <Filter>src\softphys\shape\collision</Filter>
     </ClInclude>
     <ClInclude Include="..\src\softphys\physics\object\primitive_object.h">
       <Filter>src\softphys\physics\object</Filter>
@@ -259,6 +232,36 @@
     </ClInclude>
     <ClInclude Include="..\src\softphys\physics\contact\contact_result.h">
       <Filter>src\softphys\physics\contact</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\object\simulation_object.h">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\object\simulation_ground.h">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\object\mesh.h">
+      <Filter>src\softphys\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\object\object.h">
+      <Filter>src\softphys\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\object\plane.h">
+      <Filter>src\softphys\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\object\sphere.h">
+      <Filter>src\softphys\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\object\cylinder.h">
+      <Filter>src\softphys\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\material.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\scene\scene.h">
+      <Filter>src\softphys\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\light.h">
+      <Filter>src\softphys\viewer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -296,6 +299,12 @@
       <Filter>src\shader</Filter>
     </None>
     <None Include="..\src\shader\ray_ground.vert">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\light.frag">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\light.vert">
       <Filter>src\shader</Filter>
     </None>
   </ItemGroup>

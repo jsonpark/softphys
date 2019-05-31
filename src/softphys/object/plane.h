@@ -1,11 +1,11 @@
-#ifndef SOFTPHYS_SHAPE_PLANE_H_
-#define SOFTPHYS_SHAPE_PLANE_H_
+#ifndef SOFTPHYS_OBJECT_PLANE_H_
+#define SOFTPHYS_OBJECT_PLANE_H_
 
-#include "softphys/shape/shape.h"
+#include "softphys/object/object.h"
 
 namespace softphys
 {
-class Plane : public Shape
+class Plane : public Object
 {
 public:
   Plane();
@@ -24,4 +24,4 @@ private:
 };
 }
 
-#endif // SOFTPHYS_SHAPE_PLANE_H_
+#endif // SOFTPHYS_OBJECT_PLANE_H_

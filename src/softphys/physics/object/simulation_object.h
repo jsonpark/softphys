@@ -1,15 +1,15 @@
-#ifndef SOFTPHYS_PHYSICS_OBJECT_OBJECT_H_
-#define SOFTPHYS_PHYSICS_OBJECT_OBJECT_H_
+#ifndef SOFTPHYS_PHYSICS_OBJECT_SIMULATION_OBJECT_H_
+#define SOFTPHYS_PHYSICS_OBJECT_SIMULATION_OBJECT_H_
 
 #include <Eigen/Dense>
 
 namespace softphys
 {
-class Object
+class SimulationObject
 {
 public:
-  Object();
-  virtual ~Object();
+  SimulationObject();
+  virtual ~SimulationObject();
 
   virtual bool IsRigidBody() const noexcept
   {
@@ -31,4 +31,4 @@ private:
 };
 }
 
-#endif // SOFTPHYS_PHYSICS_OBJECT_OBJECT_H_
+#endif // SOFTPHYS_PHYSICS_OBJECT_SIMULATION_OBJECT_H_
