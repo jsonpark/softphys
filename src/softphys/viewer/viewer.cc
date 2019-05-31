@@ -8,7 +8,7 @@
 
 #include "softphys/engine.h"
 #include "softphys/physics/object/rigid_body.h"
-#include "softphys/shape/sphere.h"
+#include "softphys/physics/object/primitive_sphere.h"
 
 namespace softphys
 {
@@ -199,28 +199,35 @@ void Viewer::Display()
     if (object->IsRigidBody())
     {
       auto rb = std::dynamic_pointer_cast<RigidBody>(object);
-      auto shape = rb->GetShape();
+      const auto& primitives = rb->GetPrimitives();
+      const auto& transforms = rb->GetTransforms();
 
-      const auto& com = rb->GetCom();
+      const auto& position = rb->GetPosition();
       const auto& rotation = rb->GetRotation();
+      const auto& com = rb->GetCom();
 
-      if (shape->IsSphere())
+      for (int i = 0; i < primitives.size(); i++)
       {
-        auto sphere = std::dynamic_pointer_cast<Sphere>(shape);
-        const auto r = sphere->Radius();
-        const auto& c = sphere->Center();
+        auto primitive = primitives[i];
+        auto transform = transforms[i];
 
-        Eigen::Matrix4f model;
-        model.block(0, 0, 3, 3) = (rotation * r).cast<float>();
-        model.block(3, 0, 1, 3).setZero();
-        model.block(0, 3, 3, 1) = (com + c).cast<float>();
-        model(3, 3) = 1.f;
+        if (primitive->IsSphere())
+        {
+          auto sphere = std::dynamic_pointer_cast<PrimitiveSphere>(primitive);
+          auto r = sphere->Radius();
 
-        uniform_color_program_.Use();
-        uniform_color_program_.Uniform("color", 1.f, 0.f, 0.f);
-        uniform_color_program_.Uniform("model", model);
+          Eigen::Matrix4f model;
+          model.block(0, 0, 3, 3) = (rotation * r).cast<float>();
+          model.block(3, 0, 1, 3).setZero();
+          model.block(0, 3, 3, 1) = (position + com + transform.translation()).cast<float>();
+          model(3, 3) = 1.f;
 
-        sphere_model_->Draw();
+          uniform_color_program_.Use();
+          uniform_color_program_.Uniform("color", 1.f, 0.f, 0.f);
+          uniform_color_program_.Uniform("model", model);
+
+          sphere_model_->Draw();
+        }
       }
     }
 

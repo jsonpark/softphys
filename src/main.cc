@@ -3,22 +3,28 @@
 #include "softphys/physics/physics.h"
 #include "softphys/physics/object/rigid_body.h"
 #include "softphys/physics/object/ground.h"
+#include "softphys/physics/object/primitive_sphere.h"
 #include "softphys/shape/sphere.h"
 
-#include <memory>
+#include <iostream>
 
 int main()
 {
   auto physics = std::make_unique<softphys::Physics>();
   physics->SetEarthGravity();
 
-  // Sphere
-  auto sphere_shape = std::make_shared<softphys::Sphere>(0.1);
-  auto sphere = physics->CreateObject<softphys::RigidBody>(0.1, sphere_shape);
-  sphere->SetCom(Eigen::Vector3d(0., 0., 1.));
-  sphere->ApplyImpulse(Eigen::Vector3d(1., 0., 1.));
+  Eigen::Affine3d t1 = Eigen::Affine3d::Identity();
+  Eigen::Affine3d t2 = Eigen::Affine3d::Identity();
+  //t1.translate(Eigen::Vector3d(0., -0.1, 0.));
+  //t2.translate(Eigen::Vector3d(0., 0.1, 0.));
+  t1.translate(Eigen::Vector3d(0., 0, -0.1));
+  t2.translate(Eigen::Vector3d(0., 0, 0.1));
 
-  // Ground
+  auto rb = physics->CreateObject<softphys::RigidBody>();
+  auto sphere1 = rb->CreatePrimitive<softphys::PrimitiveSphere>(t1, 1., 0.1);
+  auto sphere2 = rb->CreatePrimitive<softphys::PrimitiveSphere>(t2, 1., 0.1);
+  rb->SetPosition(Eigen::Vector3d(0., 0., 1.));
+  
   auto ground = physics->CreateObject<softphys::Ground>(Eigen::Vector3d(0., 0., 1.), Eigen::Vector3d(0., 0., 0.));
 
   softphys::Engine engine;

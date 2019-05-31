@@ -12,6 +12,13 @@ public:
   Plane(const Eigen::Vector4d& equation);
   ~Plane();
 
+  bool IsPlane() const noexcept override
+  {
+    return true;
+  }
+
+  Eigen::Vector3d Normal();
+
 private:
   Eigen::Vector4d equation_{ 0., 0., 1., 0. };
 };

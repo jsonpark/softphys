@@ -16,6 +16,11 @@ public:
     return false;
   }
 
+  virtual bool IsPlane() const noexcept
+  {
+    return false;
+  }
+
 private:
 };
 }

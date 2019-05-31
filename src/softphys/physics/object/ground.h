@@ -17,6 +17,16 @@ public:
     return true;
   }
 
+  const auto& Normal() const noexcept
+  {
+    return normal_;
+  }
+
+  const auto& Center() const noexcept
+  {
+    return center_;
+  }
+
 private:
   Eigen::Vector3d normal_;
   Eigen::Vector3d center_;

@@ -40,6 +40,12 @@
     <Filter Include="src\softphys\viewer\model">
       <UniqueIdentifier>{b79bb923-6bbb-401e-aa57-82a848451942}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\softphys\physics\contact">
+      <UniqueIdentifier>{2b0c36f5-3567-4a38-9415-d551d1c9e80b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\softphys\shape\collision">
+      <UniqueIdentifier>{24507a69-9528-496a-8388-e0e7e1fe305c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\glad\glad.c">
@@ -122,6 +128,21 @@
     </ClCompile>
     <ClCompile Include="..\src\softphys\viewer\model\ground_model.cc">
       <Filter>src\softphys\viewer\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\shape\collision\collision.cc">
+      <Filter>src\softphys\shape\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\object\primitive_object.cc">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\object\primitive_sphere.cc">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\object\primitive_cylinder.cc">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\contact\moving_primitive.cc">
+      <Filter>src\softphys\physics\contact</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +238,27 @@
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\model\ground_model.h">
       <Filter>src\softphys\viewer\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\shape\collision\collision.h">
+      <Filter>src\softphys\shape\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\shape\collision\collision_result.h">
+      <Filter>src\softphys\shape\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\object\primitive_object.h">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\object\primitive_sphere.h">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\object\primitive_cylinder.h">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\contact\moving_primitive.h">
+      <Filter>src\softphys\physics\contact</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\contact\contact_result.h">
+      <Filter>src\softphys\physics\contact</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

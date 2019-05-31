@@ -6,7 +6,7 @@ Object::Object() = default;
 
 Object::~Object() = default;
 
-void Object::ApplyImpulse(const Eigen::Vector3d& impulse)
+void Object::ApplyImpulse(const Eigen::Vector3d& j)
 {
 }
 

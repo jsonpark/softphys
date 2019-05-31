@@ -1,0 +1,11 @@
+#ifndef SOFTPHYS_SHAPE_COLLISION_COLLISION_H_
+#define SOFTPHYS_SHAPE_COLLISION_COLLISION_H_
+
+namespace softphys
+{
+class Collision
+{
+};
+}
+
+#endif // SOFTPHYS_SHAPE_COLLISION_COLLISION_H_

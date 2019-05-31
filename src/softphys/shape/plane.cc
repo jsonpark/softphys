@@ -11,4 +11,9 @@ Plane::Plane(const Eigen::Vector4d& equation)
 }
 
 Plane::~Plane() = default;
+
+Eigen::Vector3d Plane::Normal()
+{
+  return equation_.block(0, 0, 3, 1);
+}
 }

@@ -10,7 +10,6 @@ class Sphere : public Shape
 public:
   Sphere();
   Sphere(double radius);
-  Sphere(double radius, const Eigen::Vector3d& center);
 
   ~Sphere();
 
@@ -24,14 +23,8 @@ public:
     return radius_;
   }
 
-  const auto& Center() const noexcept
-  {
-    return center_;
-  }
-
 private:
   double radius_ = 1.;
-  Eigen::Vector3d center_{ 0., 0., 0. };
 };
 }
 
