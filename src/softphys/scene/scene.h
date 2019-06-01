@@ -3,11 +3,16 @@
 
 #include <vector>
 #include <unordered_map>
+#include <memory>
 
 #include "softphys/viewer/light.h"
 #include "softphys/viewer/material.h"
+#include "softphys/scene/scene_primitive.h"
+#include "softphys/scene/scene_object.h"
 
 namespace softphys
+{
+namespace scene
 {
 class Scene
 {
@@ -19,17 +24,35 @@ public:
   ~Scene();
 
   void AddLight(const Light& light);
-  void AddMaterial(const std::string& name, const Material& material);
+  void AddMaterial(const Material& material);
+  void AddObject(std::shared_ptr<Object> object);
 
   const auto& GetLights() const
   {
     return lights_;
   }
 
+  const auto& GetObjects() const
+  {
+    return objects_;
+  }
+
+  auto GetObject(int idx) const
+  {
+    return objects_[idx];
+  }
+
+  const auto& GetMaterial(int idx)
+  {
+    return materials_[idx];
+  }
+
 private:
   std::vector<Light> lights_;
-  std::unordered_map<std::string, Material> materials_;
+  std::vector<Material> materials_;
+  std::vector<std::shared_ptr<Object>> objects_;
 };
+}
 }
 
 #endif // SOFTPHYS_SCENE_SCENE_H_

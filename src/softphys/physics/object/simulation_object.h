@@ -3,12 +3,15 @@
 
 #include <Eigen/Dense>
 
+#include "softphys/scene/scene_object.h"
+
 namespace softphys
 {
 class SimulationObject
 {
 public:
-  SimulationObject();
+  SimulationObject() = delete;
+  SimulationObject(std::shared_ptr<scene::Object> scene_object);
   virtual ~SimulationObject();
 
   virtual bool IsRigidBody() const noexcept
@@ -27,7 +30,13 @@ public:
 
   virtual void Simulate(double time);
 
+  auto SceneObject() const
+  {
+    return scene_object_;
+  }
+
 private:
+  std::shared_ptr<scene::Object> scene_object_;
 };
 }
 

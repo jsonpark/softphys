@@ -10,11 +10,11 @@ class PrimitiveCylinder : public PrimitiveObject
 public:
   PrimitiveCylinder() = delete;
 
-  PrimitiveCylinder(double density, double radius, double height);
+  PrimitiveCylinder(std::shared_ptr<scene::Primitive> scene_primitive, double density, double radius, double height);
 
   ~PrimitiveCylinder();
 
-  double Volume() override;
+  double Volume() const override;
 
 private:
   double radius_;

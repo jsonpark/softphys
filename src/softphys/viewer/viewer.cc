@@ -10,6 +10,8 @@
 #include "softphys/physics/object/rigid_body.h"
 #include "softphys/physics/object/primitive_sphere.h"
 #include "softphys/scene/scene_loader.h"
+#include "softphys/scene/scene_sphere.h"
+#include "softphys/physics/physics_loader.h"
 
 namespace softphys
 {
@@ -17,7 +19,7 @@ Viewer::Viewer(Engine* engine, int x, int y, int width, int height)
   : Window(engine, x, y, width, height),
   camera_(Camera::Type::Perspective)
 {
-  scene_ = std::make_shared<Scene>();
+  scene_ = std::make_shared<scene::Scene>();
 }
 
 Viewer::~Viewer()
@@ -108,8 +110,14 @@ void Viewer::MouseButton(int button, int action, int mods)
 
 void Viewer::LoadScene(const std::string& filename)
 {
-  SceneLoader loader;
+  scene::SceneLoader loader;
   scene_ = loader.LoadFromJson(filename);
+}
+
+void Viewer::LoadPhysics(const std::string& filename)
+{
+  PhysicsLoader loader;
+  physics_ = loader.LoadFromJson(filename, scene_);
 }
 
 void Viewer::Initialize()
@@ -134,7 +142,7 @@ void Viewer::Initialize()
   mouse_.SetStatus(Mouse::Button::RightButton, Mouse::Status::Released);
   mouse_.SetStatus(Mouse::Button::MiddleButton, Mouse::Status::Released);
 
-  // Scene
+  // Shaders
   texture_program_.Attach(GlVertexShader("..\\src\\shader\\texture.vert"));
   texture_program_.Attach(GlFragmentShader("..\\src\\shader\\texture.frag"));
   texture_program_.Link();
@@ -155,7 +163,11 @@ void Viewer::Initialize()
   light_program_.Attach(GlFragmentShader("..\\src\\shader\\light.frag"));
   light_program_.Link();
 
+  // Scene
   camera_.SetNear(0.001);
+
+  sphere_model_ = std::make_unique<SphereModel>(3);
+  ground_model_ = std::make_unique<GroundModel>();
 
   // Text rendering preparation
   text_program_.Attach(GlVertexShader("..\\src\\shader\\text.vert"));
@@ -170,10 +182,6 @@ void Viewer::Initialize()
   glyph_array_.VertexAttribPointer(0, 4, glyph_buffer_);
 
   glyphs_ = GlGlyphs(GetEngine()->LoadFont("consola"));
-
-  // Prepare models for physics scene
-  sphere_model_ = std::make_unique<SphereModel>(3);
-  ground_model_ = std::make_unique<GroundModel>();
 
   // Timestamp
   timestamp_ = GetEngine()->GetTime();
@@ -210,7 +218,7 @@ void Viewer::Display()
   light_program_.Uniform("eye", eye(0), eye(1), eye(2));
 
   const auto& lights = scene_->GetLights();
-  for (int i = 0; i < lights.size() && i < Scene::max_lights; i++)
+  for (int i = 0; i < lights.size() && i < scene::Scene::max_lights; i++)
   {
     const auto& light = lights[i];
 
@@ -235,7 +243,7 @@ void Viewer::Display()
     light_program_.Uniform(name + ".diffuse", light.diffuse(0), light.diffuse(1), light.diffuse(2));
     light_program_.Uniform(name + ".specular", light.specular(0), light.specular(1), light.specular(2));
   }
-  for (int i = lights.size(); i < Scene::max_lights; i++)
+  for (int i = lights.size(); i < scene::Scene::max_lights; i++)
     light_program_.Uniform("lights[" + std::to_string(i) + "].use", 0);
 
   uniform_color_program_.Use();
@@ -246,12 +254,12 @@ void Viewer::Display()
   {
     if (object->IsRigidBody())
     {
-      auto rb = std::dynamic_pointer_cast<RigidBody>(object);
+      auto rb = std::static_pointer_cast<RigidBody>(object);
       const auto& primitives = rb->GetPrimitives();
       const auto& transforms = rb->GetTransforms();
 
       const auto& position = rb->GetPosition();
-      const auto& rotation = rb->GetRotation();
+      const auto& rotation = rb->GetOrientation().matrix();
       const auto& com = rb->GetCom();
 
       for (int i = 0; i < primitives.size(); i++)
@@ -261,7 +269,7 @@ void Viewer::Display()
 
         if (primitive->IsSphere())
         {
-          auto sphere = std::dynamic_pointer_cast<PrimitiveSphere>(primitive);
+          auto sphere = std::static_pointer_cast<PrimitiveSphere>(primitive);
           auto r = sphere->Radius();
 
           Eigen::Matrix4f model;
@@ -270,22 +278,18 @@ void Viewer::Display()
           model.block(0, 3, 3, 1) = (position + com + transform.translation()).cast<float>();
           model(3, 3) = 1.f;
 
-          /*
-          uniform_color_program_.Use();
-          uniform_color_program_.Uniform("color", 1.f, 0.f, 0.f);
-          uniform_color_program_.Uniform("model", model);
-
-          sphere_model_->Draw();
-          */
+          auto scene_sphere = std::static_pointer_cast<scene::Sphere>(sphere->ScenePrimitive());
+          auto material_id = scene_sphere->Material();
+          const auto& material = scene_->GetMaterial(material_id);
 
           light_program_.Use();
           light_program_.Uniform("model", model);
           model.block(0, 3, 3, 1).setZero();
           light_program_.Uniform("model_inv_transpose", model.inverse().transpose());
-          light_program_.Uniform("material.ambient", 0.1745f, 0.01175f, 0.01175f);
-          light_program_.Uniform("material.diffuse", 0.61424f, 0.04136f, 0.04136f);
-          light_program_.Uniform("material.specular", 0.727811f, 0.626959f, 0.626959f);
-          light_program_.Uniform("material.shininess", 2.f);
+          light_program_.Uniform("material.ambient", material.ambient(0), material.ambient(1), material.ambient(2));
+          light_program_.Uniform("material.diffuse", material.diffuse(0), material.diffuse(1), material.diffuse(2));
+          light_program_.Uniform("material.specular", material.specular(0), material.specular(1), material.specular(2));
+          light_program_.Uniform("material.shininess", material.shininess);
 
           sphere_model_->Draw();
 

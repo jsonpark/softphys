@@ -2,7 +2,10 @@
 
 namespace softphys
 {
-SimulationObject::SimulationObject() = default;
+SimulationObject::SimulationObject(std::shared_ptr<scene::Object> scene_object)
+  : scene_object_(scene_object)
+{
+}
 
 SimulationObject::~SimulationObject() = default;
 

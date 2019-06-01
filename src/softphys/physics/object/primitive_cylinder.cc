@@ -2,15 +2,15 @@
 
 namespace softphys
 {
-PrimitiveCylinder::PrimitiveCylinder(double density, double radius, double height)
-  : PrimitiveObject(density),
+PrimitiveCylinder::PrimitiveCylinder(std::shared_ptr<scene::Primitive> scene_primitive, double density, double radius, double height)
+  : PrimitiveObject(scene_primitive, density),
   radius_(radius), height_(height)
 {
 }
 
 PrimitiveCylinder::~PrimitiveCylinder() = default;
 
-double PrimitiveCylinder::Volume()
+double PrimitiveCylinder::Volume() const
 {
   return std::acos(-1.) * radius_ * radius_ * height_;
 }

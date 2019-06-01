@@ -97,6 +97,75 @@ void Physics::FindContactsGroundRigidBody(std::shared_ptr<SimulationGround> grou
 
 void Physics::FindContactsRigidBodies(std::shared_ptr<RigidBody> rigid_body1, std::shared_ptr<RigidBody> rigid_body2, double time)
 {
+  const auto& primitives1 = rigid_body1->GetPrimitives();
+  const auto& primitives2 = rigid_body2->GetPrimitives();
+  const auto& transforms1 = rigid_body1->GetTransforms();
+  const auto& transforms2 = rigid_body2->GetTransforms();
+  Eigen::Vector3d velocity1 = rigid_body1->GetVelocity();
+  Eigen::Vector3d velocity2 = rigid_body2->GetVelocity();
+
+  for (int i = 0; i < primitives1.size(); i++)
+  {
+    const auto& primitive1 = primitives1[i];
+    const auto& transform1 = transforms1[i];
+
+    // TODO: add velocity due to rotation
+    Eigen::Vector3d rotation_velocity1 = Eigen::Vector3d::Zero();
+
+    Eigen::Vector3d p1 = rigid_body1->GetPosition() + transform1.translation();
+    Eigen::Vector3d v1 = velocity1 + rotation_velocity1;
+
+    for (int j = 0; j < primitives2.size(); j++)
+    {
+      const auto& primitive2 = primitives2[j];
+      const auto& transform2 = transforms2[j];
+
+      // TODO: add velocity due to rotation
+      Eigen::Vector3d rotation_velocity2 = Eigen::Vector3d::Zero();
+
+      Eigen::Vector3d p2 = rigid_body2->GetPosition() + transform2.translation();
+      Eigen::Vector3d v2 = velocity2 + rotation_velocity2;
+
+      if (primitive1->IsSphere() && primitive2->IsSphere())
+      {
+        auto sphere1 = std::static_pointer_cast<PrimitiveSphere>(primitive1);
+        auto sphere2 = std::static_pointer_cast<PrimitiveSphere>(primitive2);
+
+        auto r1 = sphere1->Radius();
+        auto r2 = sphere2->Radius();
+        auto r = r1 + r2;
+
+        Eigen::Vector3d p = p1 - p2;
+        Eigen::Vector3d v = v1 - v2;
+
+        if (p.squaredNorm() <= r * r)
+        {
+          Eigen::Vector3d n = p.normalized();
+          rigid_body1->ApplyImpulse(rigid_body1->GetMass() * (-2. * v1.dot(n) * n));
+          rigid_body2->ApplyImpulse(rigid_body2->GetMass() * (-2. * v2.dot(n) * n));
+        }
+
+        if (v.squaredNorm() <= 1e-6)
+        {
+        }
+        else
+        {
+          double u = -p.dot(v) / v.dot(v);
+
+          if (0 <= u && u <= time && (p + u * v).squaredNorm() <= r * r)
+          {
+            double b = p.dot(v) / v.dot(v);
+            double c = (p.dot(p) - r * r) / v.dot(v);
+            double t = -b - std::sqrt(b * b - c);
+
+            Eigen::Vector3d n = (p + t * v).normalized();
+            rigid_body1->ApplyImpulse(rigid_body1->GetMass() * (-2. * v1.dot(n) * n));
+            rigid_body2->ApplyImpulse(rigid_body2->GetMass() * (-2. * v2.dot(n) * n));
+          }
+        }
+      }
+    }
+  }
 }
 
 void Physics::Simulate(double time)

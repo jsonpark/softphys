@@ -7,6 +7,8 @@
 
 namespace softphys
 {
+namespace scene
+{
 class SceneLoader
 {
 public:
@@ -17,6 +19,7 @@ public:
 
 private:
 };
+}
 }
 
 #endif // SOFTPHYS_SCENE_SCENE_LOADER_H_

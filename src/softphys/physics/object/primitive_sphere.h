@@ -10,7 +10,7 @@ class PrimitiveSphere : public PrimitiveObject
 public:
   PrimitiveSphere() = delete;
 
-  PrimitiveSphere(double density, double radius);
+  PrimitiveSphere(std::shared_ptr<scene::Primitive> scene_primitive, double density, double radius);
 
   ~PrimitiveSphere();
 
@@ -19,7 +19,7 @@ public:
     return true;
   }
 
-  double Volume() override;
+  double Volume() const override;
 
   auto Radius() const noexcept
   {

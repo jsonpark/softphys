@@ -2,8 +2,9 @@
 
 namespace softphys
 {
-SimulationGround::SimulationGround(const Eigen::Vector3d& normal, const Eigen::Vector3d& center)
-  : normal_(normal), center_(center)
+SimulationGround::SimulationGround(std::shared_ptr<scene::Object> scene_object, const Eigen::Vector3d& normal, const Eigen::Vector3d& center)
+  : SimulationObject(scene_object),
+  normal_(normal), center_(center)
 {
 }
 

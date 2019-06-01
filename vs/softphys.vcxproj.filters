@@ -153,6 +153,27 @@
     <ClCompile Include="..\src\softphys\scene\scene_loader.cc">
       <Filter>src\softphys\scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\softphys\scene\scene_rigid_body.cc">
+      <Filter>src\softphys\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\scene\scene_object.cc">
+      <Filter>src\softphys\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\scene\scene_primitive.cc">
+      <Filter>src\softphys\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\scene\scene_sphere.cc">
+      <Filter>src\softphys\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\scene\scene_plane.cc">
+      <Filter>src\softphys\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\scene\scene_ground.cc">
+      <Filter>src\softphys\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\physics_loader.cc">
+      <Filter>src\softphys\physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\lodepng\lodepng.h">
@@ -278,6 +299,27 @@
     <ClInclude Include="..\src\softphys\json\json.h">
       <Filter>src\softphys\json</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\softphys\scene\scene_rigid_body.h">
+      <Filter>src\softphys\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\scene\scene_object.h">
+      <Filter>src\softphys\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\scene\scene_primitive.h">
+      <Filter>src\softphys\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\scene\scene_sphere.h">
+      <Filter>src\softphys\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\scene\scene_plane.h">
+      <Filter>src\softphys\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\scene\scene_ground.h">
+      <Filter>src\softphys\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\physics_loader.h">
+      <Filter>src\softphys\physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\shader\color.frag">
@@ -323,6 +365,9 @@
       <Filter>src\shader</Filter>
     </None>
     <None Include="..\data\scene.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\data\physics.json">
       <Filter>data</Filter>
     </None>
   </ItemGroup>

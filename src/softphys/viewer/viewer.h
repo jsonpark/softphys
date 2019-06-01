@@ -49,6 +49,7 @@ public:
   }
 
   void LoadScene(const std::string& filename);
+  void LoadPhysics(const std::string& filename);
 
 private:
   Camera camera_;
@@ -70,13 +71,13 @@ private:
   // Physics
   bool animation_ = false;
   double timestamp_ = 0.;
-  std::unique_ptr<Physics> physics_;
+  std::shared_ptr<Physics> physics_;
 
   std::unique_ptr<SphereModel> sphere_model_;
   std::unique_ptr<GroundModel> ground_model_;
 
   // Scene
-  std::shared_ptr<Scene> scene_;
+  std::shared_ptr<scene::Scene> scene_;
 };
 }
 

@@ -4,7 +4,10 @@
 
 namespace softphys
 {
-RigidBody::RigidBody() = default;
+RigidBody::RigidBody(std::shared_ptr<scene::Object> scene_object)
+  : SimulationObject(scene_object)
+{
+}
 
 RigidBody::~RigidBody() = default;
 

@@ -13,10 +13,13 @@ namespace softphys
 class RigidBody : public SimulationObject
 {
 private:
+  using Vector3d = Eigen::Matrix<double, 3, 1, Eigen::DontAlign>;
+  using Quaterniond = Eigen::Quaternion<double, Eigen::DontAlign>;
   using Affine3dVector = std::vector<Eigen::Affine3d, Eigen::aligned_allocator<Eigen::Affine3d>>;
 
 public:
-  RigidBody();
+  RigidBody() = delete;
+  RigidBody(std::shared_ptr<scene::Object> scene_object);
   ~RigidBody();
 
   bool IsRigidBody() const noexcept override
@@ -40,6 +43,11 @@ public:
     position_ = position;
   }
 
+  void SetOrientation(const Eigen::Quaterniond& orientation)
+  {
+    orientation_ = orientation;
+  }
+
   const auto& GetCom()
   {
     return com_;
@@ -55,9 +63,9 @@ public:
     return position_;
   }
 
-  const auto& GetRotation()
+  const auto& GetOrientation()
   {
-    return rotation_;
+    return orientation_;
   }
 
   void SetMomentum(const Eigen::Vector3d& p)
@@ -93,17 +101,17 @@ public:
 protected:
   // property
   double mass_ = 0.;
-  Eigen::Vector3d com_{ 0., 0., 0. };
+  Vector3d com_{ 0., 0., 0. };
 
   // status (linear)
-  Eigen::Vector3d position_{ 0., 0., 0. };
-  Eigen::Vector3d momentum_{ 0., 0., 0. };
+  Vector3d position_{ 0., 0., 0. };
+  Vector3d momentum_{ 0., 0., 0. };
 
   // status (rotation)
-  Eigen::Matrix3d rotation_{ Eigen::Matrix3d::Identity() };
+  Quaterniond orientation_{ Quaterniond::Identity() };
 
   // simulation
-  Eigen::Vector3d force_{ 0., 0., 0. };
+  Vector3d force_{ 0., 0., 0. };
 
 private:
   std::vector<std::shared_ptr<PrimitiveObject>> primitives_;

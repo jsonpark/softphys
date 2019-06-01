@@ -123,6 +123,52 @@ public:
     rhs.type_ = Type::Null;
     value_.object_ptr_ = nullptr;
   }
+  
+  // Type
+  bool IsObject()
+  {
+    return type_ == Type::Object;
+  }
+
+  bool IsArray()
+  {
+    return type_ == Type::Array;
+  }
+
+  bool IsString()
+  {
+    return type_ == Type::String;
+  }
+
+  bool IsInteger()
+  {
+    return IsSignedInteger() || IsUnsignedInteger();
+  }
+
+  bool IsSignedInteger()
+  {
+    return type_ == Type::Int;
+  }
+
+  bool IsUnsignedInteger()
+  {
+    return type_ == Type::Uint;
+  }
+
+  bool IsFloat()
+  {
+    return type_ == Type::Float;
+  }
+
+  bool IsBoolean()
+  {
+    return type_ == Type::Boolean;
+  }
+
+  bool IsNull()
+  {
+    return type_ == Type::Null;
+  }
 
   // Getter
   template<typename T, std::enable_if_t<!std::is_integral_v<T> || std::is_same_v<T, bool>, int> = 0>
@@ -242,6 +288,14 @@ public:
   Json& At(const std::string& key)
   {
     return const_cast<Json&>(static_cast<const Json&>(*this).At(key));
+  }
+
+  bool HasKey(const std::string& key) const
+  {
+    if (type_ == Type::Object)
+      return value_.object_ptr_->find(key) != value_.object_ptr_->cend();
+
+    throw std::runtime_error("Json exception: type should be object when calling HasKey() function");
   }
 
   Json& operator [] (const std::string& key)

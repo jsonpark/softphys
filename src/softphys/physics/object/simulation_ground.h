@@ -9,7 +9,7 @@ class SimulationGround : public SimulationObject
 {
 public:
   SimulationGround() = delete;
-  SimulationGround(const Eigen::Vector3d& normal, const Eigen::Vector3d& center);
+  SimulationGround(std::shared_ptr<scene::Object> scene_object, const Eigen::Vector3d& normal, const Eigen::Vector3d& center);
   ~SimulationGround();
 
   bool IsGround() const noexcept override
