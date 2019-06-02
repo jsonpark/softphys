@@ -27,6 +27,7 @@ in vec3 frag_normal;
 uniform vec3 eye;
 uniform Light lights[NUM_LIGHTS];
 uniform Material material;
+uniform vec2 max_distance;
 
 out vec4 out_color;
 
@@ -57,6 +58,14 @@ void main()
         total_color += DirectionalLight(lights[i], view_dir, normal);
     }
   }
+  
+  float alpha = 1.f;
+  vec3 d = eye - vec3(frag_position);
+  float squared_length = dot(d, d);
+  if (squared_length > max_distance[1] * max_distance[1])
+    alpha = 0.f;
+  else if (squared_length > max_distance[0] * max_distance[0])
+    alpha = 1.f - (squared_length - max_distance[0] * max_distance[0]) / (max_distance[1] * max_distance[1] - max_distance[0] * max_distance[0]);
 
-  out_color = vec4(total_color, 1.f);
+  out_color = vec4(total_color, alpha);
 }

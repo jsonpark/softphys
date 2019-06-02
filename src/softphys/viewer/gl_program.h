@@ -40,6 +40,7 @@ public:
   void Uniform4f(const std::string& name, const Vector4f& v);
   void Uniform1i(const std::string& name, int i);
   void Uniform1f(const std::string& name, float v);
+  void Uniform2f(const std::string& name, float v0, float f1);
   void UniformMatrix4f(const std::string& name, const Eigen::Matrix4f& m);
 
 private:

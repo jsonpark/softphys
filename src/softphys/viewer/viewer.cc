@@ -166,9 +166,15 @@ void Viewer::Initialize()
   ground_program_.Attach(GlFragmentShader("..\\src\\shader\\ground.frag"));
   ground_program_.Link();
 
+  ground_program_.Use();
+  ground_program_.Uniform2f("max_distance", 9.f, 10.f);
+
   light_program_.Attach(GlVertexShader("..\\src\\shader\\light.vert"));
   light_program_.Attach(GlFragmentShader("..\\src\\shader\\light.frag"));
   light_program_.Link();
+
+  light_program_.Use();
+  light_program_.Uniform2f("max_distance", 9.f, 10.f);
 
   // Scene
   camera_.SetNear(0.001);
@@ -216,6 +222,7 @@ void Viewer::Display()
   ground_program_.Use();
   ground_program_.UniformMatrix4f("projection", camera_.Projectionf());
   ground_program_.UniformMatrix4f("view", camera_.Viewf());
+  ground_program_.Uniform3f("eye", camera_.GetEye().cast<float>());
 
   light_program_.Use();
   light_program_.UniformMatrix4f("projection", camera_.Projectionf());
