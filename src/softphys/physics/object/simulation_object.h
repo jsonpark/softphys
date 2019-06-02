@@ -3,8 +3,6 @@
 
 #include <Eigen/Dense>
 
-#include "softphys/scene/scene_object.h"
-
 namespace softphys
 {
 class SimulationObject

@@ -6,9 +6,6 @@
 #include <memory>
 
 #include "softphys/viewer/light.h"
-#include "softphys/viewer/material.h"
-#include "softphys/scene/scene_primitive.h"
-#include "softphys/scene/scene_object.h"
 
 namespace softphys
 {
