@@ -11,7 +11,7 @@ class SimulationObject
 {
 public:
   SimulationObject() = delete;
-  SimulationObject(std::shared_ptr<scene::Object> scene_object);
+  SimulationObject(const std::string& model_name);
   virtual ~SimulationObject();
 
   virtual bool IsRigidBody() const noexcept
@@ -31,13 +31,13 @@ public:
 
   virtual void Simulate(double time);
 
-  auto SceneObject() const
+  auto ModelName() const
   {
-    return scene_object_;
+    return model_name_;
   }
 
 private:
-  std::shared_ptr<scene::Object> scene_object_;
+  const std::string& model_name_;
 };
 }
 

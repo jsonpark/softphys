@@ -4,7 +4,10 @@
 
 namespace softphys
 {
+namespace viewer
+{
 GroundModel::GroundModel()
+  : Model()
 {
   GenerateTexture(256);
 
@@ -48,5 +51,6 @@ void GroundModel::Draw()
 {
   texture_.Bind();
   vao_.DrawArrays(GlVertexArray::DrawType::TriangleStrip, 4);
+}
 }
 }

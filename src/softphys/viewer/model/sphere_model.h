@@ -10,6 +10,8 @@
 
 namespace softphys
 {
+namespace viewer
+{
 class SphereModel : public Model
 {
 public:
@@ -33,6 +35,7 @@ private:
   GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::StaticDraw> vbo_;
   GlBuffer<unsigned int, GlBufferTarget::ElementArrayBuffer, GlBufferUsage::StaticDraw> ibo_;
 };
+}
 }
 
 #endif // SOFTPHYS_VIEWER_MODEL_SPHERE_MODEL_H_

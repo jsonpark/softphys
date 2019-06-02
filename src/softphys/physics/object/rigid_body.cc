@@ -4,8 +4,8 @@
 
 namespace softphys
 {
-RigidBody::RigidBody(std::shared_ptr<scene::Object> scene_object)
-  : SimulationObject(scene_object)
+RigidBody::RigidBody(const std::string& model_name)
+  : SimulationObject(model_name)
 {
 }
 
@@ -58,6 +58,12 @@ void RigidBody::Simulate(double time)
   // Status change due to a uniform force over time
   momentum_ += impulse_ + force_ * time;
   position_ += momentum_ * time / mass_;
+
+  for (const auto& n : contact_constraints_)
+  {
+    if (n.dot(momentum_) <= 0.)
+      momentum_ -= n.dot(momentum_) * n;
+  }
 
   // After a simulation of a timestep, reset forces to 0
   impulse_.setZero();

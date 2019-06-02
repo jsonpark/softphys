@@ -52,6 +52,12 @@
     <Filter Include="data">
       <UniqueIdentifier>{344503aa-0bd4-40e4-8ee2-7ef579b42f76}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\softphys\model">
+      <UniqueIdentifier>{c3edfbb9-97dd-413d-8c8a-669e390c28ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\softphys\model\primitive">
+      <UniqueIdentifier>{50d8f42d-372e-4c09-98a7-d8507457e46d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\glad\glad.c">
@@ -105,9 +111,6 @@
     <ClCompile Include="..\src\softphys\physics\object\rigid_body.cc">
       <Filter>src\softphys\physics\object</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\softphys\viewer\model\model.cc">
-      <Filter>src\softphys\viewer\model</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\softphys\viewer\model\sphere_model.cc">
       <Filter>src\softphys\viewer\model</Filter>
     </ClCompile>
@@ -153,26 +156,35 @@
     <ClCompile Include="..\src\softphys\scene\scene_loader.cc">
       <Filter>src\softphys\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\softphys\scene\scene_rigid_body.cc">
-      <Filter>src\softphys\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\scene\scene_object.cc">
-      <Filter>src\softphys\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\scene\scene_primitive.cc">
-      <Filter>src\softphys\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\scene\scene_sphere.cc">
-      <Filter>src\softphys\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\scene\scene_plane.cc">
-      <Filter>src\softphys\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\scene\scene_ground.cc">
-      <Filter>src\softphys\scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\softphys\physics\physics_loader.cc">
       <Filter>src\softphys\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\model\model.cc">
+      <Filter>src\softphys\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\model\modelset.cc">
+      <Filter>src\softphys\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\model\modelset_loader.cc">
+      <Filter>src\softphys\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\model\model.cc">
+      <Filter>src\softphys\viewer\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\model\ground.cc">
+      <Filter>src\softphys\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\model\material.cc">
+      <Filter>src\softphys\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\model\primitives.cc">
+      <Filter>src\softphys\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\model\primitive\primitive.cc">
+      <Filter>src\softphys\model\primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\model\primitive\sphere.cc">
+      <Filter>src\softphys\model\primitive</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -239,9 +251,6 @@
     <ClInclude Include="..\src\softphys\physics\object\rigid_body.h">
       <Filter>src\softphys\physics\object</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\softphys\viewer\model\model.h">
-      <Filter>src\softphys\viewer\model</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\model\sphere_model.h">
       <Filter>src\softphys\viewer\model</Filter>
     </ClInclude>
@@ -299,26 +308,38 @@
     <ClInclude Include="..\src\softphys\json\json.h">
       <Filter>src\softphys\json</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\softphys\scene\scene_rigid_body.h">
-      <Filter>src\softphys\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\scene\scene_object.h">
-      <Filter>src\softphys\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\scene\scene_primitive.h">
-      <Filter>src\softphys\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\scene\scene_sphere.h">
-      <Filter>src\softphys\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\scene\scene_plane.h">
-      <Filter>src\softphys\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\scene\scene_ground.h">
-      <Filter>src\softphys\scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\softphys\physics\physics_loader.h">
       <Filter>src\softphys\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\model\model.h">
+      <Filter>src\softphys\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\model\modelset.h">
+      <Filter>src\softphys\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\model\modelset_loader.h">
+      <Filter>src\softphys\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\model\model.h">
+      <Filter>src\softphys\viewer\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\model\ground.h">
+      <Filter>src\softphys\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\model\material.h">
+      <Filter>src\softphys\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\data\eigen.h">
+      <Filter>src\softphys\data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\model\primitives.h">
+      <Filter>src\softphys\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\model\primitive\primitive.h">
+      <Filter>src\softphys\model\primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\model\primitive\sphere.h">
+      <Filter>src\softphys\model\primitive</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -368,6 +389,9 @@
       <Filter>data</Filter>
     </None>
     <None Include="..\data\physics.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\data\models.json">
       <Filter>data</Filter>
     </None>
   </ItemGroup>

@@ -2,8 +2,8 @@
 
 namespace softphys
 {
-SimulationObject::SimulationObject(std::shared_ptr<scene::Object> scene_object)
-  : scene_object_(scene_object)
+SimulationObject::SimulationObject(const std::string& model_name)
+  : model_name_(model_name)
 {
 }
 

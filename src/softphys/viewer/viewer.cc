@@ -10,8 +10,9 @@
 #include "softphys/physics/object/rigid_body.h"
 #include "softphys/physics/object/primitive_sphere.h"
 #include "softphys/scene/scene_loader.h"
-#include "softphys/scene/scene_sphere.h"
+#include "softphys/model/primitive/sphere.h"
 #include "softphys/physics/physics_loader.h"
+#include "softphys/model/modelset_loader.h"
 
 namespace softphys
 {
@@ -108,6 +109,12 @@ void Viewer::MouseButton(int button, int action, int mods)
   mouse_.SetStatus(mouse_button, mouse_status);
 }
 
+void Viewer::LoadModels(const std::string& filename)
+{
+  model::ModelsetLoader loader;
+  modelset_ = loader.LoadFromJson(filename);
+}
+
 void Viewer::LoadScene(const std::string& filename)
 {
   scene::SceneLoader loader;
@@ -117,7 +124,7 @@ void Viewer::LoadScene(const std::string& filename)
 void Viewer::LoadPhysics(const std::string& filename)
 {
   PhysicsLoader loader;
-  physics_ = loader.LoadFromJson(filename, scene_);
+  physics_ = loader.LoadFromJson(filename, modelset_);
 }
 
 void Viewer::Initialize()
@@ -148,8 +155,8 @@ void Viewer::Initialize()
   texture_program_.Link();
 
   texture_program_.Use();
-  texture_program_.Uniform("texture_image1", 0);
-  texture_program_.Uniform("texture_image2", 1);
+  texture_program_.Uniform1i("texture_image1", 0);
+  texture_program_.Uniform1i("texture_image2", 1);
 
   uniform_color_program_.Attach(GlVertexShader("..\\src\\shader\\uniform_color.vert"));
   uniform_color_program_.Attach(GlFragmentShader("..\\src\\shader\\uniform_color.frag"));
@@ -166,8 +173,8 @@ void Viewer::Initialize()
   // Scene
   camera_.SetNear(0.001);
 
-  sphere_model_ = std::make_unique<SphereModel>(3);
-  ground_model_ = std::make_unique<GroundModel>();
+  sphere_model_ = std::make_unique<viewer::SphereModel>(3);
+  ground_model_ = std::make_unique<viewer::GroundModel>();
 
   // Text rendering preparation
   text_program_.Attach(GlVertexShader("..\\src\\shader\\text.vert"));
@@ -175,7 +182,7 @@ void Viewer::Initialize()
   text_program_.Link();
 
   text_program_.Use();
-  text_program_.Uniform("glyph", 0);
+  text_program_.Uniform1i("glyph", 0);
 
   glyph_buffer_ = GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::DynamicDraw>(16);
 
@@ -202,20 +209,20 @@ void Viewer::Display()
 
   // Setting camera
   texture_program_.Use();
-  texture_program_.Uniform("projection", camera_.Projectionf());
-  texture_program_.Uniform("view", camera_.Viewf());
+  texture_program_.UniformMatrix4f("projection", camera_.Projectionf());
+  texture_program_.UniformMatrix4f("view", camera_.Viewf());
 
   // Display physics objects
   ground_program_.Use();
-  ground_program_.Uniform("projection", camera_.Projectionf());
-  ground_program_.Uniform("view", camera_.Viewf());
+  ground_program_.UniformMatrix4f("projection", camera_.Projectionf());
+  ground_program_.UniformMatrix4f("view", camera_.Viewf());
 
   light_program_.Use();
-  light_program_.Uniform("projection", camera_.Projectionf());
-  light_program_.Uniform("view", camera_.Viewf());
+  light_program_.UniformMatrix4f("projection", camera_.Projectionf());
+  light_program_.UniformMatrix4f("view", camera_.Viewf());
 
   Eigen::Vector3f eye = camera_.GetEye().cast<float>();
-  light_program_.Uniform("eye", eye(0), eye(1), eye(2));
+  light_program_.Uniform3f("eye", eye);
 
   const auto& lights = scene_->GetLights();
   for (int i = 0; i < lights.size() && i < scene::Scene::max_lights; i++)
@@ -223,32 +230,32 @@ void Viewer::Display()
     const auto& light = lights[i];
 
     std::string name = "lights[" + std::to_string(i) + "]";
-    light_program_.Uniform(name + ".use", 1);
+    light_program_.Uniform1i(name + ".use", 1);
 
     switch (light.type)
     {
     case Light::Type::Directional:
-      light_program_.Uniform(name + ".type", 0);
+      light_program_.Uniform1i(name + ".type", 0);
       break;
     case Light::Type::Point:
-      light_program_.Uniform(name + ".type", 1);
+      light_program_.Uniform1i(name + ".type", 1);
       break;
     default:
-      light_program_.Uniform(name + ".type", 2);
+      light_program_.Uniform1i(name + ".type", 2);
       break;
     }
 
-    light_program_.Uniform(name + ".position", light.position(0), light.position(1), light.position(2));
-    light_program_.Uniform(name + ".ambient", light.ambient(0), light.ambient(1), light.ambient(2));
-    light_program_.Uniform(name + ".diffuse", light.diffuse(0), light.diffuse(1), light.diffuse(2));
-    light_program_.Uniform(name + ".specular", light.specular(0), light.specular(1), light.specular(2));
+    light_program_.Uniform3f(name + ".position", light.position);
+    light_program_.Uniform3f(name + ".ambient", light.ambient);
+    light_program_.Uniform3f(name + ".diffuse", light.diffuse);
+    light_program_.Uniform3f(name + ".specular", light.specular);
   }
   for (int i = lights.size(); i < scene::Scene::max_lights; i++)
-    light_program_.Uniform("lights[" + std::to_string(i) + "].use", 0);
+    light_program_.Uniform1i("lights[" + std::to_string(i) + "].use", 0);
 
   uniform_color_program_.Use();
-  uniform_color_program_.Uniform("projection", camera_.Projectionf());
-  uniform_color_program_.Uniform("view", camera_.Viewf());
+  uniform_color_program_.UniformMatrix4f("projection", camera_.Projectionf());
+  uniform_color_program_.UniformMatrix4f("view", camera_.Viewf());
 
   for (auto object : physics_->GetObjects())
   {
@@ -278,18 +285,18 @@ void Viewer::Display()
           model.block(0, 3, 3, 1) = (position + transform.translation()).cast<float>();
           model(3, 3) = 1.f;
 
-          auto scene_sphere = std::static_pointer_cast<scene::Sphere>(sphere->ScenePrimitive());
-          auto material_id = scene_sphere->Material();
-          const auto& material = scene_->GetMaterial(material_id);
+          auto model_sphere = std::static_pointer_cast<model::Sphere>(sphere->ModelPrimitive());
+          const auto& material_name = model_sphere->MaterialName();
+          const auto& material = modelset_->GetMaterial(material_name);
 
           light_program_.Use();
-          light_program_.Uniform("model", model);
+          light_program_.UniformMatrix4f("model", model);
           model.block(0, 3, 3, 1).setZero();
-          light_program_.Uniform("model_inv_transpose", model.inverse().transpose());
-          light_program_.Uniform("material.ambient", material.ambient(0), material.ambient(1), material.ambient(2));
-          light_program_.Uniform("material.diffuse", material.diffuse(0), material.diffuse(1), material.diffuse(2));
-          light_program_.Uniform("material.specular", material.specular(0), material.specular(1), material.specular(2));
-          light_program_.Uniform("material.shininess", material.shininess);
+          light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose());
+          light_program_.Uniform3f("material.ambient", material->Ambient());
+          light_program_.Uniform3f("material.diffuse", material->Diffuse());
+          light_program_.Uniform3f("material.specular", material->Specular());
+          light_program_.Uniform1f("material.shininess", material->Shininess());
 
           sphere_model_->Draw();
 
@@ -305,7 +312,7 @@ void Viewer::Display()
       model.setIdentity();
 
       ground_program_.Use();
-      ground_program_.Uniform("model", model);
+      ground_program_.UniformMatrix4f("model", model);
 
       ground_model_->Draw();
     }
@@ -322,7 +329,7 @@ void Viewer::Display()
   font_projection(3, 3) = 1.f;
 
   text_program_.Use();
-  text_program_.Uniform("projection", font_projection);
+  text_program_.UniformMatrix4f("projection", font_projection);
 
   double simulator_time = physics_->GetTime();
 
@@ -335,7 +342,7 @@ void Viewer::RenderText(const std::wstring& s, float x, float y, float font_size
 
   // Activate corresponding render state
   text_program_.Use();
-  text_program_.Uniform("text_color", color(0), color(1), color(2));
+  text_program_.Uniform3f("text_color", color);
 
   glyph_array_.Bind();
   

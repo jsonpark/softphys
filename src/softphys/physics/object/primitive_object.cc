@@ -2,8 +2,13 @@
 
 namespace softphys
 {
-PrimitiveObject::PrimitiveObject(std::shared_ptr<scene::Primitive> scene_primitive, double density)
-  : scene_primitive_(scene_primitive), density_(density)
+PrimitiveObject::PrimitiveObject(double density)
+  : density_(density)
+{
+}
+
+PrimitiveObject::PrimitiveObject(std::shared_ptr<model::Primitive> primitive, double density)
+  : model_primitive_(primitive), density_(density)
 {
 }
 

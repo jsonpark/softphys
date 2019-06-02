@@ -24,33 +24,14 @@ public:
   ~Scene();
 
   void AddLight(const Light& light);
-  void AddMaterial(const Material& material);
-  void AddObject(std::shared_ptr<Object> object);
 
   const auto& GetLights() const
   {
     return lights_;
   }
 
-  const auto& GetObjects() const
-  {
-    return objects_;
-  }
-
-  auto GetObject(int idx) const
-  {
-    return objects_[idx];
-  }
-
-  const auto& GetMaterial(int idx)
-  {
-    return materials_[idx];
-  }
-
 private:
   std::vector<Light> lights_;
-  std::vector<Material> materials_;
-  std::vector<std::shared_ptr<Object>> objects_;
 };
 }
 }

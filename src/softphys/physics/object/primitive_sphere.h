@@ -10,7 +10,8 @@ class PrimitiveSphere : public PrimitiveObject
 public:
   PrimitiveSphere() = delete;
 
-  PrimitiveSphere(std::shared_ptr<scene::Primitive> scene_primitive, double density, double radius);
+  PrimitiveSphere(double density, double radius);
+  PrimitiveSphere(std::shared_ptr<model::Primitive> primitive, double density, double radius);
 
   ~PrimitiveSphere();
 

@@ -28,6 +28,14 @@
     <ClCompile Include="..\src\softphys\font\font_faces.cc" />
     <ClCompile Include="..\src\softphys\font\glyph.cc" />
     <ClCompile Include="..\src\softphys\font\gl_glyphs.cc" />
+    <ClCompile Include="..\src\softphys\model\ground.cc" />
+    <ClCompile Include="..\src\softphys\model\material.cc" />
+    <ClCompile Include="..\src\softphys\model\model.cc" />
+    <ClCompile Include="..\src\softphys\model\modelset.cc" />
+    <ClCompile Include="..\src\softphys\model\modelset_loader.cc" />
+    <ClCompile Include="..\src\softphys\model\primitives.cc" />
+    <ClCompile Include="..\src\softphys\model\primitive\primitive.cc" />
+    <ClCompile Include="..\src\softphys\model\primitive\sphere.cc" />
     <ClCompile Include="..\src\softphys\object\cylinder.cc" />
     <ClCompile Include="..\src\softphys\object\mesh.cc" />
     <ClCompile Include="..\src\softphys\object\object.cc" />
@@ -43,13 +51,7 @@
     <ClCompile Include="..\src\softphys\physics\physics.cc" />
     <ClCompile Include="..\src\softphys\physics\physics_loader.cc" />
     <ClCompile Include="..\src\softphys\scene\scene.cc" />
-    <ClCompile Include="..\src\softphys\scene\scene_ground.cc" />
     <ClCompile Include="..\src\softphys\scene\scene_loader.cc" />
-    <ClCompile Include="..\src\softphys\scene\scene_object.cc" />
-    <ClCompile Include="..\src\softphys\scene\scene_plane.cc" />
-    <ClCompile Include="..\src\softphys\scene\scene_primitive.cc" />
-    <ClCompile Include="..\src\softphys\scene\scene_rigid_body.cc" />
-    <ClCompile Include="..\src\softphys\scene\scene_sphere.cc" />
     <ClCompile Include="..\src\softphys\viewer\camera.cc" />
     <ClCompile Include="..\src\softphys\viewer\gl_program.cc" />
     <ClCompile Include="..\src\softphys\viewer\gl_vertex_array.cc" />
@@ -64,6 +66,7 @@
     <ClInclude Include="..\lib\glad\glad.h" />
     <ClInclude Include="..\lib\lodepng\lodepng.h" />
     <ClInclude Include="..\src\softphys\data\assimp_mesh.h" />
+    <ClInclude Include="..\src\softphys\data\eigen.h" />
     <ClInclude Include="..\src\softphys\data\texture.h" />
     <ClInclude Include="..\src\softphys\engine.h" />
     <ClInclude Include="..\src\softphys\font\font_face.h" />
@@ -71,6 +74,14 @@
     <ClInclude Include="..\src\softphys\font\glyph.h" />
     <ClInclude Include="..\src\softphys\font\gl_glyphs.h" />
     <ClInclude Include="..\src\softphys\json\json.h" />
+    <ClInclude Include="..\src\softphys\model\ground.h" />
+    <ClInclude Include="..\src\softphys\model\material.h" />
+    <ClInclude Include="..\src\softphys\model\model.h" />
+    <ClInclude Include="..\src\softphys\model\modelset.h" />
+    <ClInclude Include="..\src\softphys\model\modelset_loader.h" />
+    <ClInclude Include="..\src\softphys\model\primitives.h" />
+    <ClInclude Include="..\src\softphys\model\primitive\primitive.h" />
+    <ClInclude Include="..\src\softphys\model\primitive\sphere.h" />
     <ClInclude Include="..\src\softphys\object\cylinder.h" />
     <ClInclude Include="..\src\softphys\object\mesh.h" />
     <ClInclude Include="..\src\softphys\object\object.h" />
@@ -87,13 +98,7 @@
     <ClInclude Include="..\src\softphys\physics\physics.h" />
     <ClInclude Include="..\src\softphys\physics\physics_loader.h" />
     <ClInclude Include="..\src\softphys\scene\scene.h" />
-    <ClInclude Include="..\src\softphys\scene\scene_ground.h" />
     <ClInclude Include="..\src\softphys\scene\scene_loader.h" />
-    <ClInclude Include="..\src\softphys\scene\scene_object.h" />
-    <ClInclude Include="..\src\softphys\scene\scene_plane.h" />
-    <ClInclude Include="..\src\softphys\scene\scene_primitive.h" />
-    <ClInclude Include="..\src\softphys\scene\scene_rigid_body.h" />
-    <ClInclude Include="..\src\softphys\scene\scene_sphere.h" />
     <ClInclude Include="..\src\softphys\viewer\camera.h" />
     <ClInclude Include="..\src\softphys\viewer\gl_buffer.h" />
     <ClInclude Include="..\src\softphys\viewer\gl_program.h" />
@@ -111,6 +116,7 @@
     <ClInclude Include="..\src\softphys\viewer\window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\data\models.json" />
     <None Include="..\data\physics.json" />
     <None Include="..\data\scene.json" />
     <None Include="..\src\shader\color.frag" />
@@ -220,6 +226,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\lib\assimp\include;C:\lib\assimp\build\include;C:\lib\freetype-2.10.0\include;C:\lib\glad\include;C:\lib\glfw\include;C:\lib\eigen-eigen-323c052e1731;..\lib;..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)tmp\%(RelativeDir)\</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -259,6 +266,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\lib\assimp\include;C:\lib\assimp\build\include;C:\lib\freetype-2.10.0\include;C:\lib\glad\include;C:\lib\glfw\include;C:\lib\eigen-eigen-323c052e1731;..\lib;..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)tmp\%(RelativeDir)\</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

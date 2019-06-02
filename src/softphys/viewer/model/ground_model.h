@@ -11,6 +11,8 @@
 
 namespace softphys
 {
+namespace viewer
+{
 class GroundModel : public Model
 {
 public:
@@ -29,6 +31,7 @@ private:
   GlVertexArray vao_;
   GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::StaticDraw> vbo_;
 };
+}
 }
 
 #endif // SOFTPHYS_VIEWER_MODEL_GROUND_MODEL_H_

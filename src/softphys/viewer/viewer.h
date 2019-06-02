@@ -15,6 +15,7 @@
 #include "softphys/viewer/model/sphere_model.h"
 #include "softphys/viewer/model/ground_model.h"
 #include "softphys/scene/scene.h"
+#include "softphys/model/modelset.h"
 
 namespace softphys
 {
@@ -48,6 +49,7 @@ public:
     return scene_;
   }
 
+  void LoadModels(const std::string& filename);
   void LoadScene(const std::string& filename);
   void LoadPhysics(const std::string& filename);
 
@@ -68,13 +70,16 @@ private:
   GlVertexArray glyph_array_;
   GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::DynamicDraw> glyph_buffer_;
 
+  // Models
+  std::shared_ptr<model::Modelset> modelset_;
+
   // Physics
   bool animation_ = false;
   double timestamp_ = 0.;
   std::shared_ptr<Physics> physics_;
 
-  std::unique_ptr<SphereModel> sphere_model_;
-  std::unique_ptr<GroundModel> ground_model_;
+  std::unique_ptr<viewer::SphereModel> sphere_model_;
+  std::unique_ptr<viewer::GroundModel> ground_model_;
 
   // Scene
   std::shared_ptr<scene::Scene> scene_;

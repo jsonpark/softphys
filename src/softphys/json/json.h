@@ -8,6 +8,8 @@
 #include <stdexcept>
 #include <fstream>
 
+#include "softphys/data/eigen.h"
+
 namespace softphys
 {
 class Json
@@ -274,6 +276,47 @@ public:
     default:
       return T(0);
     }
+  }
+
+  // Json with eigen
+  template<>
+  Vector3f Get<Vector3f>() const
+  {
+    if (type_ != Type::Array || Size() != 3)
+      return Vector3f::Zero();
+
+    Vector3f v;
+    v(0) = (*this)[0].Get<float>();
+    v(1) = (*this)[1].Get<float>();
+    v(2) = (*this)[2].Get<float>();
+    return v;
+  }
+
+  template<>
+  Vector3d Get<Vector3d>() const
+  {
+    if (type_ != Type::Array || Size() != 3)
+      return Vector3d::Zero();
+
+    Vector3d v;
+    v(0) = (*this)[0].Get<double>();
+    v(1) = (*this)[1].Get<double>();
+    v(2) = (*this)[2].Get<double>();
+    return v;
+  }
+
+  template<>
+  Quaterniond Get<Quaterniond>() const
+  {
+    if (type_ != Type::Array || Size() != 3)
+      return Quaterniond::Identity();
+
+    Quaterniond v;
+    v.w() = (*this)[0].Get<double>();
+    v.x() = (*this)[1].Get<double>();
+    v.y() = (*this)[2].Get<double>();
+    v.z() = (*this)[3].Get<double>();
+    return v;
   }
 
   // Object

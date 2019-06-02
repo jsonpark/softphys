@@ -5,6 +5,7 @@
 #include <Eigen/Dense>
 
 #include "softphys/viewer/gl_shader.h"
+#include "softphys/data/eigen.h"
 
 namespace softphys
 {
@@ -33,11 +34,13 @@ public:
   void Use();
   void Stop();
 
-  void Uniform(const std::string& name, float v0, float v1, float v2);
-  void Uniform(const std::string& name, float v0, float v1, float v2, float v3);
-  void Uniform(const std::string& name, int i);
-  void Uniform(const std::string& name, float v);
-  void Uniform(const std::string& name, const Eigen::Matrix4f& m);
+  void Uniform3f(const std::string& name, float v0, float v1, float v2);
+  void Uniform3f(const std::string& name, const Vector3f& v);
+  void Uniform4f(const std::string& name, float v0, float v1, float v2, float v3);
+  void Uniform4f(const std::string& name, const Vector4f& v);
+  void Uniform1i(const std::string& name, int i);
+  void Uniform1f(const std::string& name, float v);
+  void UniformMatrix4f(const std::string& name, const Eigen::Matrix4f& m);
 
 private:
   bool is_created_;

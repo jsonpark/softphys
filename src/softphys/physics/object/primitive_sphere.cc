@@ -2,8 +2,14 @@
 
 namespace softphys
 {
-PrimitiveSphere::PrimitiveSphere(std::shared_ptr<scene::Primitive> scene_primitive, double density, double radius)
-  : PrimitiveObject(scene_primitive, density),
+PrimitiveSphere::PrimitiveSphere(double density, double radius)
+  : PrimitiveObject(density),
+  radius_(radius)
+{
+}
+
+PrimitiveSphere::PrimitiveSphere(std::shared_ptr<model::Primitive> primitive, double density, double radius)
+  : PrimitiveObject(primitive, density),
   radius_(radius)
 {
 }

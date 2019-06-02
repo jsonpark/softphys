@@ -2,11 +2,14 @@
 
 namespace softphys
 {
+namespace viewer
+{
 Model::Model() = default;
 
 Model::~Model() = default;
 
 void Model::Draw()
 {
+}
 }
 }

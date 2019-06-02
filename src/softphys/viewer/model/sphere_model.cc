@@ -2,8 +2,11 @@
 
 namespace softphys
 {
+namespace viewer
+{
 SphereModel::SphereModel(int subdivision_level)
-  : subdivision_level_(subdivision_level)
+  : Model(),
+  subdivision_level_(subdivision_level)
 {
   Generate(Eigen::Vector3d(1., 0., 0.), Eigen::Vector3d(0., 1., 0.), Eigen::Vector3d(0., 0., 1.));
   Generate(Eigen::Vector3d(0., 1., 0.), Eigen::Vector3d(-1., 0., 0.), Eigen::Vector3d(0., 0., 1.));
@@ -101,7 +104,8 @@ void SphereModel::Merge()
   //for (auto& index : indices_)
     //index = index_map[index];
 
-  for (int i=0; i<indices_.size(); i++)
+  for (int i = 0; i < indices_.size(); i++)
     indices_[i] = index_map[indices_[i]];
+}
 }
 }

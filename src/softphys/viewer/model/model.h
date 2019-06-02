@@ -8,6 +8,8 @@
 
 namespace softphys
 {
+namespace viewer
+{
 class Model
 {
 public:
@@ -18,6 +20,7 @@ public:
 
 private:
 };
+}
 }
 
 #endif // SOFTPHYS_VIEWER_MODEL_MODEL_H_

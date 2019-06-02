@@ -3,7 +3,7 @@
 
 #include <Eigen/Dense>
 
-#include "softphys/scene/scene_primitive.h"
+#include "softphys/model/primitive/primitive.h"
 
 namespace softphys
 {
@@ -12,7 +12,8 @@ class PrimitiveObject
 public:
   PrimitiveObject() = delete;
 
-  PrimitiveObject(std::shared_ptr<scene::Primitive> scene_primitive, double density);
+  PrimitiveObject(double density);
+  PrimitiveObject(std::shared_ptr<model::Primitive> primitive, double density);
 
   virtual ~PrimitiveObject();
 
@@ -36,13 +37,13 @@ public:
     return Volume() * density_;
   }
 
-  auto ScenePrimitive() const
+  auto ModelPrimitive() const
   {
-    return scene_primitive_;
+    return model_primitive_;
   }
 
 private:
-  std::shared_ptr<scene::Primitive> scene_primitive_;
+  std::shared_ptr<model::Primitive> model_primitive_;
   double density_;
 };
 }

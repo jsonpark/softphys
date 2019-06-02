@@ -12,15 +12,5 @@ void Scene::AddLight(const Light& light)
 {
   lights_.push_back(light);
 }
-
-void Scene::AddMaterial(const Material& material)
-{
-  materials_.push_back(material);
-}
-
-void Scene::AddObject(std::shared_ptr<Object> object)
-{
-  objects_.push_back(object);
-}
 }
 }

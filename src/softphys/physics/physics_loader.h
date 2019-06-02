@@ -5,7 +5,7 @@
 #include <string>
 
 #include "softphys/physics/physics.h"
-#include "softphys/scene/scene.h"
+#include "softphys/model/modelset.h"
 
 namespace softphys
 {
@@ -15,7 +15,7 @@ public:
   PhysicsLoader();
   ~PhysicsLoader();
 
-  std::shared_ptr<Physics> LoadFromJson(const std::string& filename, std::shared_ptr<scene::Scene> scene);
+  std::shared_ptr<Physics> LoadFromJson(const std::string& filename, std::shared_ptr<model::Modelset> models);
 
 private:
 };
