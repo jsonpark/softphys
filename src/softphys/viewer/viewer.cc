@@ -275,7 +275,7 @@ void Viewer::Display()
           Eigen::Matrix4f model;
           model.block(0, 0, 3, 3) = (rotation * r).cast<float>();
           model.block(3, 0, 1, 3).setZero();
-          model.block(0, 3, 3, 1) = (position + com + transform.translation()).cast<float>();
+          model.block(0, 3, 3, 1) = (position + transform.translation()).cast<float>();
           model(3, 3) = 1.f;
 
           auto scene_sphere = std::static_pointer_cast<scene::Sphere>(sphere->ScenePrimitive());

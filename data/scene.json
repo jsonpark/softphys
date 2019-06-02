@@ -79,6 +79,19 @@
           "orientation": [ 1.0, 0.0, 0.0, 0.0 ]
         }
       ]
+    },
+    {
+      "type": "rigid_body",
+      "primitives": [
+        {
+          "type": "sphere",
+          "density": 0.2,
+          "radius": 0.2,
+          "material": 2,
+          "position": [ 0.0, 0.0, 0.0 ],
+          "orientation": [ 1.0, 0.0, 0.0, 0.0 ]
+        }
+      ]
     }
   ],
   "lights": [

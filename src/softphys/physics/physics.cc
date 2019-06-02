@@ -75,20 +75,21 @@ void Physics::FindContactsGroundRigidBody(std::shared_ptr<SimulationGround> grou
 
       auto r = sphere->Radius();
 
+      const double restitution = 0.8;
+
+      // Contact
+      if (n.dot(p - gc) <= r)
+      {
+        rigid_body->ApplyContactConstraint(n);
+      }
+
       if (n.dot(p + v * time - gc) <= r)
       {
-        // Contact
-        if (std::abs(n.dot(v)) <= 1e-6)
-        {
-          Eigen::Vector3d reflect = - n * n.dot(v);
-          rigid_body->ApplyImpulse(rigid_body->GetMass() * reflect);
-        }
-
         // Impulse
-        else if (n.dot(v) <= -1e-6)
+        if (n.dot(v) <= -1e-6)
         {
-          Eigen::Vector3d reflect = - 2 * n * n.dot(v);
-          rigid_body->ApplyImpulse(rigid_body->GetMass() * reflect);
+          double j = -(1 + restitution) * v.dot(n) * rigid_body->GetMass();
+          rigid_body->ApplyImpulse(j * n);
         }
       }
     }
@@ -135,20 +136,28 @@ void Physics::FindContactsRigidBodies(std::shared_ptr<RigidBody> rigid_body1, st
         auto r2 = sphere2->Radius();
         auto r = r1 + r2;
 
-        Eigen::Vector3d p = p1 - p2;
-        Eigen::Vector3d v = v1 - v2;
+        Eigen::Vector3d p = p2 - p1;
+        Eigen::Vector3d v = v2 - v1;
+
+        const double restitution = 0.8;
 
         if (p.squaredNorm() <= r * r)
         {
           Eigen::Vector3d n = p.normalized();
-          rigid_body1->ApplyImpulse(rigid_body1->GetMass() * (-2. * v1.dot(n) * n));
-          rigid_body2->ApplyImpulse(rigid_body2->GetMass() * (-2. * v2.dot(n) * n));
-        }
 
-        if (v.squaredNorm() <= 1e-6)
-        {
+          if (v.squaredNorm() <= 1e-6)
+          {
+            rigid_body1->ApplyContactConstraint(n);
+            rigid_body2->ApplyContactConstraint(-n);
+          }
+          else
+          {
+            double j = -(1 + restitution) * v.dot(n) / (1. / rigid_body1->GetMass() + 1. / rigid_body2->GetMass());
+            rigid_body1->ApplyImpulse(-j * n);
+            rigid_body2->ApplyImpulse(j * n);
+          }
         }
-        else
+        else if (v.squaredNorm() > 1e-6)
         {
           double u = -p.dot(v) / v.dot(v);
 
@@ -158,9 +167,10 @@ void Physics::FindContactsRigidBodies(std::shared_ptr<RigidBody> rigid_body1, st
             double c = (p.dot(p) - r * r) / v.dot(v);
             double t = -b - std::sqrt(b * b - c);
 
-            Eigen::Vector3d n = (p + t * v).normalized();
-            rigid_body1->ApplyImpulse(rigid_body1->GetMass() * (-2. * v1.dot(n) * n));
-            rigid_body2->ApplyImpulse(rigid_body2->GetMass() * (-2. * v2.dot(n) * n));
+            Eigen::Vector3d n = p.normalized();
+            double j = -(1 + restitution) * v.dot(n) / (1. / rigid_body1->GetMass() + 1. / rigid_body2->GetMass());
+            rigid_body1->ApplyImpulse(-j * n);
+            rigid_body2->ApplyImpulse(j * n);
           }
         }
       }

@@ -81,6 +81,7 @@ public:
   void ApplyImpulse(const Eigen::Vector3d& j) override;
   void ApplyForce(const Eigen::Vector3d& f) override;
   void ApplyGravity(const Eigen::Vector3d& g) override;
+  void ApplyContactConstraint(const Eigen::Vector3d& n) override;
   void Simulate(double time) override;
 
   const auto& GetPrimitives() const noexcept
@@ -111,7 +112,9 @@ protected:
   Quaterniond orientation_{ Quaterniond::Identity() };
 
   // simulation
+  Vector3d impulse_{ 0., 0., 0. };
   Vector3d force_{ 0., 0., 0. };
+  std::vector<Eigen::Vector3d> contact_constraints_;
 
 private:
   std::vector<std::shared_ptr<PrimitiveObject>> primitives_;

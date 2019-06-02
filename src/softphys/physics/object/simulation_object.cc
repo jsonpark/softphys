@@ -21,6 +21,10 @@ void SimulationObject::ApplyGravity(const Eigen::Vector3d& g)
 {
 }
 
+void SimulationObject::ApplyContactConstraint(const Eigen::Vector3d& n)
+{
+}
+
 void SimulationObject::Simulate(double time)
 {
 }

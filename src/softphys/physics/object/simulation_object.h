@@ -27,6 +27,7 @@ public:
   virtual void ApplyImpulse(const Eigen::Vector3d& j);
   virtual void ApplyForce(const Eigen::Vector3d& f);
   virtual void ApplyGravity(const Eigen::Vector3d& g);
+  virtual void ApplyContactConstraint(const Eigen::Vector3d& n);
 
   virtual void Simulate(double time);
 
