@@ -16,6 +16,7 @@ public:
     TriangleStrip,
     TriangleFan,
     Lines,
+    LineStrip,
   };
 
 private:
@@ -31,6 +32,8 @@ private:
       return GL_TRIANGLE_FAN;
     case DrawType::Lines:
       return GL_LINES;
+    case DrawType::LineStrip:
+      return GL_LINE_STRIP;
     default:
       return 0;
     }

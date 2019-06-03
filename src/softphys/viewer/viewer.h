@@ -77,6 +77,8 @@ private:
   // Models
   std::shared_ptr<model::Modelset> modelset_;
 
+  void DrawAxis(const Affine3d& transform, double axis_length, double axis_radius);
+
   // Physics
   bool animation_ = false;
   double timestamp_ = 0.;

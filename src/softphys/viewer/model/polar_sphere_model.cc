@@ -19,10 +19,10 @@ PolarSphereModel::PolarSphereModel(int subdivision_level)
   vertices_.emplace_back(0.f, 0.f, -1.f);
   tex_coords_.emplace_back(0.5f, 0.f);
 
-  for (int y = 1; y < subdivision_level_ * 2; y++)
+  for (int y = 1; y < subdivision_level_; y++)
   {
-    double u2 = static_cast<double>(y) / (subdivision_level_ * 2.) * 2. - 1.;
-    double theta2 = u2 * pi;
+    double u2 = static_cast<double>(y) / subdivision_level_ * 2. - 1.;
+    double theta2 = u2 * pi / 2.;
     double c2 = std::cos(theta2);
     double s2 = std::sin(theta2);
 
@@ -51,9 +51,8 @@ PolarSphereModel::PolarSphereModel(int subdivision_level)
   indices_.push_back(base);
   indices_.push_back(0);
   indices_.push_back(UINT32_MAX);
-  base += subdivision_level_ * 2;
 
-  for (int y = 2; y < subdivision_level_ * 2; y++)
+  for (int y = 1; y < subdivision_level_ - 1; y++)
   {
     for (int x = 0; x < subdivision_level_ * 2; x++)
     {
@@ -74,7 +73,6 @@ PolarSphereModel::PolarSphereModel(int subdivision_level)
   indices_.push_back(vertices_.size() - 1);
   indices_.push_back(base);
   indices_.push_back(UINT32_MAX);
-  base += subdivision_level_ * 2;
 
   // To Gl buffer
   std::vector<float> vertices_unpacked(vertices_.size() * 5);
@@ -84,7 +82,7 @@ PolarSphereModel::PolarSphereModel(int subdivision_level)
     vertices_unpacked[5 * i + 1] = vertices_[i](1);
     vertices_unpacked[5 * i + 2] = vertices_[i](2);
     vertices_unpacked[5 * i + 3] = tex_coords_[i](0);
-    vertices_unpacked[5 * i + 4] = tex_coords_[i](0);
+    vertices_unpacked[5 * i + 4] = tex_coords_[i](1);
   }
   vbo_ = decltype(vbo_)(vertices_unpacked);
   ibo_ = decltype(ibo_)(indices_);

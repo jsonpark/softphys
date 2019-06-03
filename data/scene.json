@@ -3,29 +3,36 @@
     {
       "type": "directional",
       "position": [ -1.0, -1.0, 1.0 ],
-      "ambient": [ 0.25, 0.25, 0.25 ],
-      "diffuse": [ 0.5, 0.5, 0.5 ],
+      "ambient": [ 0.5, 0.5, 0.5 ],
+      "diffuse": [ 0.2, 0.2, 0.2 ],
       "specular": [ 0.1, 0.1, 0.1 ]
     },
     {
       "type": "directional",
       "position": [ -1.0, 1.0, 1.0 ],
-      "ambient": [ 0.25, 0.25, 0.25 ],
-      "diffuse": [ 0.5, 0.5, 0.5 ],
+      "ambient": [ 0.5, 0.5, 0.5 ],
+      "diffuse": [ 0.2, 0.2, 0.2 ],
       "specular": [ 0.1, 0.1, 0.1 ]
     },
     {
       "type": "directional",
       "position": [ 1.0, -1.0, 1.0 ],
-      "ambient": [ 0.25, 0.25, 0.25 ],
-      "diffuse": [ 0.5, 0.5, 0.5 ],
+      "ambient": [ 0.5, 0.5, 0.5 ],
+      "diffuse": [ 0.2, 0.2, 0.2 ],
       "specular": [ 0.1, 0.1, 0.1 ]
     },
     {
       "type": "directional",
       "position": [ 1.0, 1.0, 1.0 ],
-      "ambient": [ 0.25, 0.25, 0.25 ],
-      "diffuse": [ 0.5, 0.5, 0.5 ],
+      "ambient": [ 0.5, 0.5, 0.5 ],
+      "diffuse": [ 0.2, 0.2, 0.2 ],
+      "specular": [ 0.1, 0.1, 0.1 ]
+    },
+    {
+      "type": "directional",
+      "position": [ 0.0, 0.0, -1.0 ],
+      "ambient": [ 0.5, 0.5, 0.5 ],
+      "diffuse": [ 0.2, 0.2, 0.2 ],
       "specular": [ 0.1, 0.1, 0.1 ]
     }
   ]

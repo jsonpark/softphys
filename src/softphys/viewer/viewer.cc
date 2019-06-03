@@ -17,6 +17,11 @@
 
 namespace softphys
 {
+namespace
+{
+const double pi = 3.1415926535897932384626433832795;
+}
+
 Viewer::Viewer(Engine* engine, int x, int y, int width, int height)
   : Window(engine, x, y, width, height),
   camera_(Camera::Type::Perspective)
@@ -250,16 +255,17 @@ void Viewer::Display()
     {
     case Light::Type::Directional:
       light_program_.Uniform1i(name + ".type", 0);
+      light_program_.Uniform3f(name + ".position", light.position.normalized());
       break;
     case Light::Type::Point:
       light_program_.Uniform1i(name + ".type", 1);
+      light_program_.Uniform3f(name + ".position", light.position);
       break;
     default:
       light_program_.Uniform1i(name + ".type", 2);
       break;
     }
 
-    light_program_.Uniform3f(name + ".position", light.position);
     light_program_.Uniform3f(name + ".ambient", light.ambient);
     light_program_.Uniform3f(name + ".diffuse", light.diffuse);
     light_program_.Uniform3f(name + ".specular", light.specular);
@@ -328,22 +334,7 @@ void Viewer::Display()
   }
 
   // Display cylinder
-  const auto& material = modelset_->GetMaterial("ruby");
-
-  Matrix4f model;
-  model.setIdentity();
-  model.col(1) *= 0.2;
-
-  light_program_.Use();
-  light_program_.UniformMatrix4f("model", model);
-  model.block(0, 3, 3, 1).setZero();
-  light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose());
-  light_program_.Uniform3f("material.ambient", material->Ambient());
-  light_program_.Uniform3f("material.diffuse", material->Diffuse());
-  light_program_.Uniform3f("material.specular", material->Specular());
-  light_program_.Uniform1f("material.shininess", material->Shininess());
-
-  cylinder_model_->Draw();
+  DrawAxis(Affine3d::Identity(), 1.0, 0.01);
 
   // Display physics simulator time
   float w = Width();
@@ -361,6 +352,70 @@ void Viewer::Display()
   double simulator_time = physics_->GetTime();
 
   RenderText(L"Time: " + std::to_wstring(simulator_time) + L"s", -w / 2.f + 10.f, h / 2.f - 20, 0.12f, Eigen::Vector3f(0.f, 0.f, 0.f));
+}
+
+void Viewer::DrawAxis(const Affine3d& transform, double axis_length, double axis_radius)
+{
+  Affine3d t;
+  Matrix4d model;
+
+  light_program_.Use();
+
+  // X axis
+  t.setIdentity();
+  t.scale(Vector3d(axis_length / 2., axis_radius, axis_radius));
+  t.translate(Vector3d(1.0, 0.0, 0.0));
+  t.rotate(Eigen::AngleAxisd(pi / 2., Vector3d(0.0, 1.0, 0.0)));
+
+  model = (transform * t).matrix();
+  light_program_.UniformMatrix4f("model", model.cast<float>());
+  model.block(0, 3, 3, 1).setZero();
+  light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose().cast<float>());
+
+  auto material = modelset_->GetMaterial("red");
+  light_program_.Uniform3f("material.ambient", material->Ambient());
+  light_program_.Uniform3f("material.diffuse", material->Diffuse());
+  light_program_.Uniform3f("material.specular", material->Specular());
+  light_program_.Uniform1f("material.shininess", material->Shininess());
+
+  cylinder_model_->Draw();
+
+  // Y axis
+  t.setIdentity();
+  t.scale(Vector3d(axis_radius, axis_length / 2., axis_radius));
+  t.translate(Vector3d(0.0, 1.0, 0.0));
+  t.rotate(Eigen::AngleAxisd(pi / 2., Vector3d(-1.0, 0.0, 0.0)));
+
+  model = (transform * t).matrix();
+  light_program_.UniformMatrix4f("model", model.cast<float>());
+  model.block(0, 3, 3, 1).setZero();
+  light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose().cast<float>());
+
+  material = modelset_->GetMaterial("green");
+  light_program_.Uniform3f("material.ambient", material->Ambient());
+  light_program_.Uniform3f("material.diffuse", material->Diffuse());
+  light_program_.Uniform3f("material.specular", material->Specular());
+  light_program_.Uniform1f("material.shininess", material->Shininess());
+
+  cylinder_model_->Draw();
+
+  // Z axis
+  t.setIdentity();
+  t.scale(Vector3d(axis_radius, axis_radius, axis_length / 2.));
+  t.translate(Vector3d(0.0, 0.0, 1.0));
+
+  model = (transform * t).matrix();
+  light_program_.UniformMatrix4f("model", model.cast<float>());
+  model.block(0, 3, 3, 1).setZero();
+  light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose().cast<float>());
+
+  material = modelset_->GetMaterial("blue");
+  light_program_.Uniform3f("material.ambient", material->Ambient());
+  light_program_.Uniform3f("material.diffuse", material->Diffuse());
+  light_program_.Uniform3f("material.specular", material->Specular());
+  light_program_.Uniform1f("material.shininess", material->Shininess());
+
+  cylinder_model_->Draw();
 }
 
 void Viewer::RenderText(const std::wstring& s, float x, float y, float font_size, Eigen::Vector3f color)
