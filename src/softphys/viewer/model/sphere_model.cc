@@ -32,8 +32,6 @@ SphereModel::SphereModel(int subdivision_level)
   vao_.VertexAttribPointer(1, 3, vbo_);
 }
 
-SphereModel::~SphereModel() = default;
-
 void SphereModel::Draw()
 {
   vao_.DrawElements(GlVertexArray::DrawType::Triangles, ibo_);
@@ -65,47 +63,49 @@ void SphereModel::Generate(Eigen::Vector3d p0, Eigen::Vector3d p1, Eigen::Vector
 
 void SphereModel::Merge()
 {
-  // TODO: improve from O(n^2) to O(lg n)
-
-  const double threshold = 1e-6;
-  const int n = vertices_.size();
-
-  std::vector<int> index_map(n);
-  for (int i = 0; i < n; i++)
-    index_map[i] = i;
-
-  for (int i = n - 1; i >= 0; i--)
   {
-    for (int j = 0; j < i; j++)
+    // TODO: improve from O(n^2) to O(lg n)
+
+    const double threshold = 1e-6;
+    const int n = vertices_.size();
+
+    std::vector<int> index_map(n);
+    for (int i = 0; i < n; i++)
+      index_map[i] = i;
+
+    for (int i = n - 1; i >= 0; i--)
     {
-      if ((vertices_[i] - vertices_[j]).squaredNorm() <= threshold)
+      for (int j = 0; j < i; j++)
       {
-        index_map[i] = j;
-        break;
+        if ((vertices_[i] - vertices_[j]).squaredNorm() <= threshold)
+        {
+          index_map[i] = j;
+          break;
+        }
       }
     }
-  }
 
-  int counter = 0;
-  for (int i = 0; i < n; i++)
-  {
-    if (index_map[i] == i)
+    int counter = 0;
+    for (int i = 0; i < n; i++)
     {
-      vertices_[counter] = vertices_[i];
-      index_map[i] = counter;
-      counter++;
+      if (index_map[i] == i)
+      {
+        vertices_[counter] = vertices_[i];
+        index_map[i] = counter;
+        counter++;
+      }
+      else
+        index_map[i] = index_map[index_map[i]];
     }
-    else
-      index_map[i] = index_map[index_map[i]];
+
+    vertices_.resize(counter);
+
+    //for (auto& index : indices_)
+      //index = index_map[index];
+
+    for (int i = 0; i < indices_.size(); i++)
+      indices_[i] = index_map[indices_[i]];
   }
-
-  vertices_.resize(counter);
-
-  //for (auto& index : indices_)
-    //index = index_map[index];
-
-  for (int i = 0; i < indices_.size(); i++)
-    indices_[i] = index_map[indices_[i]];
 }
 }
 }

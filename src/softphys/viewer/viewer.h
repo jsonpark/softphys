@@ -13,6 +13,7 @@
 #include "softphys/font/gl_glyphs.h"
 #include "softphys/physics/physics.h"
 #include "softphys/viewer/model/sphere_model.h"
+#include "softphys/viewer/model/polar_sphere_model.h"
 #include "softphys/viewer/model/ground_model.h"
 #include "softphys/scene/scene.h"
 #include "softphys/model/modelset.h"
@@ -78,7 +79,7 @@ private:
   double timestamp_ = 0.;
   std::shared_ptr<Physics> physics_;
 
-  std::unique_ptr<viewer::SphereModel> sphere_model_;
+  std::unique_ptr<viewer::PolarSphereModel> sphere_model_;
   std::unique_ptr<viewer::GroundModel> ground_model_;
 
   // Scene

@@ -5,6 +5,8 @@
 
 namespace softphys
 {
+using Vector2f = Eigen::Matrix<float, 2, 1, Eigen::DontAlign>;
+using Vector2d = Eigen::Matrix<double, 2, 1, Eigen::DontAlign>;
 using Vector3f = Eigen::Matrix<float, 3, 1, Eigen::DontAlign>;
 using Vector3d = Eigen::Matrix<double, 3, 1, Eigen::DontAlign>;
 using Vector4f = Eigen::Matrix<float, 4, 1, Eigen::DontAlign>;

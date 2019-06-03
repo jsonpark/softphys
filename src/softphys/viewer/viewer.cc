@@ -135,8 +135,10 @@ void Viewer::Initialize()
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
   glEnable(GL_CULL_FACE);
   glEnable(GL_DEPTH_TEST);
-  glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+  glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
   glEnable(GL_MULTISAMPLE);
+  glEnable(GL_PRIMITIVE_RESTART);
+  glPrimitiveRestartIndex(UINT32_MAX);
 
   // Mouse
   double x;
@@ -179,7 +181,7 @@ void Viewer::Initialize()
   // Scene
   camera_.SetNear(0.001);
 
-  sphere_model_ = std::make_unique<viewer::SphereModel>(3);
+  sphere_model_ = std::make_unique<viewer::PolarSphereModel>(10);
   ground_model_ = std::make_unique<viewer::GroundModel>();
 
   // Text rendering preparation

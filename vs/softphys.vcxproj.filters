@@ -111,9 +111,6 @@
     <ClCompile Include="..\src\softphys\physics\object\rigid_body.cc">
       <Filter>src\softphys\physics\object</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\softphys\viewer\model\sphere_model.cc">
-      <Filter>src\softphys\viewer\model</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\softphys\viewer\model\ground_model.cc">
       <Filter>src\softphys\viewer\model</Filter>
     </ClCompile>
@@ -185,6 +182,12 @@
     </ClCompile>
     <ClCompile Include="..\src\softphys\model\primitive\sphere.cc">
       <Filter>src\softphys\model\primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\model\sphere_model.cc">
+      <Filter>src\softphys\viewer\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\model\polar_sphere_model.cc">
+      <Filter>src\softphys\viewer\model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -340,6 +343,9 @@
     </ClInclude>
     <ClInclude Include="..\src\softphys\model\primitive\sphere.h">
       <Filter>src\softphys\model\primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\model\polar_sphere_model.h">
+      <Filter>src\softphys\viewer\model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

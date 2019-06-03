@@ -57,6 +57,7 @@
     <ClCompile Include="..\src\softphys\viewer\gl_vertex_array.cc" />
     <ClCompile Include="..\src\softphys\viewer\model\ground_model.cc" />
     <ClCompile Include="..\src\softphys\viewer\model\model.cc" />
+    <ClCompile Include="..\src\softphys\viewer\model\polar_sphere_model.cc" />
     <ClCompile Include="..\src\softphys\viewer\model\sphere_model.cc" />
     <ClCompile Include="..\src\softphys\viewer\mouse.cc" />
     <ClCompile Include="..\src\softphys\viewer\viewer.cc" />
@@ -109,6 +110,7 @@
     <ClInclude Include="..\src\softphys\viewer\material.h" />
     <ClInclude Include="..\src\softphys\viewer\model\ground_model.h" />
     <ClInclude Include="..\src\softphys\viewer\model\model.h" />
+    <ClInclude Include="..\src\softphys\viewer\model\polar_sphere_model.h" />
     <ClInclude Include="..\src\softphys\viewer\model\sphere_model.h" />
     <ClInclude Include="..\src\softphys\viewer\mouse.h" />
     <ClInclude Include="..\src\softphys\viewer\mouse_event.h" />
