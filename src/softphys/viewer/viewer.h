@@ -5,6 +5,7 @@
 
 #include "softphys/data/texture.h"
 #include "softphys/viewer/gl_texture.h"
+#include "softphys/viewer/gl_texture_cube_map.h"
 #include "softphys/viewer/gl_buffer.h"
 #include "softphys/viewer/gl_program.h"
 #include "softphys/viewer/gl_shader.h"
@@ -63,6 +64,7 @@ private:
   GlProgram uniform_color_program_;
   GlProgram ground_program_;
   GlProgram light_program_;
+  GlProgram light_cubemap_program_;
 
   // Font
   void RenderText(const std::wstring& s, float x, float y, float font_size, Eigen::Vector3f color);
@@ -84,6 +86,15 @@ private:
 
   // Scene
   std::shared_ptr<scene::Scene> scene_;
+
+  // Texture cubemap test
+  std::shared_ptr<Texture<>> xp_texture_;
+  std::shared_ptr<Texture<>> xn_texture_;
+  std::shared_ptr<Texture<>> yp_texture_;
+  std::shared_ptr<Texture<>> yn_texture_;
+  std::shared_ptr<Texture<>> zp_texture_;
+  std::shared_ptr<Texture<>> zn_texture_;
+  std::unique_ptr<GlTextureCubeMap> face_cubemap_;
 };
 }
 

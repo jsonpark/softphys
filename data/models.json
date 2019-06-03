@@ -29,6 +29,20 @@
       "shininess": 0.4
     },
     {
+      "name": "face_cubemap",
+      "ambient": [ 0.19225, 0.19225, 0.19225 ],
+      "diffuse_cubemap": [
+        "..\\textures\\awesomeface.png",
+        "..\\textures\\awesomeface.png",
+        "..\\textures\\awesomeface.png",
+        "..\\textures\\awesomeface.png",
+        "..\\textures\\awesomeface.png",
+        "..\\textures\\awesomeface.png"
+      ],
+      "specular": [ 0.508273, 0.508273, 0.508273 ],
+      "shininess": 0.4
+    },
+    {
       "name": "checkerboard",
       "preset": "checkerboard"
     }

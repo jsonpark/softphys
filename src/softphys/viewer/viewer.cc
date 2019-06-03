@@ -181,7 +181,7 @@ void Viewer::Initialize()
   // Scene
   camera_.SetNear(0.001);
 
-  sphere_model_ = std::make_unique<viewer::PolarSphereModel>(10);
+  sphere_model_ = std::make_unique<viewer::PolarSphereModel>(20);
   ground_model_ = std::make_unique<viewer::GroundModel>();
 
   // Text rendering preparation
@@ -200,6 +200,30 @@ void Viewer::Initialize()
 
   // Timestamp
   timestamp_ = GetEngine()->GetTime();
+
+  // Test cubemap texture
+  xp_texture_ = std::make_shared<Texture<>>("..\\textures\\xp.png");
+  xn_texture_ = std::make_shared<Texture<>>("..\\textures\\xn.png");
+  yp_texture_ = std::make_shared<Texture<>>("..\\textures\\yp.png");
+  yn_texture_ = std::make_shared<Texture<>>("..\\textures\\yn.png");
+  zp_texture_ = std::make_shared<Texture<>>("..\\textures\\zp.png");
+  zn_texture_ = std::make_shared<Texture<>>("..\\textures\\zn.png");
+  std::vector<std::shared_ptr<Texture<>>> cubemap = {
+    xp_texture_,
+    xn_texture_,
+    yp_texture_,
+    yn_texture_,
+    zp_texture_,
+    zn_texture_
+  };
+  face_cubemap_ = std::make_unique<GlTextureCubeMap>(cubemap);
+
+  light_cubemap_program_.Attach(GlVertexShader("..\\src\\shader\\light_cubemap.vert"));
+  light_cubemap_program_.Attach(GlFragmentShader("..\\src\\shader\\light_cubemap.frag"));
+  light_cubemap_program_.Link();
+
+  light_cubemap_program_.Use();
+  light_cubemap_program_.Uniform2f("max_distance", 9.f, 10.f);
 }
 
 void Viewer::Display()
@@ -262,6 +286,39 @@ void Viewer::Display()
   for (int i = lights.size(); i < scene::Scene::max_lights; i++)
     light_program_.Uniform1i("lights[" + std::to_string(i) + "].use", 0);
 
+
+  light_cubemap_program_.Use();
+  light_cubemap_program_.UniformMatrix4f("projection", camera_.Projectionf());
+  light_cubemap_program_.UniformMatrix4f("view", camera_.Viewf());
+
+  for (int i = 0; i < lights.size() && i < scene::Scene::max_lights; i++)
+  {
+    const auto& light = lights[i];
+
+    std::string name = "lights[" + std::to_string(i) + "]";
+    light_cubemap_program_.Uniform1i(name + ".use", 1);
+
+    switch (light.type)
+    {
+    case Light::Type::Directional:
+      light_cubemap_program_.Uniform1i(name + ".type", 0);
+      break;
+    case Light::Type::Point:
+      light_cubemap_program_.Uniform1i(name + ".type", 1);
+      break;
+    default:
+      light_cubemap_program_.Uniform1i(name + ".type", 2);
+      break;
+    }
+
+    light_cubemap_program_.Uniform3f(name + ".position", light.position);
+    light_cubemap_program_.Uniform3f(name + ".ambient", light.ambient);
+    light_cubemap_program_.Uniform3f(name + ".diffuse", light.diffuse);
+    light_cubemap_program_.Uniform3f(name + ".specular", light.specular);
+  }
+  for (int i = lights.size(); i < scene::Scene::max_lights; i++)
+    light_cubemap_program_.Uniform1i("lights[" + std::to_string(i) + "].use", 0);
+
   uniform_color_program_.Use();
   uniform_color_program_.UniformMatrix4f("projection", camera_.Projectionf());
   uniform_color_program_.UniformMatrix4f("view", camera_.Viewf());
@@ -298,6 +355,7 @@ void Viewer::Display()
           const auto& material_name = model_sphere->MaterialName();
           const auto& material = modelset_->GetMaterial(material_name);
 
+          /*
           light_program_.Use();
           light_program_.UniformMatrix4f("model", model);
           model.block(0, 3, 3, 1).setZero();
@@ -306,10 +364,19 @@ void Viewer::Display()
           light_program_.Uniform3f("material.diffuse", material->Diffuse());
           light_program_.Uniform3f("material.specular", material->Specular());
           light_program_.Uniform1f("material.shininess", material->Shininess());
+          */
 
+          light_cubemap_program_.Use();
+          light_cubemap_program_.UniformMatrix4f("model", model);
+          model.block(0, 3, 3, 1).setZero();
+          light_cubemap_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose());
+          light_cubemap_program_.Uniform3f("material.ambient", material->Ambient());
+          light_cubemap_program_.Uniform1i("material.diffuse_texture", 0);
+          light_cubemap_program_.Uniform3f("material.specular", material->Specular());
+          light_cubemap_program_.Uniform1f("material.shininess", material->Shininess());
+
+          face_cubemap_->Bind();
           sphere_model_->Draw();
-
-          uniform_color_program_.Use();
         }
       }
     }

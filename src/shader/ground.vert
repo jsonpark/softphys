@@ -11,6 +11,6 @@ out vec4 frag_coord;
 void main()
 {
   gl_Position = projection * view * model * vec4(aPos, 0.f, 1.f);
-  tex_coord = aPos;
+  tex_coord = aPos * 0.5f;
   frag_coord = model * vec4(aPos, 0.f, 1.f);
 }

@@ -347,6 +347,12 @@
     <ClInclude Include="..\src\softphys\viewer\model\polar_sphere_model.h">
       <Filter>src\softphys\viewer\model</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\gl_texture_2d.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\gl_texture_cube_map.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\shader\color.frag">
@@ -399,6 +405,12 @@
     </None>
     <None Include="..\data\models.json">
       <Filter>data</Filter>
+    </None>
+    <None Include="..\src\shader\light_cubemap.frag">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\light_cubemap.vert">
+      <Filter>src\shader</Filter>
     </None>
   </ItemGroup>
 </Project>

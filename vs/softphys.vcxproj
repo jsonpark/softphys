@@ -105,6 +105,8 @@
     <ClInclude Include="..\src\softphys\viewer\gl_program.h" />
     <ClInclude Include="..\src\softphys\viewer\gl_shader.h" />
     <ClInclude Include="..\src\softphys\viewer\gl_texture.h" />
+    <ClInclude Include="..\src\softphys\viewer\gl_texture_2d.h" />
+    <ClInclude Include="..\src\softphys\viewer\gl_texture_cube_map.h" />
     <ClInclude Include="..\src\softphys\viewer\gl_vertex_array.h" />
     <ClInclude Include="..\src\softphys\viewer\light.h" />
     <ClInclude Include="..\src\softphys\viewer\material.h" />
@@ -125,6 +127,8 @@
     <None Include="..\src\shader\color.vert" />
     <None Include="..\src\shader\light.frag" />
     <None Include="..\src\shader\light.vert" />
+    <None Include="..\src\shader\light_cubemap.frag" />
+    <None Include="..\src\shader\light_cubemap.vert" />
     <None Include="..\src\shader\ray_ground.frag" />
     <None Include="..\src\shader\ray_ground.vert" />
     <None Include="..\src\shader\uniform_color.frag" />

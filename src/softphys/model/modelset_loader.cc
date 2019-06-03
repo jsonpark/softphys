@@ -50,12 +50,19 @@ std::shared_ptr<Modelset> ModelsetLoader::LoadFromJson(const std::string& filena
     }
     else
     {
-      auto ambient = json_material.At("ambient").Get<Vector3f>();
-      auto diffuse = json_material.At("diffuse").Get<Vector3f>();
-      auto specular = json_material.At("specular").Get<Vector3f>();
-      auto shininess = json_material.At("shininess").Get<float>();
+      if (json_material.HasKey("diffuse"))
+      {
+        auto ambient = json_material.At("ambient").Get<Vector3f>();
+        auto diffuse = json_material.At("diffuse").Get<Vector3f>();
+        auto specular = json_material.At("specular").Get<Vector3f>();
+        auto shininess = json_material.At("shininess").Get<float>();
 
-      modelset->CreateMaterial(name, ambient, diffuse, specular, shininess);
+        modelset->CreateMaterial(name, ambient, diffuse, specular, shininess);
+      }
+      else
+      {
+        // TODO: material has a diffuse texture
+      }
     }
   }
 
