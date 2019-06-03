@@ -224,9 +224,6 @@
     <ClInclude Include="..\src\softphys\viewer\gl_shader.h">
       <Filter>src\softphys\viewer</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\softphys\viewer\gl_texture.h">
-      <Filter>src\softphys\viewer</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\gl_vertex_array.h">
       <Filter>src\softphys\viewer</Filter>
     </ClInclude>
@@ -351,6 +348,9 @@
       <Filter>src\softphys\viewer</Filter>
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\gl_texture_cube_map.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\gl_texture.h">
       <Filter>src\softphys\viewer</Filter>
     </ClInclude>
   </ItemGroup>

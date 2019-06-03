@@ -5,17 +5,16 @@
 
 namespace softphys
 {
-template <>
-class GlTexture<GlTextureType::Texture2D>
+class GlTexture2D
 {
 public:
-  GlTexture()
+  GlTexture2D()
     : is_generated_(false), id_(0)
   {
   }
 
   template<TextureFormat format>
-  explicit GlTexture(const Texture<format>& texture)
+  explicit GlTexture2D(const Texture<format>& texture)
     : is_generated_(true), id_(0)
   {
     glGenTextures(1, &id_);
@@ -30,7 +29,7 @@ public:
   }
 
   template<TextureFormat format>
-  explicit GlTexture(const Texture<format>& texture, int mipmap_levels)
+  explicit GlTexture2D(const Texture<format>& texture, int mipmap_levels)
     : is_generated_(true), id_(0)
   {
     glGenTextures(1, &id_);
@@ -45,23 +44,23 @@ public:
     Unbind();
   }
 
-  ~GlTexture()
+  ~GlTexture2D()
   {
     if (is_generated_)
       glDeleteProgram(id_);
   }
 
-  GlTexture(const GlTexture& rhs) = delete;
-  GlTexture& operator = (const GlTexture& rhs) = delete;
+  GlTexture2D(const GlTexture2D& rhs) = delete;
+  GlTexture2D& operator = (const GlTexture2D& rhs) = delete;
 
-  GlTexture(GlTexture&& rhs) noexcept
+  GlTexture2D(GlTexture2D&& rhs) noexcept
   {
     id_ = rhs.id_;
     is_generated_ = rhs.is_generated_;
     rhs.is_generated_ = false;
   }
 
-  GlTexture& operator = (GlTexture&& rhs) noexcept
+  GlTexture2D& operator = (GlTexture2D&& rhs) noexcept
   {
     id_ = rhs.id_;
     is_generated_ = rhs.is_generated_;

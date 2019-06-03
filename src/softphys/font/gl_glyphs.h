@@ -5,7 +5,7 @@
 
 #include "softphys/font/font_face.h"
 #include "softphys/font/glyph.h"
-#include "softphys/viewer/gl_texture.h"
+#include "softphys/viewer/gl_texture_2d.h"
 
 namespace softphys
 {
@@ -13,7 +13,7 @@ class GlGlyphs
 {
 private:
   static const int num_glyphs_ = 65536;
-  using TextureType = GlTexture<GlTextureType::Texture2D>;
+  using TextureType = GlTexture2D;
 
 public:
   GlGlyphs();

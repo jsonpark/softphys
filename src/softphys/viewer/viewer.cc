@@ -202,21 +202,14 @@ void Viewer::Initialize()
   timestamp_ = GetEngine()->GetTime();
 
   // Test cubemap texture
-  xp_texture_ = std::make_shared<Texture<>>("..\\textures\\xp.png");
-  xn_texture_ = std::make_shared<Texture<>>("..\\textures\\xn.png");
-  yp_texture_ = std::make_shared<Texture<>>("..\\textures\\yp.png");
-  yn_texture_ = std::make_shared<Texture<>>("..\\textures\\yn.png");
-  zp_texture_ = std::make_shared<Texture<>>("..\\textures\\zp.png");
-  zn_texture_ = std::make_shared<Texture<>>("..\\textures\\zn.png");
-  std::vector<std::shared_ptr<Texture<>>> cubemap = {
-    xp_texture_,
-    xn_texture_,
-    yp_texture_,
-    yn_texture_,
-    zp_texture_,
-    zn_texture_
-  };
-  face_cubemap_ = std::make_unique<GlTextureCubeMap>(cubemap);
+  face_cubemap_ = std::make_unique<GlTextureCubeMap>(std::vector<std::shared_ptr<Texture<>>>({
+    std::make_shared<Texture<>>("..\\textures\\xp.png"),
+    std::make_shared<Texture<>>("..\\textures\\xn.png"),
+    std::make_shared<Texture<>>("..\\textures\\yp.png"),
+    std::make_shared<Texture<>>("..\\textures\\yn.png"),
+    std::make_shared<Texture<>>("..\\textures\\zp.png"),
+    std::make_shared<Texture<>>("..\\textures\\zn.png")
+    }));
 
   light_cubemap_program_.Attach(GlVertexShader("..\\src\\shader\\light_cubemap.vert"));
   light_cubemap_program_.Attach(GlFragmentShader("..\\src\\shader\\light_cubemap.frag"));

@@ -3,7 +3,7 @@
 
 #include "softphys/viewer/model/model.h"
 
-#include "softphys/viewer/gl_texture.h"
+#include "softphys/viewer/gl_texture_2d.h"
 #include "softphys/viewer/gl_buffer.h"
 #include "softphys/viewer/gl_vertex_array.h"
 
@@ -27,7 +27,7 @@ private:
 
   int subdivision_level_;
 
-  GlTexture<GlTextureType::Texture2D> texture_;
+  GlTexture2D texture_;
   GlVertexArray vao_;
   GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::StaticDraw> vbo_;
 };
