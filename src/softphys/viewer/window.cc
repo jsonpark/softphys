@@ -23,7 +23,7 @@ Window::Window(Engine* engine, int x, int y, int width, int height)
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_SAMPLES, 4);
 
-  window_ = glfwCreateWindow(width, height, "LearnOpenGL", NULL, NULL);
+  window_ = glfwCreateWindow(width, height, "SoftPhys", NULL, NULL);
   if (window_ == NULL)
   {
     std::cout << "Failed to create GLFW window" << std::endl;
