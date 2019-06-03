@@ -14,6 +14,7 @@ public:
   {
     Triangles,
     TriangleStrip,
+    TriangleFan,
     Lines,
   };
 
@@ -26,6 +27,8 @@ private:
       return GL_TRIANGLES;
     case DrawType::TriangleStrip:
       return GL_TRIANGLE_STRIP;
+    case DrawType::TriangleFan:
+      return GL_TRIANGLE_FAN;
     case DrawType::Lines:
       return GL_LINES;
     default:
@@ -69,7 +72,7 @@ public:
   {
     Bind();
     element_buffer.Bind();
-    glDrawElements(DrawTypeToGlEnum(type), count, BaseTypeToGlEnum<T>(), (void*)offset);
+    glDrawElements(DrawTypeToGlEnum(type), count, BaseTypeToGlEnum<T>(), (void*)(offset * sizeof T));
     Unbind();
     element_buffer.Unbind();
   }

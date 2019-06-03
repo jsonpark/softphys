@@ -189,6 +189,9 @@
     <ClCompile Include="..\src\softphys\viewer\model\polar_sphere_model.cc">
       <Filter>src\softphys\viewer\model</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\model\cylinder_model.cc">
+      <Filter>src\softphys\viewer\model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\lodepng\lodepng.h">
@@ -352,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\gl_texture.h">
       <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\model\cylinder_model.h">
+      <Filter>src\softphys\viewer\model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
