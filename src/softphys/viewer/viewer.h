@@ -16,6 +16,7 @@
 #include "softphys/viewer/model/sphere_model.h"
 #include "softphys/viewer/model/polar_sphere_model.h"
 #include "softphys/viewer/model/cylinder_model.h"
+#include "softphys/viewer/model/cone_model.h"
 #include "softphys/viewer/model/ground_model.h"
 #include "softphys/scene/scene.h"
 #include "softphys/model/modelset.h"
@@ -86,6 +87,7 @@ private:
 
   std::unique_ptr<viewer::PolarSphereModel> sphere_model_;
   std::unique_ptr<viewer::CylinderModel> cylinder_model_;
+  std::unique_ptr<viewer::ConeModel> cone_model_;
   std::unique_ptr<viewer::GroundModel> ground_model_;
 
   // Scene

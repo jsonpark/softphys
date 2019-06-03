@@ -189,6 +189,7 @@ void Viewer::Initialize()
 
   sphere_model_ = std::make_unique<viewer::PolarSphereModel>(20);
   cylinder_model_ = std::make_unique<viewer::CylinderModel>(40);
+  cone_model_ = std::make_unique<viewer::ConeModel>(20);
   ground_model_ = std::make_unique<viewer::GroundModel>();
 
   // Text rendering preparation
@@ -359,11 +360,13 @@ void Viewer::DrawAxis(const Affine3d& transform, double axis_length, double axis
   Affine3d t;
   Matrix4d model;
 
+  static const double cl = 0.8;
+
   light_program_.Use();
 
   // X axis
   t.setIdentity();
-  t.scale(Vector3d(axis_length / 2., axis_radius, axis_radius));
+  t.scale(Vector3d(axis_length * cl / 2., axis_radius, axis_radius));
   t.translate(Vector3d(1.0, 0.0, 0.0));
   t.rotate(Eigen::AngleAxisd(pi / 2., Vector3d(0.0, 1.0, 0.0)));
 
@@ -380,9 +383,21 @@ void Viewer::DrawAxis(const Affine3d& transform, double axis_length, double axis
 
   cylinder_model_->Draw();
 
+  t.setIdentity();
+  t.translate(Vector3d(axis_length * cl, 0.0, 0.0));
+  t.scale(Vector3d(axis_length * (1. - cl), axis_radius * 2., axis_radius * 2.));
+  t.rotate(Eigen::AngleAxisd(pi / 2., Vector3d(0.0, 1.0, 0.0)));
+
+  model = (transform * t).matrix();
+  light_program_.UniformMatrix4f("model", model.cast<float>());
+  model.block(0, 3, 3, 1).setZero();
+  light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose().cast<float>());
+
+  cone_model_->Draw();
+
   // Y axis
   t.setIdentity();
-  t.scale(Vector3d(axis_radius, axis_length / 2., axis_radius));
+  t.scale(Vector3d(axis_radius, axis_length * cl / 2., axis_radius));
   t.translate(Vector3d(0.0, 1.0, 0.0));
   t.rotate(Eigen::AngleAxisd(pi / 2., Vector3d(-1.0, 0.0, 0.0)));
 
@@ -399,9 +414,21 @@ void Viewer::DrawAxis(const Affine3d& transform, double axis_length, double axis
 
   cylinder_model_->Draw();
 
+  t.setIdentity();
+  t.translate(Vector3d(0.0, axis_length * cl, 0.0));
+  t.scale(Vector3d(axis_radius * 2., axis_length * (1. - cl), axis_radius * 2.));
+  t.rotate(Eigen::AngleAxisd(pi / 2., Vector3d(-1.0, 0.0, 0.0)));
+
+  model = (transform * t).matrix();
+  light_program_.UniformMatrix4f("model", model.cast<float>());
+  model.block(0, 3, 3, 1).setZero();
+  light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose().cast<float>());
+
+  cone_model_->Draw();
+
   // Z axis
   t.setIdentity();
-  t.scale(Vector3d(axis_radius, axis_radius, axis_length / 2.));
+  t.scale(Vector3d(axis_radius, axis_radius, axis_length * cl / 2.));
   t.translate(Vector3d(0.0, 0.0, 1.0));
 
   model = (transform * t).matrix();
@@ -416,6 +443,17 @@ void Viewer::DrawAxis(const Affine3d& transform, double axis_length, double axis
   light_program_.Uniform1f("material.shininess", material->Shininess());
 
   cylinder_model_->Draw();
+
+  t.setIdentity();
+  t.translate(Vector3d(0.0, 0.0, axis_length * cl));
+  t.scale(Vector3d(axis_radius * 2., axis_radius * 2., axis_length * (1. - cl)));
+
+  model = (transform * t).matrix();
+  light_program_.UniformMatrix4f("model", model.cast<float>());
+  model.block(0, 3, 3, 1).setZero();
+  light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose().cast<float>());
+
+  cone_model_->Draw();
 }
 
 void Viewer::RenderText(const std::wstring& s, float x, float y, float font_size, Eigen::Vector3f color)
