@@ -34,5 +34,33 @@
       "position": [ 1.0, 0.0, 2.0 ],
       "orientation": [ 1.0, 0.0, 0.0, 0.0 ]
     },
+    {
+      "name": "rb_cube1",
+      "model_name": "cube1",
+      "type": "rigid_body",
+      "position": [ 0.0, 1.0, 1.0 ],
+      "orientation": [ 1.0, 0.0, 0.0, 0.0 ]
+    },
+    {
+      "name": "rb_cube2",
+      "model_name": "cube2",
+      "type": "rigid_body",
+      "position": [ 0.5, 1.0, 1.0 ],
+      "orientation": [ 1.0, 0.0, 0.0, 0.0 ]
+    },
+    {
+      "name": "rb_sphere_under_cube",
+      "model_name": "sphere1",
+      "type": "rigid_body",
+      "position": [ 1.0, 1.0, 1.0 ],
+      "orientation": [ 1.0, 0.0, 0.0, 0.0 ]
+    },
+    {
+      "name": "rb_cube_over_sphere",
+      "model_name": "cube2",
+      "type": "rigid_body",
+      "position": [ 1.0, 1.0, 2.0 ],
+      "orientation": [ 1.0, 0.0, 0.0, 0.0 ]
+    }
   ]
 }

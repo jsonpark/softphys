@@ -12,6 +12,8 @@
 #include "softphys/scene/scene_loader.h"
 #include "softphys/physics/physics_loader.h"
 #include "softphys/model/modelset_loader.h"
+#include "softphys/model/visual/visual_sphere.h"
+#include "softphys/model/visual/visual_cube.h"
 #include "softphys/data/eigen.h"
 
 namespace softphys
@@ -189,6 +191,7 @@ void Viewer::Initialize()
   sphere_model_ = std::make_unique<viewer::PolarSphereModel>(20);
   cylinder_model_ = std::make_unique<viewer::CylinderModel>(40);
   cone_model_ = std::make_unique<viewer::ConeModel>(20);
+  cube_model_ = std::make_unique<viewer::CubeModel>();
   ground_model_ = std::make_unique<viewer::GroundModel>();
 
   // Text rendering preparation
@@ -298,19 +301,17 @@ void Viewer::Display()
 
       if (rb->IsSphere())
       {
-        auto sphere = std::static_pointer_cast<physics::Sphere>(rb);
-        auto r = sphere->Radius();
+        auto visual_sphere = std::static_pointer_cast<model::VisualSphere>(modelset_->GetModel(rb->ModelName())->GetVisual());
+        const auto radius = visual_sphere->Radius();
+        // TODO: material name from model
+        const auto& material_name = visual_sphere->MaterialName();
+        const auto& material = modelset_->GetMaterial(material_name);
 
         Eigen::Matrix4f model;
-        model.block(0, 0, 3, 3) = (rotation * r).cast<float>();
+        model.block(0, 0, 3, 3) = (rotation * radius).cast<float>();
         model.block(3, 0, 1, 3).setZero();
         model.block(0, 3, 3, 1) = position.cast<float>();
         model(3, 3) = 1.f;
-
-        auto model_sphere = modelset_->GetModel(sphere->ModelName());
-        // TODO: material name from model
-        const auto& material_name = model_sphere->GetVisual()->MaterialName();
-        const auto& material = modelset_->GetMaterial(material_name);
 
         light_program_.Use();
         light_program_.UniformMatrix4f("model", model);
@@ -322,6 +323,35 @@ void Viewer::Display()
         light_program_.Uniform1f("material.shininess", material->Shininess());
 
         sphere_model_->Draw();
+      }
+
+      else if (rb->IsCube())
+      {
+        auto visual_cube = std::static_pointer_cast<model::VisualCube>(modelset_->GetModel(rb->ModelName())->GetVisual());
+        const auto size = visual_cube->Size();
+        // TODO: material name from model
+        const auto& material_name = visual_cube->MaterialName();
+        const auto& material = modelset_->GetMaterial(material_name);
+
+        Eigen::Matrix4f model;
+        model.block(0, 0, 3, 3).setZero();
+        model(0, 0) = size(0);
+        model(1, 1) = size(1);
+        model(2, 2) = size(2);
+        model.block(3, 0, 1, 3).setZero();
+        model.block(0, 3, 3, 1) = position.cast<float>();
+        model(3, 3) = 1.f;
+
+        light_program_.Use();
+        light_program_.UniformMatrix4f("model", model);
+        model.block(0, 3, 3, 1).setZero();
+        light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose());
+        light_program_.Uniform3f("material.ambient", material->Ambient());
+        light_program_.Uniform3f("material.diffuse", material->Diffuse());
+        light_program_.Uniform3f("material.specular", material->Specular());
+        light_program_.Uniform1f("material.shininess", material->Shininess());
+
+        cube_model_->Draw();
       }
     }
 

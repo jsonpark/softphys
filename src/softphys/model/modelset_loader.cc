@@ -5,7 +5,9 @@
 
 #include "softphys/json/json.h"
 #include "softphys/model/visual/visual_sphere.h"
+#include "softphys/model/visual/visual_cube.h"
 #include "softphys/model/physics/physics_sphere.h"
+#include "softphys/model/physics/physics_cube.h"
 
 namespace softphys
 {
@@ -89,6 +91,16 @@ std::shared_ptr<Modelset> ModelsetLoader::LoadFromJson(const std::string& filena
       model->SetVisual(visual_sphere);
     }
 
+    if (visual_type == "cube")
+    {
+      auto size = json_visuals.At("size").Get<Vector3d>();
+      auto material_name = json_visuals.At("material").Get<std::string>();
+
+      auto visual_cube = std::make_shared<VisualCube>(material_name, size.cast<float>());
+
+      model->SetVisual(visual_cube);
+    }
+
     // Physics
     const auto& physics_type = json_visuals.At("type").Get<std::string>();
 
@@ -100,6 +112,16 @@ std::shared_ptr<Modelset> ModelsetLoader::LoadFromJson(const std::string& filena
       auto physics_sphere = std::make_shared<PhysicsSphere>(radius, density);
 
       model->SetPhysics(physics_sphere);
+    }
+
+    else if (physics_type == "cube")
+    {
+      auto size = json_physics.At("size").Get<Vector3d>();
+      auto density = json_physics.At("density").Get<double>();
+
+      auto physics_cube = std::make_shared<PhysicsCube>(size, density);
+
+      model->SetPhysics(physics_cube);
     }
 
     modelset->AddModel(model);

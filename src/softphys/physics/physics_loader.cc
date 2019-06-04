@@ -5,7 +5,9 @@
 
 #include "softphys/json/json.h"
 #include "softphys/physics/object/sphere.h"
+#include "softphys/physics/object/cube.h"
 #include "softphys/model/physics/physics_sphere.h"
+#include "softphys/model/physics/physics_cube.h"
 
 namespace softphys
 {
@@ -72,6 +74,14 @@ std::shared_ptr<Physics> PhysicsLoader::LoadFromJson(const std::string& filename
         auto sphere = physics->CreateObject<Sphere>(model_name, sphere_model->Radius(), sphere_model->Density());
         sphere->SetPosition(position);
         sphere->SetOrientation(orientation);
+      }
+
+      else if (physics_model->IsCube())
+      {
+        auto cube_model = std::static_pointer_cast<model::PhysicsCube>(physics_model);
+        auto cube = physics->CreateObject<Cube>(model_name, cube_model->Size(), cube_model->Density());
+        cube->SetPosition(position);
+        cube->SetOrientation(orientation);
       }
     }
   }

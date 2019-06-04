@@ -19,6 +19,11 @@ public:
     return false;
   }
 
+  virtual bool IsCube() const noexcept
+  {
+    return false;
+  }
+
   const auto& MaterialName() const
   {
     return material_name_;

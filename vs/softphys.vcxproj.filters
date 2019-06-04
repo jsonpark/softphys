@@ -55,6 +55,9 @@
     <Filter Include="src\softphys\model\physics">
       <UniqueIdentifier>{1c1943db-a87d-4f06-8d61-043f93e5b975}</UniqueIdentifier>
     </Filter>
+    <Filter Include="git">
+      <UniqueIdentifier>{7067b40a-91c4-482d-bc2d-6d8a47276909}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\glad\glad.c">
@@ -167,6 +170,18 @@
     </ClCompile>
     <ClCompile Include="..\src\softphys\model\physics\physics_sphere.cc">
       <Filter>src\softphys\model\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\object\cube.cc">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\model\physics\physics_cube.cc">
+      <Filter>src\softphys\model\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\model\visual\visual_cube.cc">
+      <Filter>src\softphys\model\visual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\model\cube_model.cc">
+      <Filter>src\softphys\viewer\model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -311,6 +326,18 @@
     <ClInclude Include="..\src\softphys\model\physics\physics_sphere.h">
       <Filter>src\softphys\model\physics</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\object\cube.h">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\model\physics\physics_cube.h">
+      <Filter>src\softphys\model\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\model\visual\visual_cube.h">
+      <Filter>src\softphys\model\visual</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\model\cube_model.h">
+      <Filter>src\softphys\viewer\model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\shader\color.frag">
@@ -369,6 +396,15 @@
     </None>
     <None Include="..\src\shader\light_cubemap.vert">
       <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\.gitattributes">
+      <Filter>git</Filter>
+    </None>
+    <None Include="..\.gitignore">
+      <Filter>git</Filter>
+    </None>
+    <None Include="..\README.md">
+      <Filter>git</Filter>
     </None>
   </ItemGroup>
 </Project>

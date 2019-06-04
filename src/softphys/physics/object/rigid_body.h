@@ -28,6 +28,11 @@ public:
     return false;
   }
 
+  virtual bool IsCube() const noexcept
+  {
+    return false;
+  }
+
   void SetPosition(const Eigen::Vector3d& position)
   {
     position_ = position;
