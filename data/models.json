@@ -56,90 +56,30 @@
   ],
   "models": [
     {
-      "name": "ground",
-      "type": "ground",
+      "name": "sphere1",
       "visuals": {
-        "material": "checkerboard"
+        "type": "sphere",
+        "radius": 0.1,
+        "material": "emerald"
+      },
+      "physics": {
+        "type": "sphere",
+        "radius": 0.1,
+        "density": 0.1
       }
     },
     {
-      "name": "rb1",
-      "type": "primitives",
-      "primitives": [
-        {
-          "type": "sphere",
-          "radius": 0.1,
-          "position": [ 0.0, 0.0, -0.1 ],
-          "orientation": [ 1.0, 0.0, 0.0, 0.0 ],
-          "visuals": {
-            "material": "emerald"
-          },
-          "physics": {
-            "density": 0.1
-          }
-        },
-        {
-          "type": "sphere",
-          "radius": 0.1,
-          "position": [ 0.0, 0.0, 0.1 ],
-          "orientation": [ 1.0, 0.0, 0.0, 0.0 ],
-          "visuals": {
-            "material": "ruby"
-          },
-          "physics": {
-            "density": 0.1
-          }
-        }
-      ]
-    },
-    {
-      "name": "rb2",
-      "type": "primitives",
-      "primitives": [
-        {
-          "type": "sphere",
-          "radius": 0.2,
-          "position": [ 0.0, -0.2, 0.1 ],
-          "orientation": [ 1.0, 0.0, 0.0, 0.0 ],
-          "visuals": {
-            "material": "turquoise"
-          },
-          "physics": {
-            "density": 0.2
-          }
-        },
-        {
-          "type": "sphere",
-          "radius": 0.2,
-          "position": [ 0.0, 0.2, 0.0 ],
-          "orientation": [ 1.0, 0.0, 0.0, 0.0 ],
-          "visuals": {
-            "material": "silver"
-          },
-          "physics": {
-            "density": 0.2
-          }
-        }
-      ]
-    },
-    {
-      "name": "rb3",
-      "type": "primitives",
-      "primitives": [
-        {
-          "type": "sphere",
-          "radius": 0.2,
-          "material": 2,
-          "position": [ 0.0, 0.0, 0.0 ],
-          "orientation": [ 1.0, 0.0, 0.0, 0.0 ],
-          "visuals": {
-            "material": "turquoise"
-          },
-          "physics": {
-            "density": 0.2
-          }
-        }
-      ]
+      "name": "sphere2",
+      "visuals": {
+        "type": "sphere",
+        "radius": 0.2,
+        "material": "ruby"
+      },
+      "physics": {
+        "type": "sphere",
+        "radius": 0.2,
+        "density": 0.1
+      }
     }
   ]
 }

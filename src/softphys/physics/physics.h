@@ -4,11 +4,12 @@
 #include <memory>
 #include <vector>
 
-#include "softphys/physics/object/simulation_ground.h"
+#include "softphys/physics/object/ground.h"
 #include "softphys/physics/object/rigid_body.h"
-#include "softphys/physics/contact/contact_result.h"
 
 namespace softphys
+{
+namespace physics
 {
 class Physics
 {
@@ -43,16 +44,17 @@ public:
   }
 
 private:
-  void FindContacts(std::shared_ptr<SimulationObject> object1, std::shared_ptr<SimulationObject> object2, double time);
-  void FindContactsGroundRigidBody(std::shared_ptr<SimulationGround> ground, std::shared_ptr<RigidBody> rigid_body, double time);
+  void FindContacts(std::shared_ptr<Object> object1, std::shared_ptr<Object> object2, double time);
+  void FindContactsGroundRigidBody(std::shared_ptr<Ground> ground, std::shared_ptr<RigidBody> rigid_body, double time);
   void FindContactsRigidBodies(std::shared_ptr<RigidBody> rigid_body1, std::shared_ptr<RigidBody> rigid_body2, double time);
 
   double time_ = 0.;
 
   Eigen::Vector3d gravity_{ 0., 0., 0. };
 
-  std::vector<std::shared_ptr<SimulationObject>> objects_;
+  std::vector<std::shared_ptr<Object>> objects_;
 };
+}
 }
 
 #endif // SOFTPHYS_PHYSICS_PHYSICS_H_

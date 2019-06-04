@@ -20,5 +20,5 @@ void main()
   else if (squared_length > max_distance[0] * max_distance[0])
     alpha = 1.f - (squared_length - max_distance[0] * max_distance[0]) / (max_distance[1] * max_distance[1] - max_distance[0] * max_distance[0]);
 
-  out_color = vec4(texture(texture_image, tex_coord).rgb, alpha);
+  out_color = vec4(texture(texture_image, tex_coord).rgb, alpha * 0.5f);
 }

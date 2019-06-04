@@ -8,9 +8,8 @@
 
 #include "softphys/engine.h"
 #include "softphys/physics/object/rigid_body.h"
-#include "softphys/physics/object/primitive_sphere.h"
+#include "softphys/physics/object/sphere.h"
 #include "softphys/scene/scene_loader.h"
-#include "softphys/model/primitive/sphere.h"
 #include "softphys/physics/physics_loader.h"
 #include "softphys/model/modelset_loader.h"
 #include "softphys/data/eigen.h"
@@ -33,7 +32,7 @@ Viewer::~Viewer()
 {
 }
 
-void Viewer::DisplayPhysicsScene(std::unique_ptr<Physics> physics)
+void Viewer::DisplayPhysicsScene(std::unique_ptr<physics::Physics> physics)
 {
   physics_ = std::move(physics);
 }
@@ -129,7 +128,7 @@ void Viewer::LoadScene(const std::string& filename)
 
 void Viewer::LoadPhysics(const std::string& filename)
 {
-  PhysicsLoader loader;
+  physics::PhysicsLoader loader;
   physics_ = loader.LoadFromJson(filename, modelset_);
 }
 
@@ -284,10 +283,7 @@ void Viewer::Display()
   {
     if (object->IsRigidBody())
     {
-      auto rb = std::static_pointer_cast<RigidBody>(object);
-      const auto& primitives = rb->GetPrimitives();
-      const auto& transforms = rb->GetTransforms();
-
+      auto rb = std::static_pointer_cast<physics::RigidBody>(object);
       const auto& position = rb->GetPosition();
       const auto& rotation = rb->GetOrientation().matrix();
       const auto& com = rb->GetCom();
@@ -300,37 +296,32 @@ void Viewer::Display()
       DrawAxis(rb_transform, 0.1, 0.002);
       light_program_.Uniform1f("alpha", 0.75f);
 
-      for (int i = 0; i < primitives.size(); i++)
+      if (rb->IsSphere())
       {
-        auto primitive = primitives[i];
-        auto transform = transforms[i];
+        auto sphere = std::static_pointer_cast<physics::Sphere>(rb);
+        auto r = sphere->Radius();
 
-        if (primitive->IsSphere())
-        {
-          auto sphere = std::static_pointer_cast<PrimitiveSphere>(primitive);
-          auto r = sphere->Radius();
+        Eigen::Matrix4f model;
+        model.block(0, 0, 3, 3) = (rotation * r).cast<float>();
+        model.block(3, 0, 1, 3).setZero();
+        model.block(0, 3, 3, 1) = position.cast<float>();
+        model(3, 3) = 1.f;
 
-          Eigen::Matrix4f model;
-          model.block(0, 0, 3, 3) = (rotation * r).cast<float>();
-          model.block(3, 0, 1, 3).setZero();
-          model.block(0, 3, 3, 1) = (position + transform.translation()).cast<float>();
-          model(3, 3) = 1.f;
+        auto model_sphere = modelset_->GetModel(sphere->ModelName());
+        // TODO: material name from model
+        const auto& material_name = model_sphere->GetVisual()->MaterialName();
+        const auto& material = modelset_->GetMaterial(material_name);
 
-          auto model_sphere = std::static_pointer_cast<model::Sphere>(sphere->ModelPrimitive());
-          const auto& material_name = model_sphere->MaterialName();
-          const auto& material = modelset_->GetMaterial(material_name);
+        light_program_.Use();
+        light_program_.UniformMatrix4f("model", model);
+        model.block(0, 3, 3, 1).setZero();
+        light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose());
+        light_program_.Uniform3f("material.ambient", material->Ambient());
+        light_program_.Uniform3f("material.diffuse", material->Diffuse());
+        light_program_.Uniform3f("material.specular", material->Specular());
+        light_program_.Uniform1f("material.shininess", material->Shininess());
 
-          light_program_.Use();
-          light_program_.UniformMatrix4f("model", model);
-          model.block(0, 3, 3, 1).setZero();
-          light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose());
-          light_program_.Uniform3f("material.ambient", material->Ambient());
-          light_program_.Uniform3f("material.diffuse", material->Diffuse());
-          light_program_.Uniform3f("material.specular", material->Specular());
-          light_program_.Uniform1f("material.shininess", material->Shininess());
-
-          sphere_model_->Draw();
-        }
+        sphere_model_->Draw();
       }
     }
 

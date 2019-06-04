@@ -4,11 +4,12 @@
 #include <iostream>
 
 #include "softphys/json/json.h"
-#include "softphys/model/primitives.h"
-#include "softphys/model/primitive/sphere.h"
-#include "softphys/physics/object/primitive_sphere.h"
+#include "softphys/physics/object/sphere.h"
+#include "softphys/model/physics/physics_sphere.h"
 
 namespace softphys
+{
+namespace physics
 {
 PhysicsLoader::PhysicsLoader() = default;
 
@@ -47,13 +48,15 @@ std::shared_ptr<Physics> PhysicsLoader::LoadFromJson(const std::string& filename
   Affine3d t;
   t.setIdentity();
   t.rotate(ground_orientation);
-  physics->CreateObject<SimulationGround>(ground_modelname, t.matrix().block(0, 2, 3, 1), ground_position);
+  // TODO:
+  physics->CreateObject<Ground>(ground_modelname, t.matrix().block(0, 2, 3, 1), ground_position);
 
   // Objects
   const auto& objects = json["objects"];
   for (int i = 0; i < objects.Size(); i++)
   {
     const auto& json_object = objects[i];
+    auto name = json_object.At("name").Get<std::string>();
     auto model_name = json_object.At("model_name").Get<std::string>();
     auto type = json_object.At("type").Get<std::string>();
     auto position = json_object.At("position").Get<Vector3d>();
@@ -61,30 +64,19 @@ std::shared_ptr<Physics> PhysicsLoader::LoadFromJson(const std::string& filename
 
     if (type == "rigid_body")
     {
-      auto model = models->GetModel(model_name);
+      auto physics_model = models->GetModel(model_name)->GetPhysics();
 
-      if (model->IsPrimitives())
+      if (physics_model->IsSphere())
       {
-        auto rigid_body = physics->CreateObject<RigidBody>(model_name);
-        rigid_body->SetPosition(position);
-        rigid_body->SetOrientation(orientation);
-
-        auto model_primitives = std::static_pointer_cast<model::Primitives>(model);
-        for (int i = 0; i < model_primitives->NumPrimitives(); i++)
-        {
-          auto primitive = model_primitives->GetPrimitive(i);
-          const auto& transform = model_primitives->GetTransform(i);
-
-          if (primitive->IsSphere())
-          {
-            auto sphere = std::static_pointer_cast<model::Sphere>(primitive);
-            rigid_body->CreatePrimitive<PrimitiveSphere>(transform, sphere, sphere->Density(), sphere->Radius());
-          }
-        }
+        auto sphere_model = std::static_pointer_cast<model::PhysicsSphere>(physics_model);
+        auto sphere = physics->CreateObject<Sphere>(model_name, sphere_model->Radius(), sphere_model->Density());
+        sphere->SetPosition(position);
+        sphere->SetOrientation(orientation);
       }
     }
   }
 
   return physics;
+}
 }
 }

@@ -9,6 +9,8 @@
 
 namespace softphys
 {
+namespace physics
+{
 class PhysicsLoader
 {
 public:
@@ -19,6 +21,7 @@ public:
 
 private:
 };
+}
 }
 
 #endif // SOFTPHYS_PHYSICS_PHYSICS_LOADER_H_

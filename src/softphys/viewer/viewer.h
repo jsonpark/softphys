@@ -38,7 +38,7 @@ public:
   Viewer(Viewer&& rhs) = default;
   Viewer& operator = (Viewer&& rhs) = default;
 
-  void DisplayPhysicsScene(std::unique_ptr<Physics> physics);
+  void DisplayPhysicsScene(std::unique_ptr<physics::Physics> physics);
 
   void Resize(int width, int height) override;
   void Keyboard(int key, int action, int mods) override;
@@ -83,7 +83,7 @@ private:
   // Physics
   bool animation_ = false;
   double timestamp_ = 0.;
-  std::shared_ptr<Physics> physics_;
+  std::shared_ptr<physics::Physics> physics_;
 
   std::unique_ptr<viewer::PolarSphereModel> sphere_model_;
   std::unique_ptr<viewer::CylinderModel> cylinder_model_;

@@ -5,6 +5,9 @@
 #include <unordered_map>
 #include <memory>
 
+#include "softphys/model/visual/visual.h"
+#include "softphys/model/physics/physics.h"
+
 namespace softphys
 {
 namespace model
@@ -31,9 +34,31 @@ public:
     return name_;
   }
 
+  void SetVisual(std::shared_ptr<Visual> visual)
+  {
+    visual_ = visual;
+  }
+
+  void SetPhysics(std::shared_ptr<Physics> physics)
+  {
+    physics_ = physics;
+  }
+
+  auto GetVisual() const
+  {
+    return visual_;
+  }
+
+  auto GetPhysics() const
+  {
+    return physics_;
+  }
+
 private:
   std::string name_;
-  std::string material_name_;
+
+  std::shared_ptr<Visual> visual_;
+  std::shared_ptr<Physics> physics_;
 };
 }
 }

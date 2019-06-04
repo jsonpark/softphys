@@ -1,24 +1,20 @@
 #ifndef SOFTPHYS_PHYSICS_OBJECT_RIGID_BODY_H_
 #define SOFTPHYS_PHYSICS_OBJECT_RIGID_BODY_H_
 
-#include "softphys/physics/object/simulation_object.h"
-#include "softphys/physics/object/primitive_object.h"
+#include "softphys/physics/object/object.h"
 
 #include <vector>
 
-#include <Eigen/StdVector>
+#include "softphys/data/eigen.h"
 
 namespace softphys
 {
-class RigidBody : public SimulationObject
+namespace physics
 {
-private:
-  using Vector3d = Eigen::Matrix<double, 3, 1, Eigen::DontAlign>;
-  using Quaterniond = Eigen::Quaternion<double, Eigen::DontAlign>;
-  using Affine3dVector = std::vector<Eigen::Affine3d, Eigen::aligned_allocator<Eigen::Affine3d>>;
-
+class RigidBody : public Object
+{
 public:
-  RigidBody() = delete;
+  RigidBody();
   RigidBody(const std::string& model_name);
   ~RigidBody();
 
@@ -27,15 +23,9 @@ public:
     return true;
   }
 
-  void AttachPrimitive(std::shared_ptr<PrimitiveObject> primitive, const Eigen::Affine3d& transform);
-
-  template<typename PrimitiveObjectType, typename... Ts>
-  std::shared_ptr<PrimitiveObjectType> CreatePrimitive(const Eigen::Affine3d& transform, Ts&&... args)
+  virtual bool IsSphere() const noexcept
   {
-    auto primitive = std::make_shared<PrimitiveObjectType>(std::forward<Ts>(args)...);
-    AttachPrimitive(primitive, transform);
-
-    return primitive;
+    return false;
   }
 
   void SetPosition(const Eigen::Vector3d& position)
@@ -78,21 +68,12 @@ public:
     momentum_ = mass_ * v;
   }
 
-  void ApplyImpulse(const Eigen::Vector3d& j) override;
-  void ApplyForce(const Eigen::Vector3d& f) override;
-  void ApplyGravity(const Eigen::Vector3d& g) override;
-  void ApplyContactConstraint(const Eigen::Vector3d& n) override;
-  void Simulate(double time) override;
+  virtual void ApplyImpulse(const Eigen::Vector3d& j) override;
+  virtual void ApplyForce(const Eigen::Vector3d& f) override;
+  virtual void ApplyGravity(const Eigen::Vector3d& g) override;
+  virtual void ApplyContactConstraint(const Eigen::Vector3d& n) override;
 
-  const auto& GetPrimitives() const noexcept
-  {
-    return primitives_;
-  }
-
-  const auto& GetTransforms() const noexcept
-  {
-    return transforms_;
-  }
+  virtual void Simulate(double time) override;
 
   Eigen::Vector3d GetVelocity() const
   {
@@ -100,6 +81,17 @@ public:
   }
 
 protected:
+  void SetMass(double mass)
+  {
+    mass_ = mass;
+  }
+
+  void SetCom(const Vector3d& com)
+  {
+    com_ = com;
+  }
+
+private:
   // property
   double mass_ = 0.;
   Vector3d com_{ 0., 0., 0. };
@@ -115,11 +107,8 @@ protected:
   Vector3d impulse_{ 0., 0., 0. };
   Vector3d force_{ 0., 0., 0. };
   std::vector<Eigen::Vector3d> contact_constraints_;
-
-private:
-  std::vector<std::shared_ptr<PrimitiveObject>> primitives_;
-  Affine3dVector transforms_;
 };
+}
 }
 
 #endif // SOFTPHYS_PHYSICS_OBJECT_RIGID_BODY_H_

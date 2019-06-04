@@ -4,26 +4,16 @@
 
 namespace softphys
 {
+namespace physics
+{
+RigidBody::RigidBody() = default;
+
 RigidBody::RigidBody(const std::string& model_name)
-  : SimulationObject(model_name)
+  : Object(model_name)
 {
 }
 
 RigidBody::~RigidBody() = default;
-
-void RigidBody::AttachPrimitive(std::shared_ptr<PrimitiveObject> primitive, const Eigen::Affine3d& transform)
-{
-  primitives_.push_back(primitive);
-  transforms_.push_back(transform);
-
-  auto p_com = transform * primitive->CenterOfMass();
-  auto p_mass = primitive->Mass();
-
-  // Center of mass update
-  if (mass_ + p_mass > 1e-6)
-    com_ = (com_ * mass_ + p_com * p_mass) / (mass_ + p_mass);
-  mass_ += p_mass;
-}
 
 void RigidBody::ApplyImpulse(const Eigen::Vector3d& j)
 {
@@ -69,5 +59,6 @@ void RigidBody::Simulate(double time)
   impulse_.setZero();
   force_.setZero();
   contact_constraints_.clear();
+}
 }
 }

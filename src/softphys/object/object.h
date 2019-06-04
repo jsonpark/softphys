@@ -13,7 +13,7 @@ public:
   Object();
   virtual ~Object();
 
-  virtual bool IsSphere() const noexcept
+  virtual bool IsRigidBody() const noexcept
   {
     return false;
   }

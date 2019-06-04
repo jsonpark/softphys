@@ -4,9 +4,8 @@
 #include <iostream>
 
 #include "softphys/json/json.h"
-#include "softphys/model/ground.h"
-#include "softphys/model/primitives.h"
-#include "softphys/model/primitive/sphere.h"
+#include "softphys/model/visual/visual_sphere.h"
+#include "softphys/model/physics/physics_sphere.h"
 
 namespace softphys
 {
@@ -72,45 +71,38 @@ std::shared_ptr<Modelset> ModelsetLoader::LoadFromJson(const std::string& filena
   {
     const auto& json_model = json_models[i];
     auto name = json_model.At("name").Get<std::string>();
-    auto type = json_model.At("type").Get<std::string>();
+    const auto& json_visuals = json_model.At("visuals");
+    const auto& json_physics = json_model.At("physics");
 
-    if (type == "ground")
+    auto model = modelset->CreateModel<Model>(name);
+
+    // Visuals
+    const auto& visual_type = json_visuals.At("type").Get<std::string>();
+
+    if (visual_type == "sphere")
     {
-      const auto& json_visuals = json_model.At("visuals");
+      auto radius = json_visuals.At("radius").Get<double>();
       auto material_name = json_visuals.At("material").Get<std::string>();
 
-      auto ground = modelset->CreateModel<Ground>(name);
-      ground->SetMaterialName(material_name);
+      auto visual_sphere = std::make_shared<VisualSphere>(material_name, radius);
+
+      model->SetVisual(visual_sphere);
     }
 
-    else if (type == "primitives")
+    // Physics
+    const auto& physics_type = json_visuals.At("type").Get<std::string>();
+
+    if (physics_type == "sphere")
     {
-      auto primitives = modelset->CreateModel<Primitives>(name);
+      auto radius = json_physics.At("radius").Get<double>();
+      auto density = json_physics.At("density").Get<double>();
 
-      const auto& json_primitives = json_model.At("primitives");
-      for (int j = 0; j < json_primitives.Size(); j++)
-      {
-        const auto& json_primitive = json_primitives[j];
-        auto primitive_type = json_primitive.At("type").Get<std::string>();
-        auto position = json_primitive.At("position").Get<Vector3d>();
-        auto orientation = json_primitive.At("orientation").Get<Quaterniond>();
-        auto material_name = json_primitive.At("visuals").At("material").Get<std::string>();
-        auto density = json_primitive.At("physics").At("density").Get<double>();
+      auto physics_sphere = std::make_shared<PhysicsSphere>(radius, density);
 
-        Affine3d transform;
-        transform.setIdentity();
-        transform.rotate(orientation).translate(position);
-
-        if (primitive_type == "sphere")
-        {
-          auto radius = json_primitive.At("radius").Get<double>();
-
-          primitives->AddPrimitive(transform, std::make_shared<Sphere>(material_name, density, radius));
-        }
-      }
-
-      modelset->AddModel(primitives);
+      model->SetPhysics(physics_sphere);
     }
+
+    modelset->AddModel(model);
   }
 
   return modelset;

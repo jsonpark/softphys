@@ -19,7 +19,7 @@ Camera::Camera()
 
 Camera::Camera(Type type)
   : type_(type),
-  eye_(-1., 0., 1.), up_(0., 0., 1.), direction_(1., 0., 0.), zoom_(1.),
+  eye_(0., -1., 1.), up_(0., 0., 1.), direction_(0., 1., 0.), zoom_(1.),
   near_(0.1), far_(100.),
   fovy_(DegreeToRadian(60.)), aspect_(4. / 3.),
   translate_sensitivity_(0.001, 0.001),

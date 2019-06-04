@@ -1,16 +1,18 @@
-#ifndef SOFTPHYS_PHYSICS_OBJECT_SIMULATION_OBJECT_H_
-#define SOFTPHYS_PHYSICS_OBJECT_SIMULATION_OBJECT_H_
+#ifndef SOFTPHYS_PHYSICS_OBJECT_OBJECT_H_
+#define SOFTPHYS_PHYSICS_OBJECT_OBJECT_H_
 
 #include <Eigen/Dense>
 
 namespace softphys
 {
-class SimulationObject
+namespace physics
+{
+class Object
 {
 public:
-  SimulationObject() = delete;
-  SimulationObject(const std::string& model_name);
-  virtual ~SimulationObject();
+  Object();
+  Object(const std::string& model_name);
+  virtual ~Object();
 
   virtual bool IsRigidBody() const noexcept
   {
@@ -29,14 +31,15 @@ public:
 
   virtual void Simulate(double time);
 
-  auto ModelName() const
+  const auto& ModelName() const
   {
     return model_name_;
   }
 
 private:
-  const std::string& model_name_;
+  std::string model_name_;
 };
 }
+}
 
-#endif // SOFTPHYS_PHYSICS_OBJECT_SIMULATION_OBJECT_H_
+#endif // SOFTPHYS_PHYSICS_OBJECT_OBJECT_H_

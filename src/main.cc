@@ -1,11 +1,5 @@
 #include "softphys/engine.h"
 #include "softphys/viewer/viewer.h"
-#include "softphys/physics/physics.h"
-#include "softphys/physics/object/rigid_body.h"
-#include "softphys/physics/object/simulation_ground.h"
-#include "softphys/physics/object/primitive_sphere.h"
-#include "softphys/object/sphere.h"
-#include "softphys/viewer/light.h"
 
 #include <iostream>
 

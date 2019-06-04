@@ -37,12 +37,6 @@
     <Filter Include="src\softphys\viewer\model">
       <UniqueIdentifier>{b79bb923-6bbb-401e-aa57-82a848451942}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\softphys\physics\contact">
-      <UniqueIdentifier>{2b0c36f5-3567-4a38-9415-d551d1c9e80b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\softphys\object">
-      <UniqueIdentifier>{538e05b8-f3dc-4e4a-826b-bd0771dbdf3b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\softphys\scene">
       <UniqueIdentifier>{1e631a14-8310-421d-a3e3-5c0bb3e12ff9}</UniqueIdentifier>
     </Filter>
@@ -55,8 +49,11 @@
     <Filter Include="src\softphys\model">
       <UniqueIdentifier>{c3edfbb9-97dd-413d-8c8a-669e390c28ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\softphys\model\primitive">
-      <UniqueIdentifier>{50d8f42d-372e-4c09-98a7-d8507457e46d}</UniqueIdentifier>
+    <Filter Include="src\softphys\model\visual">
+      <UniqueIdentifier>{eb434a5c-fd70-47c6-a747-379a5bfb0273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\softphys\model\physics">
+      <UniqueIdentifier>{1c1943db-a87d-4f06-8d61-043f93e5b975}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -108,44 +105,8 @@
     <ClCompile Include="..\src\softphys\physics\physics.cc">
       <Filter>src\softphys\physics</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\softphys\physics\object\rigid_body.cc">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\softphys\viewer\model\ground_model.cc">
       <Filter>src\softphys\viewer\model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\physics\object\primitive_object.cc">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\physics\object\primitive_sphere.cc">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\physics\object\primitive_cylinder.cc">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\physics\contact\moving_primitive.cc">
-      <Filter>src\softphys\physics\contact</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\physics\object\simulation_object.cc">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\physics\object\simulation_ground.cc">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\object\mesh.cc">
-      <Filter>src\softphys\object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\object\object.cc">
-      <Filter>src\softphys\object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\object\plane.cc">
-      <Filter>src\softphys\object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\object\sphere.cc">
-      <Filter>src\softphys\object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\object\cylinder.cc">
-      <Filter>src\softphys\object</Filter>
     </ClCompile>
     <ClCompile Include="..\src\softphys\scene\scene.cc">
       <Filter>src\softphys\scene</Filter>
@@ -168,20 +129,8 @@
     <ClCompile Include="..\src\softphys\viewer\model\model.cc">
       <Filter>src\softphys\viewer\model</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\softphys\model\ground.cc">
-      <Filter>src\softphys\model</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\softphys\model\material.cc">
       <Filter>src\softphys\model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\model\primitives.cc">
-      <Filter>src\softphys\model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\model\primitive\primitive.cc">
-      <Filter>src\softphys\model\primitive</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\model\primitive\sphere.cc">
-      <Filter>src\softphys\model\primitive</Filter>
     </ClCompile>
     <ClCompile Include="..\src\softphys\viewer\model\sphere_model.cc">
       <Filter>src\softphys\viewer\model</Filter>
@@ -194,6 +143,30 @@
     </ClCompile>
     <ClCompile Include="..\src\softphys\viewer\model\cone_model.cc">
       <Filter>src\softphys\viewer\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\object\object.cc">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\object\ground.cc">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\object\sphere.cc">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\physics\object\rigid_body.cc">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\model\visual\visual.cc">
+      <Filter>src\softphys\model\visual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\model\visual\visual_sphere.cc">
+      <Filter>src\softphys\model\visual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\model\physics\physics.cc">
+      <Filter>src\softphys\model\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\model\physics\physics_sphere.cc">
+      <Filter>src\softphys\model\physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,50 +227,11 @@
     <ClInclude Include="..\src\softphys\physics\physics.h">
       <Filter>src\softphys\physics</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\softphys\physics\object\rigid_body.h">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\model\sphere_model.h">
       <Filter>src\softphys\viewer\model</Filter>
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\model\ground_model.h">
       <Filter>src\softphys\viewer\model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\physics\object\primitive_object.h">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\physics\object\primitive_sphere.h">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\physics\object\primitive_cylinder.h">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\physics\contact\moving_primitive.h">
-      <Filter>src\softphys\physics\contact</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\physics\contact\contact_result.h">
-      <Filter>src\softphys\physics\contact</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\physics\object\simulation_object.h">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\physics\object\simulation_ground.h">
-      <Filter>src\softphys\physics\object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\object\mesh.h">
-      <Filter>src\softphys\object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\object\object.h">
-      <Filter>src\softphys\object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\object\plane.h">
-      <Filter>src\softphys\object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\object\sphere.h">
-      <Filter>src\softphys\object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\object\cylinder.h">
-      <Filter>src\softphys\object</Filter>
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\material.h">
       <Filter>src\softphys\viewer</Filter>
@@ -329,23 +263,11 @@
     <ClInclude Include="..\src\softphys\viewer\model\model.h">
       <Filter>src\softphys\viewer\model</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\softphys\model\ground.h">
-      <Filter>src\softphys\model</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\softphys\model\material.h">
       <Filter>src\softphys\model</Filter>
     </ClInclude>
     <ClInclude Include="..\src\softphys\data\eigen.h">
       <Filter>src\softphys\data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\model\primitives.h">
-      <Filter>src\softphys\model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\model\primitive\primitive.h">
-      <Filter>src\softphys\model\primitive</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\model\primitive\sphere.h">
-      <Filter>src\softphys\model\primitive</Filter>
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\model\polar_sphere_model.h">
       <Filter>src\softphys\viewer\model</Filter>
@@ -364,6 +286,30 @@
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\model\cone_model.h">
       <Filter>src\softphys\viewer\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\object\object.h">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\object\ground.h">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\object\sphere.h">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\physics\object\rigid_body.h">
+      <Filter>src\softphys\physics\object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\model\visual\visual.h">
+      <Filter>src\softphys\model\visual</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\model\visual\visual_sphere.h">
+      <Filter>src\softphys\model\visual</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\model\physics\physics.h">
+      <Filter>src\softphys\model\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\model\physics\physics_sphere.h">
+      <Filter>src\softphys\model\physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
