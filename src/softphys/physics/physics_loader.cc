@@ -40,6 +40,10 @@ std::shared_ptr<Physics> PhysicsLoader::LoadFromJson(const std::string& filename
   auto gravity = json.At("gravity").Get<Vector3d>();
   physics->SetGravity(gravity);
 
+  // Timestep
+  auto timestep= json.At("timestep").Get<double>();
+  physics->SetTimestep(timestep);
+
   // Ground
   const auto& json_ground = json["ground"];
   auto ground_modelname = json_ground.At("model_name").Get<std::string>();

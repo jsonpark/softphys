@@ -136,26 +136,25 @@ void Physics::FindContactsRigidBodies(std::shared_ptr<RigidBody> rigid_body1, st
         rigid_body2->ApplyImpulse(j * n);
       }
     }
-    else if (v.squaredNorm() > 1e-6)
-    {
-      double u = -p.dot(v) / v.dot(v);
-
-      if (0 <= u && u <= time && (p + u * v).squaredNorm() <= r * r)
-      {
-        double b = p.dot(v) / v.dot(v);
-        double c = (p.dot(p) - r * r) / v.dot(v);
-        double t = -b - std::sqrt(b * b - c);
-
-        Eigen::Vector3d n = p.normalized();
-        double j = -(1 + restitution) * v.dot(n) / (1. / rigid_body1->GetMass() + 1. / rigid_body2->GetMass());
-        rigid_body1->ApplyImpulse(-j * n);
-        rigid_body2->ApplyImpulse(j * n);
-      }
-    }
   }
 }
 
 void Physics::Simulate(double time)
+{
+  if (timestep_ == 0.)
+    SimulateInternal(time);
+
+  while (time >= timestep_)
+  {
+    SimulateInternal(timestep_);
+    time -= timestep_;
+  }
+
+  if (time >= 0.)
+    SimulateInternal(time);
+}
+
+void Physics::SimulateInternal(double time)
 {
   // TODO: collision detection and response
   for (int i = 0; i < objects_.size(); i++)

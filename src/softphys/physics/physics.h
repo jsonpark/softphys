@@ -27,6 +27,11 @@ public:
     return object;
   }
 
+  void SetTimestep(double timestep) noexcept
+  {
+    timestep_ = timestep;
+  }
+
   auto GetTime() const noexcept
   {
     return time_;
@@ -48,7 +53,11 @@ private:
   void FindContactsGroundRigidBody(std::shared_ptr<Ground> ground, std::shared_ptr<RigidBody> rigid_body, double time);
   void FindContactsRigidBodies(std::shared_ptr<RigidBody> rigid_body1, std::shared_ptr<RigidBody> rigid_body2, double time);
 
+  void SimulateInternal(double time);
+
   double time_ = 0.;
+
+  double timestep_ = 0.;
 
   Eigen::Vector3d gravity_{ 0., 0., 0. };
 

@@ -1,6 +1,8 @@
 # softphys
 Physics simulator for modern c++
 
+![](figs/sample.gif?)
+
 ![](figs/sample1.png?)
 ![](figs/sample2.png?)
 ![](figs/sample3.png?)
