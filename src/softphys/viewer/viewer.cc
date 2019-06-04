@@ -139,7 +139,7 @@ void Viewer::Initialize()
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-  glDisable(GL_CULL_FACE);
+  glEnable(GL_CULL_FACE);
   glEnable(GL_DEPTH_TEST);
   glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
   glEnable(GL_MULTISAMPLE);
@@ -274,7 +274,12 @@ void Viewer::Display()
   for (int i = lights.size(); i < scene::Scene::max_lights; i++)
     light_program_.Uniform1i("lights[" + std::to_string(i) + "].use", 0);
 
+  // Display cylinder
+  light_program_.Uniform1f("alpha", 1.0f);
+  DrawAxis(Affine3d::Identity(), 1.0, 0.01);
+
   // Display physics objects
+  light_program_.Uniform1f("alpha", 0.75f);
   for (auto object : physics_->GetObjects())
   {
     if (object->IsRigidBody())
@@ -286,6 +291,14 @@ void Viewer::Display()
       const auto& position = rb->GetPosition();
       const auto& rotation = rb->GetOrientation().matrix();
       const auto& com = rb->GetCom();
+
+      light_program_.Uniform1f("alpha", 1.0f);
+      Affine3d rb_transform;
+      rb_transform.setIdentity();
+      rb_transform.translate(position);
+      rb_transform.rotate(rotation);
+      DrawAxis(rb_transform, 0.1, 0.002);
+      light_program_.Uniform1f("alpha", 0.75f);
 
       for (int i = 0; i < primitives.size(); i++)
       {
@@ -333,9 +346,6 @@ void Viewer::Display()
       ground_model_->Draw();
     }
   }
-
-  // Display cylinder
-  DrawAxis(Affine3d::Identity(), 1.0, 0.01);
 
   // Display physics simulator time
   float w = Width();

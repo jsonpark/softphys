@@ -56,8 +56,8 @@ ConeModel::ConeModel(int subdivision_level)
   const int base = subdivision_level_ + 1;
   for (int i = 0; i < subdivision_level_; i++)
   {
-    indices_.push_back(base + i * 2);
     indices_.push_back(base + i * 2 + 1);
+    indices_.push_back(base + i * 2);
   }
   indices_.push_back(base);
   indices_.push_back(base + 1);
