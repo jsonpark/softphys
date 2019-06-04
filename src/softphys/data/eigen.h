@@ -15,6 +15,8 @@ using Affine3f = Eigen::Transform<float, 3, Eigen::DontAlign>;
 using Affine3d = Eigen::Transform<double, 3, Eigen::DontAlign>;
 using Quaternionf = Eigen::Quaternion<float, Eigen::DontAlign>;
 using Quaterniond = Eigen::Quaternion<double, Eigen::DontAlign>;
+using Matrix3f = Eigen::Matrix<float, 3, 3, Eigen::DontAlign>;
+using Matrix3d = Eigen::Matrix<double, 3, 3, Eigen::DontAlign>;
 using Matrix4f = Eigen::Matrix<float, 4, 4, Eigen::DontAlign>;
 using Matrix4d = Eigen::Matrix<double, 4, 4, Eigen::DontAlign>;
 }

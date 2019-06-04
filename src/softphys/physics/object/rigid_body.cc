@@ -55,6 +55,16 @@ void RigidBody::Simulate(double time)
       momentum_ -= n.dot(momentum_) * n;
   }
 
+  // Status change - orientation
+  // angular_monmentum_ += torque_ * time;
+  Vector3d v = 0.5 * inertia_.inverse() * angular_momentum_;
+  Quaterniond q = Quaterniond(0., v(0), v(1), v(2)) * orientation_;
+  orientation_.w() += q.w() * time;
+  orientation_.x() += q.x() * time;
+  orientation_.y() += q.y() * time;
+  orientation_.z() += q.z() * time;
+  orientation_.normalize();
+
   // After a simulation of a timestep, reset forces to 0
   impulse_.setZero();
   force_.setZero();

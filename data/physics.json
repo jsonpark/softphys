@@ -1,5 +1,5 @@
 {
-  "gravity": [ 0.0, 0.0, -9.80665 ],
+  "gravity": [ 0.0, 0.0, 0.0 ],
   "ground": {
     "model_name": "ground",
     "position": [ 0.0, 0.0, 0.0 ],

@@ -210,6 +210,16 @@ void Viewer::Initialize()
 
   // Timestamp
   timestamp_ = GetEngine()->GetTime();
+
+  // Angular momentum
+  for (auto object : physics_->GetObjects())
+  {
+    if (object->IsRigidBody())
+    {
+      auto rb = std::static_pointer_cast<physics::RigidBody>(object);
+      rb->SetAngularMomentum(Vector3d(0., 0.00001, 0.00001));
+    }
+  }
 }
 
 void Viewer::Display()
@@ -333,19 +343,17 @@ void Viewer::Display()
         const auto& material_name = visual_cube->MaterialName();
         const auto& material = modelset_->GetMaterial(material_name);
 
-        Eigen::Matrix4f model;
-        model.block(0, 0, 3, 3).setZero();
-        model(0, 0) = size(0);
-        model(1, 1) = size(1);
-        model(2, 2) = size(2);
-        model.block(3, 0, 1, 3).setZero();
-        model.block(0, 3, 3, 1) = position.cast<float>();
-        model(3, 3) = 1.f;
+        Eigen::Affine3d model_transform;
+        model_transform.setIdentity();
+        model_transform.translate(position);
+        model_transform.rotate(rotation);
+        model_transform.scale(size.cast<double>());
+        Eigen::Matrix4d model = model_transform.matrix();
 
         light_program_.Use();
-        light_program_.UniformMatrix4f("model", model);
+        light_program_.UniformMatrix4f("model", model.cast<float>());
         model.block(0, 3, 3, 1).setZero();
-        light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose());
+        light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose().cast<float>());
         light_program_.Uniform3f("material.ambient", material->Ambient());
         light_program_.Uniform3f("material.diffuse", material->Diffuse());
         light_program_.Uniform3f("material.specular", material->Specular());

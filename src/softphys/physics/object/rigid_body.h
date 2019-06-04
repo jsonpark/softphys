@@ -73,6 +73,11 @@ public:
     momentum_ = mass_ * v;
   }
 
+  void SetAngularMomentum(const Eigen::Vector3d& l)
+  {
+    angular_momentum_ = l;
+  }
+
   virtual void ApplyImpulse(const Eigen::Vector3d& j) override;
   virtual void ApplyForce(const Eigen::Vector3d& f) override;
   virtual void ApplyGravity(const Eigen::Vector3d& g) override;
@@ -96,9 +101,23 @@ protected:
     com_ = com;
   }
 
+  void SetInertia(const Matrix3d& inertia)
+  {
+    inertia_ = inertia;
+  }
+
+  void SetDiagonalInertia(const Vector3d& d)
+  {
+    inertia_.setZero();
+    inertia_(0, 0) = d(0);
+    inertia_(1, 1) = d(1);
+    inertia_(2, 2) = d(2);
+  }
+
 private:
   // property
   double mass_ = 0.;
+  Matrix3d inertia_{ Matrix3d::Identity() };
   Vector3d com_{ 0., 0., 0. };
 
   // status (linear)
@@ -107,6 +126,7 @@ private:
 
   // status (rotation)
   Quaterniond orientation_{ Quaterniond::Identity() };
+  Vector3d angular_momentum_{ 0., 0., 0. };
 
   // simulation
   Vector3d impulse_{ 0., 0., 0. };
