@@ -12,14 +12,6 @@ Sphere::Sphere(double radius, double density)
   SetDiagonalInertia(2. / 5. * GetMass() * radius_ * radius_ * Vector3d(1., 1., 1.));
 }
 
-Sphere::Sphere(const std::string& model_name, double radius, double density)
-  : RigidBody(model_name),
-  density_(density), radius_(radius)
-{
-  SetMass(density * Volume());
-  SetDiagonalInertia(2. / 5. * GetMass() * radius_ * radius_ * Vector3d(1., 1., 1.));
-}
-
 Sphere::~Sphere() = default;
 
 double Sphere::Volume() const

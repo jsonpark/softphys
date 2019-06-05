@@ -9,17 +9,21 @@
 
 namespace softphys
 {
+class Engine;
+
 namespace physics
 {
 class PhysicsLoader
 {
 public:
-  PhysicsLoader();
+  PhysicsLoader() = delete;
+  PhysicsLoader(Engine* engine);
   ~PhysicsLoader();
 
-  std::shared_ptr<Physics> LoadFromJson(const std::string& filename, std::shared_ptr<model::Modelset> models);
+  std::shared_ptr<Physics> LoadFromJson(const std::string& filename);
 
 private:
+  Engine* engine_;
 };
 }
 }

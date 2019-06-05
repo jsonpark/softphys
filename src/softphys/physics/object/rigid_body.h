@@ -15,7 +15,6 @@ class RigidBody : public Object
 {
 public:
   RigidBody();
-  RigidBody(const std::string& model_name);
   ~RigidBody();
 
   bool IsRigidBody() const noexcept override

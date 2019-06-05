@@ -69,8 +69,8 @@ void Engine::LoadModels(const std::string& filename)
 
 void Engine::LoadPhysics(const std::string& filename)
 {
-  physics::PhysicsLoader loader;
-  physics_ = loader.LoadFromJson(filename, modelset_);
+  physics::PhysicsLoader loader(this);
+  physics_ = loader.LoadFromJson(filename);
 }
 
 FontFace& Engine::LoadFont(const std::string& font)
@@ -125,5 +125,23 @@ void Engine::Run()
 double Engine::GetTime()
 {
   return Duration(Clock::now() - start_time_).count();
+}
+
+std::shared_ptr<model::Model> Engine::GetModelFromPhysicsObject(std::shared_ptr<physics::Object> object) const
+{
+  const auto& it = model_from_physics_object_.find(object);
+  if (it == model_from_physics_object_.cend())
+    return nullptr;
+  return it->second;
+}
+
+std::shared_ptr<model::Model> Engine::GetModel(const std::string& name)
+{
+  return modelset_->GetModel(name);
+}
+
+void Engine::LinkPhysicsToModel(std::shared_ptr<physics::Object> physics_object, std::shared_ptr<model::Model> model)
+{
+  model_from_physics_object_[physics_object] = model;
 }
 }

@@ -8,11 +8,6 @@ namespace physics
 {
 RigidBody::RigidBody() = default;
 
-RigidBody::RigidBody(const std::string& model_name)
-  : Object(model_name)
-{
-}
-
 RigidBody::~RigidBody() = default;
 
 void RigidBody::ApplyImpulse(const Eigen::Vector3d& j)

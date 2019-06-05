@@ -6,11 +6,6 @@ namespace physics
 {
 Object::Object() = default;
 
-Object::Object(const std::string& model_name)
-  : model_name_(model_name)
-{
-}
-
 Object::~Object() = default;
 
 void Object::ApplyImpulse(const Eigen::Vector3d& j)

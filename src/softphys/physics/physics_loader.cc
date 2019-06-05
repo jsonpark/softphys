@@ -8,16 +8,20 @@
 #include "softphys/physics/object/cube.h"
 #include "softphys/model/physics/physics_sphere.h"
 #include "softphys/model/physics/physics_cube.h"
+#include "softphys/engine.h"
 
 namespace softphys
 {
 namespace physics
 {
-PhysicsLoader::PhysicsLoader() = default;
+PhysicsLoader::PhysicsLoader(Engine* engine)
+  : engine_(engine)
+{
+}
 
 PhysicsLoader::~PhysicsLoader() = default;
 
-std::shared_ptr<Physics> PhysicsLoader::LoadFromJson(const std::string& filename, std::shared_ptr<model::Modelset> models)
+std::shared_ptr<Physics> PhysicsLoader::LoadFromJson(const std::string& filename)
 {
   std::ifstream in(filename);
   if (!in.is_open())
@@ -49,13 +53,13 @@ std::shared_ptr<Physics> PhysicsLoader::LoadFromJson(const std::string& filename
   auto ground_modelname = json_ground.At("model_name").Get<std::string>();
   auto ground_position = json_ground.At("position").Get<Vector3d>();
   auto ground_orientation = json_ground.At("orientation").Get<Quaterniond>();
-  auto model_ground = models->GetModel(ground_modelname);
+  auto model_ground = engine_->GetModel(ground_modelname);
 
   Affine3d t;
   t.setIdentity();
   t.rotate(ground_orientation);
   // TODO:
-  physics->CreateObject<Ground>(ground_modelname, t.matrix().block(0, 2, 3, 1), ground_position);
+  physics->CreateObject<Ground>(t.matrix().block(0, 2, 3, 1), ground_position);
 
   // Objects
   const auto& objects = json["objects"];
@@ -70,22 +74,25 @@ std::shared_ptr<Physics> PhysicsLoader::LoadFromJson(const std::string& filename
 
     if (type == "rigid_body")
     {
-      auto physics_model = models->GetModel(model_name)->GetPhysics();
+      auto model = engine_->GetModel(model_name);
+      auto physics_model = model->GetPhysics();
 
       if (physics_model->IsSphere())
       {
         auto sphere_model = std::static_pointer_cast<model::PhysicsSphere>(physics_model);
-        auto sphere = physics->CreateObject<Sphere>(model_name, sphere_model->Radius(), sphere_model->Density());
+        auto sphere = physics->CreateObject<Sphere>(sphere_model->Radius(), sphere_model->Density());
         sphere->SetPosition(position);
         sphere->SetOrientation(orientation);
+        engine_->LinkPhysicsToModel(sphere, model);
       }
 
       else if (physics_model->IsCube())
       {
         auto cube_model = std::static_pointer_cast<model::PhysicsCube>(physics_model);
-        auto cube = physics->CreateObject<Cube>(model_name, cube_model->Size(), cube_model->Density());
+        auto cube = physics->CreateObject<Cube>(cube_model->Size(), cube_model->Density());
         cube->SetPosition(position);
         cube->SetOrientation(orientation);
+        engine_->LinkPhysicsToModel(cube, model);
       }
     }
   }

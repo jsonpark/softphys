@@ -13,7 +13,6 @@ public:
   Sphere() = delete;
 
   Sphere(double radius, double density);
-  Sphere(const std::string& model_name, double radius, double density);
 
   ~Sphere();
 

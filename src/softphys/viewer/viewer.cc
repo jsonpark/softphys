@@ -117,6 +117,8 @@ void Viewer::LoadScene(const std::string& filename)
 
 void Viewer::Initialize()
 {
+  const auto& engine = GetEngine();
+
   // OpenGL
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -157,14 +159,14 @@ void Viewer::Initialize()
   ground_program_.Link();
 
   ground_program_.Use();
-  ground_program_.Uniform2f("max_distance", 9.f, 10.f);
+  ground_program_.Uniform2f("max_distance", 9.f, 15.f);
 
   light_program_.Attach(GlVertexShader("..\\src\\shader\\light.vert"));
   light_program_.Attach(GlFragmentShader("..\\src\\shader\\light.frag"));
   light_program_.Link();
 
   light_program_.Use();
-  light_program_.Uniform2f("max_distance", 9.f, 10.f);
+  light_program_.Uniform2f("max_distance", 9.f, 15.f);
 
   // Scene
   camera_.SetNear(0.001);
@@ -187,13 +189,13 @@ void Viewer::Initialize()
 
   glyph_array_.VertexAttribPointer(0, 4, glyph_buffer_);
 
-  glyphs_ = GlGlyphs(GetEngine()->LoadFont("consola"));
+  glyphs_ = GlGlyphs(engine->LoadFont("consola"));
 
   // Timestamp
-  timestamp_ = GetEngine()->GetTime();
+  timestamp_ = engine->GetTime();
 
   // Angular momentum
-  auto physics = GetEngine()->GetPhysics();
+  auto physics = engine->GetPhysics();
   for (auto object : physics->GetObjects())
   {
     if (object->IsRigidBody())
@@ -206,13 +208,15 @@ void Viewer::Initialize()
 
 void Viewer::Display()
 {
+  const auto& engine = GetEngine();
+
   // Timestamp
-  double now = GetEngine()->GetTime();
+  double now = engine->GetTime();
   double time = now - timestamp_;
   timestamp_ = now;
 
   // Physics simulation
-  auto physics = GetEngine()->GetPhysics();
+  auto physics = engine->GetPhysics();
   if (animation_)
     physics->Simulate(time);
 
@@ -275,7 +279,7 @@ void Viewer::Display()
 
   // Display physics objects
   light_program_.Uniform1f("alpha", 0.75f);
-  auto models = GetEngine()->GetModels();
+  auto models = engine->GetModels();
   for (auto object : physics->GetObjects())
   {
     if (object->IsRigidBody())
@@ -295,7 +299,7 @@ void Viewer::Display()
 
       if (rb->IsSphere())
       {
-        auto visual_sphere = std::static_pointer_cast<model::VisualSphere>(models->GetModel(rb->ModelName())->GetVisual());
+        auto visual_sphere = std::static_pointer_cast<model::VisualSphere>(engine->GetModelFromPhysicsObject(object)->GetVisual());
         const auto radius = visual_sphere->Radius();
         // TODO: material name from model
         const auto& material_name = visual_sphere->MaterialName();
@@ -321,7 +325,7 @@ void Viewer::Display()
 
       else if (rb->IsCube())
       {
-        auto visual_cube = std::static_pointer_cast<model::VisualCube>(models->GetModel(rb->ModelName())->GetVisual());
+        auto visual_cube = std::static_pointer_cast<model::VisualCube>(engine->GetModelFromPhysicsObject(object)->GetVisual());
         const auto size = visual_cube->Size();
         // TODO: material name from model
         const auto& material_name = visual_cube->MaterialName();

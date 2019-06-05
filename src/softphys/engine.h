@@ -85,6 +85,11 @@ public:
     return modelset_;
   }
 
+  std::shared_ptr<model::Model> GetModelFromPhysicsObject(std::shared_ptr<physics::Object> object) const;
+
+  std::shared_ptr<model::Model> GetModel(const std::string& name);
+  void LinkPhysicsToModel(std::shared_ptr<physics::Object> physics_object, std::shared_ptr<model::Model> model);
+
 private:
   bool ShouldClose();
 
@@ -99,6 +104,9 @@ private:
 
   // Physics
   std::shared_ptr<physics::Physics> physics_;
+
+  // Pairing between physics objects and models
+  std::unordered_map<std::shared_ptr<physics::Object>, std::shared_ptr<model::Model>> model_from_physics_object_;
 };
 }
 

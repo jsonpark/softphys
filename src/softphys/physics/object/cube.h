@@ -13,7 +13,6 @@ public:
   Cube() = delete;
 
   Cube(const Vector3d& size, double density);
-  Cube(const std::string& model_name, const Vector3d& size, double density);
 
   ~Cube();
 

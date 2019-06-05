@@ -11,7 +11,7 @@ class Ground : public Object
 {
 public:
   Ground() = delete;
-  Ground(const std::string& model_name, const Eigen::Vector3d& normal, const Eigen::Vector3d& center);
+  Ground(const Eigen::Vector3d& normal, const Eigen::Vector3d& center);
   ~Ground();
 
   bool IsGround() const noexcept override

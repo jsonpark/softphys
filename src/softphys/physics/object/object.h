@@ -11,7 +11,6 @@ class Object
 {
 public:
   Object();
-  Object(const std::string& model_name);
   virtual ~Object();
 
   virtual bool IsRigidBody() const noexcept
@@ -31,13 +30,7 @@ public:
 
   virtual void Simulate(double time);
 
-  const auto& ModelName() const
-  {
-    return model_name_;
-  }
-
 private:
-  std::string model_name_;
 };
 }
 }
