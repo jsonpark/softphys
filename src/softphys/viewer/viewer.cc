@@ -10,8 +10,6 @@
 #include "softphys/physics/object/rigid_body.h"
 #include "softphys/physics/object/sphere.h"
 #include "softphys/scene/scene_loader.h"
-#include "softphys/physics/physics_loader.h"
-#include "softphys/model/modelset_loader.h"
 #include "softphys/model/visual/visual_sphere.h"
 #include "softphys/model/visual/visual_cube.h"
 #include "softphys/data/eigen.h"
@@ -32,11 +30,6 @@ Viewer::Viewer(Engine* engine, int x, int y, int width, int height)
 
 Viewer::~Viewer()
 {
-}
-
-void Viewer::DisplayPhysicsScene(std::unique_ptr<physics::Physics> physics)
-{
-  physics_ = std::move(physics);
 }
 
 void Viewer::Resize(int width, int height)
@@ -116,22 +109,10 @@ void Viewer::MouseButton(int button, int action, int mods)
   mouse_.SetStatus(mouse_button, mouse_status);
 }
 
-void Viewer::LoadModels(const std::string& filename)
-{
-  model::ModelsetLoader loader;
-  modelset_ = loader.LoadFromJson(filename);
-}
-
 void Viewer::LoadScene(const std::string& filename)
 {
   scene::SceneLoader loader;
   scene_ = loader.LoadFromJson(filename);
-}
-
-void Viewer::LoadPhysics(const std::string& filename)
-{
-  physics::PhysicsLoader loader;
-  physics_ = loader.LoadFromJson(filename, modelset_);
 }
 
 void Viewer::Initialize()
@@ -212,7 +193,8 @@ void Viewer::Initialize()
   timestamp_ = GetEngine()->GetTime();
 
   // Angular momentum
-  for (auto object : physics_->GetObjects())
+  auto physics = GetEngine()->GetPhysics();
+  for (auto object : physics->GetObjects())
   {
     if (object->IsRigidBody())
     {
@@ -230,8 +212,9 @@ void Viewer::Display()
   timestamp_ = now;
 
   // Physics simulation
+  auto physics = GetEngine()->GetPhysics();
   if (animation_)
-    physics_->Simulate(time);
+    physics->Simulate(time);
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -292,7 +275,8 @@ void Viewer::Display()
 
   // Display physics objects
   light_program_.Uniform1f("alpha", 0.75f);
-  for (auto object : physics_->GetObjects())
+  auto models = GetEngine()->GetModels();
+  for (auto object : physics->GetObjects())
   {
     if (object->IsRigidBody())
     {
@@ -311,11 +295,11 @@ void Viewer::Display()
 
       if (rb->IsSphere())
       {
-        auto visual_sphere = std::static_pointer_cast<model::VisualSphere>(modelset_->GetModel(rb->ModelName())->GetVisual());
+        auto visual_sphere = std::static_pointer_cast<model::VisualSphere>(models->GetModel(rb->ModelName())->GetVisual());
         const auto radius = visual_sphere->Radius();
         // TODO: material name from model
         const auto& material_name = visual_sphere->MaterialName();
-        const auto& material = modelset_->GetMaterial(material_name);
+        const auto& material = models->GetMaterial(material_name);
 
         Eigen::Matrix4f model;
         model.block(0, 0, 3, 3) = (rotation * radius).cast<float>();
@@ -337,11 +321,11 @@ void Viewer::Display()
 
       else if (rb->IsCube())
       {
-        auto visual_cube = std::static_pointer_cast<model::VisualCube>(modelset_->GetModel(rb->ModelName())->GetVisual());
+        auto visual_cube = std::static_pointer_cast<model::VisualCube>(models->GetModel(rb->ModelName())->GetVisual());
         const auto size = visual_cube->Size();
         // TODO: material name from model
         const auto& material_name = visual_cube->MaterialName();
-        const auto& material = modelset_->GetMaterial(material_name);
+        const auto& material = models->GetMaterial(material_name);
 
         Eigen::Affine3d model_transform;
         model_transform.setIdentity();
@@ -389,13 +373,15 @@ void Viewer::Display()
   text_program_.Use();
   text_program_.UniformMatrix4f("projection", font_projection);
 
-  double simulator_time = physics_->GetTime();
+  double simulator_time = physics->GetTime();
 
   RenderText(L"Time: " + std::to_wstring(simulator_time) + L"s", -w / 2.f + 10.f, h / 2.f - 20, 0.12f, Eigen::Vector3f(0.f, 0.f, 0.f));
 }
 
 void Viewer::DrawAxis(const Affine3d& transform, double axis_length, double axis_radius)
 {
+  auto models = GetEngine()->GetModels();
+
   Affine3d t;
   Matrix4d model;
 
@@ -414,7 +400,7 @@ void Viewer::DrawAxis(const Affine3d& transform, double axis_length, double axis
   model.block(0, 3, 3, 1).setZero();
   light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose().cast<float>());
 
-  auto material = modelset_->GetMaterial("red");
+  auto material = models->GetMaterial("red");
   light_program_.Uniform3f("material.ambient", material->Ambient());
   light_program_.Uniform3f("material.diffuse", material->Diffuse());
   light_program_.Uniform3f("material.specular", material->Specular());
@@ -445,7 +431,7 @@ void Viewer::DrawAxis(const Affine3d& transform, double axis_length, double axis
   model.block(0, 3, 3, 1).setZero();
   light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose().cast<float>());
 
-  material = modelset_->GetMaterial("green");
+  material = models->GetMaterial("green");
   light_program_.Uniform3f("material.ambient", material->Ambient());
   light_program_.Uniform3f("material.diffuse", material->Diffuse());
   light_program_.Uniform3f("material.specular", material->Specular());
@@ -475,7 +461,7 @@ void Viewer::DrawAxis(const Affine3d& transform, double axis_length, double axis
   model.block(0, 3, 3, 1).setZero();
   light_program_.UniformMatrix4f("model_inv_transpose", model.inverse().transpose().cast<float>());
 
-  material = modelset_->GetMaterial("blue");
+  material = models->GetMaterial("blue");
   light_program_.Uniform3f("material.ambient", material->Ambient());
   light_program_.Uniform3f("material.diffuse", material->Diffuse());
   light_program_.Uniform3f("material.specular", material->Specular());

@@ -39,8 +39,6 @@ public:
   Viewer(Viewer&& rhs) = default;
   Viewer& operator = (Viewer&& rhs) = default;
 
-  void DisplayPhysicsScene(std::unique_ptr<physics::Physics> physics);
-
   void Resize(int width, int height) override;
   void Keyboard(int key, int action, int mods) override;
   void MouseMove(double x, double y) override;
@@ -54,9 +52,7 @@ public:
     return scene_;
   }
 
-  void LoadModels(const std::string& filename);
   void LoadScene(const std::string& filename);
-  void LoadPhysics(const std::string& filename);
 
 private:
   Camera camera_;
@@ -77,14 +73,11 @@ private:
   GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::DynamicDraw> glyph_buffer_;
 
   // Models
-  std::shared_ptr<model::Modelset> modelset_;
-
   void DrawAxis(const Affine3d& transform, double axis_length, double axis_radius);
 
   // Physics
   bool animation_ = false;
   double timestamp_ = 0.;
-  std::shared_ptr<physics::Physics> physics_;
 
   std::unique_ptr<viewer::PolarSphereModel> sphere_model_;
   std::unique_ptr<viewer::CylinderModel> cylinder_model_;

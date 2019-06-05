@@ -2,6 +2,9 @@
 
 #include <iostream>
 
+#include "softphys/physics/physics_loader.h"
+#include "softphys/model/modelset_loader.h"
+
 namespace softphys
 {
 // Hidden callbacks
@@ -56,6 +59,18 @@ Engine::Engine()
 Engine::~Engine()
 {
   glfwTerminate();
+}
+
+void Engine::LoadModels(const std::string& filename)
+{
+  model::ModelsetLoader loader;
+  modelset_ = loader.LoadFromJson(filename);
+}
+
+void Engine::LoadPhysics(const std::string& filename)
+{
+  physics::PhysicsLoader loader;
+  physics_ = loader.LoadFromJson(filename, modelset_);
 }
 
 FontFace& Engine::LoadFont(const std::string& font)

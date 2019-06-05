@@ -10,6 +10,8 @@
 
 #include "softphys/viewer/window.h"
 #include "softphys/font/font_faces.h"
+#include "softphys/model/modelset.h"
+#include "softphys/physics/physics.h"
 
 namespace softphys
 {
@@ -64,11 +66,24 @@ public:
     return window;
   }
 
+  void LoadModels(const std::string& filename);
+  void LoadPhysics(const std::string& filename);
+
   void Run();
 
   double GetTime();
 
   FontFace& LoadFont(const std::string& font);
+
+  auto GetPhysics() const
+  {
+    return physics_;
+  }
+
+  auto GetModels() const
+  {
+    return modelset_;
+  }
 
 private:
   bool ShouldClose();
@@ -78,6 +93,12 @@ private:
   FontFaces font_faces_;
 
   TimePoint start_time_;
+
+  // Models
+  std::shared_ptr<model::Modelset> modelset_;
+
+  // Physics
+  std::shared_ptr<physics::Physics> physics_;
 };
 }
 
