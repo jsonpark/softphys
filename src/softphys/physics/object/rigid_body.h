@@ -80,7 +80,6 @@ public:
   virtual void ApplyImpulse(const Eigen::Vector3d& j) override;
   virtual void ApplyForce(const Eigen::Vector3d& f) override;
   virtual void ApplyGravity(const Eigen::Vector3d& g) override;
-  virtual void ApplyContactConstraint(const Eigen::Vector3d& n) override;
 
   virtual void Simulate(double time) override;
 
@@ -130,7 +129,6 @@ private:
   // simulation
   Vector3d impulse_{ 0., 0., 0. };
   Vector3d force_{ 0., 0., 0. };
-  std::vector<Eigen::Vector3d> contact_constraints_;
 };
 }
 }

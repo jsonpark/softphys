@@ -52,16 +52,11 @@ void Physics::FindContacts(std::shared_ptr<Object> object1, std::shared_ptr<Obje
 
 void Physics::FindContactsGroundRigidBody(std::shared_ptr<Ground> ground, std::shared_ptr<RigidBody> rigid_body, double time)
 {
-  Eigen::Vector3d velocity = rigid_body->GetVelocity();
-
   const auto& n = ground->Normal();
   const auto& gc = ground->Center();
 
-  // TODO: add velocity due to rotation
-  Eigen::Vector3d rotation_velocity = Eigen::Vector3d::Zero();
-
   Eigen::Vector3d p = rigid_body->GetPosition();
-  Eigen::Vector3d v = velocity + rotation_velocity;
+  Eigen::Vector3d v = rigid_body->GetVelocity();
 
   if (rigid_body->IsSphere())
   {
@@ -71,40 +66,20 @@ void Physics::FindContactsGroundRigidBody(std::shared_ptr<Ground> ground, std::s
 
     const double restitution = 0.8;
 
-    // Contact
     if (n.dot(p - gc) <= r)
     {
-      rigid_body->ApplyContactConstraint(n);
-    }
-
-    if (n.dot(p + v * time - gc) <= r)
-    {
-      // Impulse
-      if (n.dot(v) <= -1e-6)
-      {
-        double j = -(1 + restitution) * v.dot(n) * rigid_body->GetMass();
-        rigid_body->ApplyImpulse(j * n);
-      }
+      // TODO: collision found
     }
   }
 }
 
 void Physics::FindContactsRigidBodies(std::shared_ptr<RigidBody> rigid_body1, std::shared_ptr<RigidBody> rigid_body2, double time)
 {
-  Eigen::Vector3d velocity1 = rigid_body1->GetVelocity();
-  Eigen::Vector3d velocity2 = rigid_body2->GetVelocity();
-
-  // TODO: add velocity due to rotation
-  Eigen::Vector3d rotation_velocity1 = Eigen::Vector3d::Zero();
-
   Eigen::Vector3d p1 = rigid_body1->GetPosition();
-  Eigen::Vector3d v1 = velocity1 + rotation_velocity1;
-
-  // TODO: add velocity due to rotation
-  Eigen::Vector3d rotation_velocity2 = Eigen::Vector3d::Zero();
+  Eigen::Vector3d v1 = rigid_body1->GetVelocity();
 
   Eigen::Vector3d p2 = rigid_body2->GetPosition();
-  Eigen::Vector3d v2 = velocity2 + rotation_velocity2;
+  Eigen::Vector3d v2 = rigid_body2->GetVelocity();
 
   if (rigid_body1->IsSphere() && rigid_body2->IsSphere())
   {
@@ -124,17 +99,7 @@ void Physics::FindContactsRigidBodies(std::shared_ptr<RigidBody> rigid_body1, st
     {
       Eigen::Vector3d n = p.normalized();
 
-      if (v.squaredNorm() <= 1e-6)
-      {
-        rigid_body1->ApplyContactConstraint(n);
-        rigid_body2->ApplyContactConstraint(-n);
-      }
-      else
-      {
-        double j = -(1 + restitution) * v.dot(n) / (1. / rigid_body1->GetMass() + 1. / rigid_body2->GetMass());
-        rigid_body1->ApplyImpulse(-j * n);
-        rigid_body2->ApplyImpulse(j * n);
-      }
+      // TODO: collision found
     }
   }
 }
@@ -156,13 +121,11 @@ void Physics::Simulate(double time)
 
 void Physics::SimulateInternal(double time)
 {
-  // TODO: collision detection and response
+  // Collision detection and response
   for (int i = 0; i < objects_.size(); i++)
   {
     for (int j = i + 1; j < objects_.size(); j++)
-    {
       FindContacts(objects_[i], objects_[j], time);
-    }
   }
 
   // Gravity

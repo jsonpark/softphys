@@ -20,10 +20,6 @@ void Object::ApplyGravity(const Eigen::Vector3d& g)
 {
 }
 
-void Object::ApplyContactConstraint(const Eigen::Vector3d& n)
-{
-}
-
 void Object::Simulate(double time)
 {
 }
