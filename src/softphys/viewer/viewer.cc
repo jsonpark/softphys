@@ -193,17 +193,6 @@ void Viewer::Initialize()
 
   // Timestamp
   timestamp_ = engine->GetTime();
-
-  // Angular momentum
-  auto physics = engine->GetPhysics();
-  for (auto object : physics->GetObjects())
-  {
-    if (object->IsRigidBody())
-    {
-      auto rb = std::static_pointer_cast<physics::RigidBody>(object);
-      rb->SetAngularMomentum(Vector3d(0., 0.00001, 0.00001));
-    }
-  }
 }
 
 void Viewer::Display()

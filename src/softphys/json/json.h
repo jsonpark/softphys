@@ -308,7 +308,7 @@ public:
   template<>
   Quaterniond Get<Quaterniond>() const
   {
-    if (type_ != Type::Array || Size() != 3)
+    if (type_ != Type::Array || Size() != 4)
       return Quaterniond::Identity();
 
     Quaterniond v;

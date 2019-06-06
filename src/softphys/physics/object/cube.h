@@ -23,7 +23,7 @@ public:
 
   double Volume() const;
 
-  auto Size() const noexcept
+  const auto& Size() const noexcept
   {
     return size_;
   }

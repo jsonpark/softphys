@@ -71,6 +71,7 @@ std::shared_ptr<Physics> PhysicsLoader::LoadFromJson(const std::string& filename
     auto type = json_object.At("type").Get<std::string>();
     auto position = json_object.At("position").Get<Vector3d>();
     auto orientation = json_object.At("orientation").Get<Quaterniond>();
+    orientation.normalize();
 
     if (type == "rigid_body")
     {

@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "softphys/physics/object/sphere.h"
+#include "softphys/physics/object/cube.h"
 
 namespace softphys
 {
@@ -56,24 +57,25 @@ void Physics::FindContacts(int i, int j, double time)
 
 void Physics::FindContactsGroundRigidBody(int i, int j, double time)
 {
+  constexpr double bias_coefficient = 0.8;
+
   auto ground = std::static_pointer_cast<Ground>(objects_[i]);
   auto rigid_body = std::static_pointer_cast<RigidBody>(objects_[j]);
 
   const auto& n = ground->Normal();
   const auto& gc = ground->Center();
 
-  Eigen::Vector3d p = rigid_body->GetPosition();
-  Eigen::Vector3d v = rigid_body->GetVelocity();
-
+  // Ground - sphere
   if (rigid_body->IsSphere())
   {
     auto sphere = std::static_pointer_cast<Sphere>(rigid_body);
 
+    const auto& x = rigid_body->GetPosition();
     auto r = sphere->Radius();
 
     const double restitution = 0.8;
 
-    if (n.dot(p - gc) <= r)
+    if (n.dot(x - gc) <= r)
     {
       // Add a new contact constraint placeholder
       const int constraint_idx = constraints_transpose_.cols();
@@ -84,12 +86,67 @@ void Physics::FindContactsGroundRigidBody(int i, int j, double time)
 
       // Ground (object i) is always fixed
       // Add a new constraint for rigid body (object j)
-      const auto& x = rigid_body->GetPosition();
       const auto& p = x - n * r;
       int idx = object_to_solver_index_[j];
       constraints_transpose_.block(6 * idx, constraint_idx, 3, 1) = n;
       constraints_transpose_.block(6 * idx + 3, constraint_idx, 3, 1) = (p - x).cross(n);
-      constraints_bias_(constraint_idx) = - (p - gc).dot(n) / time;
+      constraints_bias_(constraint_idx) = -(p - gc).dot(n) / time * bias_coefficient;
+    }
+  }
+
+  // Ground - cube
+  else if (rigid_body->IsCube())
+  {
+    auto cube = std::static_pointer_cast<Cube>(rigid_body);
+
+    const auto& x = rigid_body->GetPosition();
+    const auto& q = rigid_body->GetOrientation();
+    const auto R = q.toRotationMatrix();
+    const auto& size = cube->Size();
+
+    auto dx = R.col(0).dot(n) * size(0);
+    auto dy = R.col(1).dot(n) * size(1);
+    auto dz = R.col(2).dot(n) * size(2);
+
+    if (n.dot(x - gc) - std::abs(dx) - std::abs(dy) - std::abs(dz) < 0.)
+    {
+      // Add a new contact constraint placeholder
+      const int constraint_idx = constraints_transpose_.cols();
+      constraints_transpose_.conservativeResize(Eigen::NoChange, constraint_idx + 1);
+      constraints_transpose_.col(constraint_idx).setZero();
+      constraints_bias_.conservativeResize(constraint_idx + 1);
+      constraints_bias_(constraint_idx) = 0.;
+
+      // Ground (object i) is always fixed
+      // Add a new constraint for rigid body (object j)
+      constexpr double threshold = 1e-4;
+      auto p = x;
+
+      if (dx >= threshold)
+        p -= R.col(0) * size(0);
+      else if (dx <= -threshold)
+        p += R.col(0) * size(0);
+      else
+        p -= dx / threshold * R.col(0) * size(0);
+
+      if (dy >= threshold)
+        p -= R.col(1) * size(1);
+      else if (dy <= -threshold)
+        p += R.col(1) * size(1);
+      else
+        p -= dy / threshold * R.col(1) * size(1);
+
+      if (dz >= threshold)
+        p -= R.col(2) * size(2);
+      else if (dz <= -threshold)
+        p += R.col(2) * size(2);
+      else
+        p -= dz / threshold * R.col(2) * size(2);
+
+      int idx = object_to_solver_index_[j];
+      constraints_transpose_.block(6 * idx, constraint_idx, 3, 1) = n;
+      constraints_transpose_.block(6 * idx + 3, constraint_idx, 3, 1) = (p - x).cross(n);
+      constraints_bias_(constraint_idx) = -(p - gc).dot(n) / time * bias_coefficient;
     }
   }
 }
