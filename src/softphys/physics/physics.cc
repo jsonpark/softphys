@@ -57,7 +57,8 @@ void Physics::FindContacts(int i, int j, double time)
 
 void Physics::FindContactsGroundRigidBody(int i, int j, double time)
 {
-  constexpr double bias_coefficient = 0.8;
+  constexpr double bias_coefficient = 0.2;
+  constexpr double restitution = 0.75;
 
   auto ground = std::static_pointer_cast<Ground>(objects_[i]);
   auto rigid_body = std::static_pointer_cast<RigidBody>(objects_[j]);
@@ -72,8 +73,6 @@ void Physics::FindContactsGroundRigidBody(int i, int j, double time)
 
     const auto& x = rigid_body->GetPosition();
     auto r = sphere->Radius();
-
-    const double restitution = 0.8;
 
     if (n.dot(x - gc) <= r)
     {
@@ -91,6 +90,11 @@ void Physics::FindContactsGroundRigidBody(int i, int j, double time)
       constraints_transpose_.block(6 * idx, constraint_idx, 3, 1) = n;
       constraints_transpose_.block(6 * idx + 3, constraint_idx, 3, 1) = (p - x).cross(n);
       constraints_bias_(constraint_idx) = -(p - gc).dot(n) / time * bias_coefficient;
+
+      // Elastic collision
+      const auto& v = rigid_body->GetVelocity();
+      const auto& l = rigid_body->GetAngularVelocity();
+      constraints_bias_(constraint_idx) += -(n.dot(v) + (p - x).cross(n).dot(l)) * restitution;
     }
   }
 
@@ -147,12 +151,20 @@ void Physics::FindContactsGroundRigidBody(int i, int j, double time)
       constraints_transpose_.block(6 * idx, constraint_idx, 3, 1) = n;
       constraints_transpose_.block(6 * idx + 3, constraint_idx, 3, 1) = (p - x).cross(n);
       constraints_bias_(constraint_idx) = -(p - gc).dot(n) / time * bias_coefficient;
+
+      // Elastic collision
+      const auto& v = rigid_body->GetVelocity();
+      const auto& l = rigid_body->GetAngularVelocity();
+      constraints_bias_(constraint_idx) += -(n.dot(v) + (p - x).cross(n).dot(l)) * restitution;
     }
   }
 }
 
 void Physics::FindContactsRigidBodies(int i, int j, double time)
 {
+  constexpr double bias_coefficient = 0.2;
+  constexpr double restitution = 0.8;
+
   auto rigid_body1 = std::static_pointer_cast<RigidBody>(objects_[i]);
   auto rigid_body2 = std::static_pointer_cast<RigidBody>(objects_[j]);
 
@@ -172,8 +184,6 @@ void Physics::FindContactsRigidBodies(int i, int j, double time)
     auto r = r1 + r2;
 
     Eigen::Vector3d p = p1 - p2;
-
-    const double restitution = 0.8;
 
     if (p.squaredNorm() <= r * r)
     {
@@ -197,7 +207,7 @@ void Physics::FindContactsRigidBodies(int i, int j, double time)
       constraints_transpose_.block(6 * idx1 + 3, constraint_idx, 3, 1) = -(p1 - x1).cross(p2 - p1);
       constraints_transpose_.block(6 * idx2, constraint_idx, 3, 1) = p2 - p1;
       constraints_transpose_.block(6 * idx2 + 3, constraint_idx, 3, 1) = (p2 - x2).cross(p2 - p1);
-      constraints_bias_(constraint_idx) = -0.5 * (p2 - p1).squaredNorm() / time;
+      constraints_bias_(constraint_idx) = -0.5 * (p2 - p1).squaredNorm() / time * bias_coefficient;
     }
   }
 }
