@@ -16,7 +16,7 @@ void main()
   vec3 d = eye - vec3(frag_coord);
   float squared_length = dot(d, d);
   if (squared_length > max_distance[1] * max_distance[1])
-    alpha = 0.f;
+    discard;
   else if (squared_length > max_distance[0] * max_distance[0])
     alpha = 1.f - (squared_length - max_distance[0] * max_distance[0]) / (max_distance[1] * max_distance[1] - max_distance[0] * max_distance[0]);
 
