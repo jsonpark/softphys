@@ -1,7 +1,7 @@
 #ifndef SOFTPHYS_PHYSICS_OBJECT_OBJECT_H_
 #define SOFTPHYS_PHYSICS_OBJECT_OBJECT_H_
 
-#include <Eigen/Dense>
+#include "softphys/data/eigen.h"
 
 namespace softphys
 {
@@ -23,9 +23,20 @@ public:
     return false;
   }
 
-  virtual void ApplyImpulse(const Eigen::Vector3d& j);
-  virtual void ApplyForce(const Eigen::Vector3d& f);
-  virtual void ApplyGravity(const Eigen::Vector3d& g);
+  virtual bool IsFixed() const noexcept
+  {
+    return true;
+  }
+
+  virtual Matrix3d MassInverse() const noexcept
+  {
+    return Matrix3d::Zero();
+  }
+
+  virtual Matrix3d InertiaInverse() const noexcept
+  {
+    return Matrix3d::Zero();
+  }
 
   virtual void Simulate(double time);
 

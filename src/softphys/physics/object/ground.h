@@ -3,6 +3,8 @@
 
 #include "softphys/physics/object/object.h"
 
+#include "softphys/data/eigen.h"
+
 namespace softphys
 {
 namespace physics
@@ -11,7 +13,7 @@ class Ground : public Object
 {
 public:
   Ground() = delete;
-  Ground(const Eigen::Vector3d& normal, const Eigen::Vector3d& center);
+  Ground(const Vector3d& normal, const Vector3d& center);
   ~Ground();
 
   bool IsGround() const noexcept override
@@ -30,8 +32,8 @@ public:
   }
 
 private:
-  Eigen::Vector3d normal_;
-  Eigen::Vector3d center_;
+  Vector3d normal_;
+  Vector3d center_;
 };
 }
 }

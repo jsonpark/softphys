@@ -4,7 +4,7 @@ namespace softphys
 {
 namespace physics
 {
-Ground::Ground(const Eigen::Vector3d& normal, const Eigen::Vector3d& center)
+Ground::Ground(const Vector3d& normal, const Vector3d& center)
   : Object(),
   normal_(normal), center_(center)
 {

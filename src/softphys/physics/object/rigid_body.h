@@ -32,6 +32,26 @@ public:
     return false;
   }
 
+  virtual Matrix3d MassInverse() const noexcept
+  {
+    return Matrix3d::Identity() / mass_;
+  }
+
+  virtual Matrix3d InertiaInverse() const noexcept
+  {
+    return inertia_inverse_;
+  }
+
+  virtual void ApplyForce(const Vector3d& force)
+  {
+    force_ += force;
+  }
+
+  virtual void ApplyTorque(const Vector3d& torque)
+  {
+    torque_ += torque;
+  }
+
   void SetPosition(const Eigen::Vector3d& position)
   {
     position_ = position;
@@ -62,30 +82,36 @@ public:
     return orientation_;
   }
 
-  void SetMomentum(const Eigen::Vector3d& p)
+  void SetMomentum(const Vector3d& p)
   {
     momentum_ = p;
   }
 
-  void SetVelocity(const Eigen::Vector3d& v)
+  void SetVelocity(const Vector3d& v)
   {
     momentum_ = mass_ * v;
   }
 
-  void SetAngularMomentum(const Eigen::Vector3d& l)
+  void SetAngularMomentum(const Vector3d& l)
   {
     angular_momentum_ = l;
   }
 
-  virtual void ApplyImpulse(const Eigen::Vector3d& j) override;
-  virtual void ApplyForce(const Eigen::Vector3d& f) override;
-  virtual void ApplyGravity(const Eigen::Vector3d& g) override;
+  bool IsFixed() const noexcept override
+  {
+    return false;
+  }
 
   virtual void Simulate(double time) override;
 
   Eigen::Vector3d GetVelocity() const
   {
     return momentum_ / mass_;
+  }
+
+  Eigen::Vector3d GetAngularVelocity() const
+  {
+    return inertia_inverse_ * angular_momentum_;
   }
 
 protected:
@@ -102,6 +128,7 @@ protected:
   void SetInertia(const Matrix3d& inertia)
   {
     inertia_ = inertia;
+    inertia_inverse_ = inertia_.inverse();
   }
 
   void SetDiagonalInertia(const Vector3d& d)
@@ -110,6 +137,11 @@ protected:
     inertia_(0, 0) = d(0);
     inertia_(1, 1) = d(1);
     inertia_(2, 2) = d(2);
+
+    inertia_inverse_.setZero();
+    inertia_inverse_(0, 0) = 1. / d(0);
+    inertia_inverse_(1, 1) = 1. / d(1);
+    inertia_inverse_(2, 2) = 1. / d(2);
   }
 
 private:
@@ -118,17 +150,20 @@ private:
   Matrix3d inertia_{ Matrix3d::Identity() };
   Vector3d com_{ 0., 0., 0. };
 
-  // status (linear)
+  // Inverse matrix cache
+  Matrix3d inertia_inverse_{ Matrix3d::Identity() };
+
+  // Status (linear)
   Vector3d position_{ 0., 0., 0. };
   Vector3d momentum_{ 0., 0., 0. };
 
-  // status (rotation)
+  // Status (rotation)
   Quaterniond orientation_{ Quaterniond::Identity() };
   Vector3d angular_momentum_{ 0., 0., 0. };
 
-  // simulation
-  Vector3d impulse_{ 0., 0., 0. };
+  // Simulation
   Vector3d force_{ 0., 0., 0. };
+  Vector3d torque_{ 0., 0., 0. };
 };
 }
 }
