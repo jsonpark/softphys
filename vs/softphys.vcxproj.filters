@@ -58,6 +58,9 @@
     <Filter Include="git">
       <UniqueIdentifier>{7067b40a-91c4-482d-bc2d-6d8a47276909}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\softphys\viewer\shader">
+      <UniqueIdentifier>{ba675203-ccbf-439f-a278-1665901d3216}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\glad\glad.c">
@@ -85,9 +88,6 @@
       <Filter>src\softphys</Filter>
     </ClCompile>
     <ClCompile Include="..\src\softphys\viewer\camera.cc">
-      <Filter>src\softphys\viewer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\viewer\gl_program.cc">
       <Filter>src\softphys\viewer</Filter>
     </ClCompile>
     <ClCompile Include="..\src\softphys\viewer\gl_vertex_array.cc">
@@ -183,6 +183,15 @@
     <ClCompile Include="..\src\softphys\viewer\model\cube_model.cc">
       <Filter>src\softphys\viewer\model</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\model_viewer.cc">
+      <Filter>src\softphys\viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\shader\gl_program.cc">
+      <Filter>src\softphys\viewer\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\shader\gl_shader.cc">
+      <Filter>src\softphys\viewer\shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\lodepng\lodepng.h">
@@ -210,12 +219,6 @@
       <Filter>src\softphys\viewer</Filter>
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\gl_buffer.h">
-      <Filter>src\softphys\viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\viewer\gl_program.h">
-      <Filter>src\softphys\viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\viewer\gl_shader.h">
       <Filter>src\softphys\viewer</Filter>
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\gl_vertex_array.h">
@@ -338,6 +341,15 @@
     <ClInclude Include="..\src\softphys\viewer\model\cube_model.h">
       <Filter>src\softphys\viewer\model</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\model_viewer.h">
+      <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\shader\gl_program.h">
+      <Filter>src\softphys\viewer\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\shader\gl_shader.h">
+      <Filter>src\softphys\viewer\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\shader\color.frag">
@@ -405,6 +417,9 @@
     </None>
     <None Include="..\README.md">
       <Filter>git</Filter>
+    </None>
+    <None Include="..\data\ryan.json">
+      <Filter>data</Filter>
     </None>
   </ItemGroup>
 </Project>

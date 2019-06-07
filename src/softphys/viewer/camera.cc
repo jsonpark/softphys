@@ -30,20 +30,20 @@ Camera::Camera(Type type)
 
 void Camera::Translate(double x, double y)
 {
-  Eigen::Vector3d vz = -direction_;
-  Eigen::Vector3d vx = up_.cross(vz).normalized();
-  Eigen::Vector3d vy = vz.cross(vx);
+  Vector3d vz = -direction_;
+  Vector3d vx = up_.cross(vz).normalized();
+  Vector3d vy = vz.cross(vx);
 
   eye_ += - vx * x * translate_sensitivity_.first + vy * y * translate_sensitivity_.second;
 }
 
 void Camera::Rotate(double x, double y)
 {
-  Eigen::Vector3d vz = -direction_;
-  Eigen::Vector3d vx = up_.cross(vz).normalized();
-  Eigen::Vector3d vy = vz.cross(vx);
+  Vector3d vz = -direction_;
+  Vector3d vx = up_.cross(vz).normalized();
+  Vector3d vy = vz.cross(vx);
 
-  Eigen::Matrix3d m;
+  Matrix3d m;
   m.col(0) = vx;
   m.col(1) = vy;
   m.col(2) = vz;
@@ -64,12 +64,12 @@ void Camera::Zoom(double x, double y)
   eye_ -= (zoom_ - prev_zoom) * direction_;
 }
 
-Eigen::Matrix4f Camera::Projectionf()
+Matrix4f Camera::Projectionf() const
 {
   return Projection().cast<float>();
 }
 
-Eigen::Matrix4d Camera::Projection()
+Matrix4d Camera::Projection() const
 {
   switch (type_)
   {
@@ -84,14 +84,14 @@ Eigen::Matrix4d Camera::Projection()
   }
 }
 
-Eigen::Matrix4f Camera::Perspectivef()
+Matrix4f Camera::Perspectivef() const
 {
   return Perspective().cast<float>();
 }
 
-Eigen::Matrix4d Camera::Perspective()
+Matrix4d Camera::Perspective() const
 {
-  Eigen::Matrix4d m;
+  Matrix4d m;
 
   m.setZero();
   m(1, 1) = 1. / std::tan(fovy_ / 2.);
@@ -103,14 +103,14 @@ Eigen::Matrix4d Camera::Perspective()
   return m;
 }
 
-Eigen::Matrix4f Camera::Orthogonalf()
+Matrix4f Camera::Orthogonalf() const
 {
   return Orthogonal().cast<float>();
 }
 
-Eigen::Matrix4d Camera::Orthogonal()
+Matrix4d Camera::Orthogonal() const
 {
-  Eigen::Matrix4d m;
+  Matrix4d m;
 
   m.setZero();
   m(1, 1) = 1. / zoom_;
@@ -122,18 +122,18 @@ Eigen::Matrix4d Camera::Orthogonal()
   return m;
 }
 
-Eigen::Matrix4f Camera::Viewf()
+Matrix4f Camera::Viewf() const
 {
   return View().cast<float>();
 }
 
-Eigen::Matrix4d Camera::View()
+Matrix4d Camera::View() const
 {
-  Eigen::Vector3d z = -direction_;
-  Eigen::Vector3d x = up_.cross(z).normalized();
-  Eigen::Vector3d y = z.cross(x);
+  Vector3d z = -direction_;
+  Vector3d x = up_.cross(z).normalized();
+  Vector3d y = z.cross(x);
 
-  Eigen::Matrix4d m;
+  Matrix4d m;
 
   m(0, 0) = x(0);
   m(1, 0) = y(0);
@@ -152,20 +152,20 @@ Eigen::Matrix4d Camera::View()
   m(2, 3) = 0.;
   m(3, 3) = 1.;
 
-  Eigen::Matrix4d t;
+  Matrix4d t;
   t.setIdentity();
   t.block(0, 3, 3, 1) = -eye_;
 
   return m * t;
 }
 
-Eigen::Matrix4f Camera::CameraTransformf()
+Matrix4f Camera::CameraTransformf() const
 {
-  Eigen::Vector3f z = -direction_.normalized().cast<float>();
-  Eigen::Vector3f x = up_.cast<float>().cross(z).normalized();
-  Eigen::Vector3f y = z.cross(x);
+  Vector3f z = -direction_.normalized().cast<float>();
+  Vector3f x = up_.cast<float>().cross(z).normalized();
+  Vector3f y = z.cross(x);
 
-  Eigen::Matrix4f m;
+  Matrix4f m;
 
   m(0, 0) = x(0);
   m(1, 0) = x(1);
@@ -188,11 +188,11 @@ Eigen::Matrix4f Camera::CameraTransformf()
 
 }
 
-std::vector<Eigen::Vector3d> Camera::FrustrumVertices()
+std::vector<Vector3d> Camera::FrustrumVertices()
 {
-  std::vector<Eigen::Vector3d> vertices;
+  std::vector<Vector3d> vertices;
 
-  Eigen::Matrix4d vinv = View().inverse();
+  Matrix4d vinv = View().inverse();
 
   double t;
   double r;
@@ -204,27 +204,27 @@ std::vector<Eigen::Vector3d> Camera::FrustrumVertices()
     t = std::tan(fovy_ / 2.) * near_;
     r = t * aspect_;
     f = far_ / near_;
-    vertices.push_back((vinv * Eigen::Vector4d(-r, -t, -near_, 1.)).block(0, 0, 3, 1));
-    vertices.push_back((vinv * Eigen::Vector4d(r, -t, -near_, 1.)).block(0, 0, 3, 1));
-    vertices.push_back((vinv * Eigen::Vector4d(r, t, -near_, 1.)).block(0, 0, 3, 1));
-    vertices.push_back((vinv * Eigen::Vector4d(-r, t, -near_, 1.)).block(0, 0, 3, 1));
-    vertices.push_back((vinv * Eigen::Vector4d(-r * f, -t * f, -far_, 1.)).block(0, 0, 3, 1));
-    vertices.push_back((vinv * Eigen::Vector4d(r * f, -t * f, -far_, 1.)).block(0, 0, 3, 1));
-    vertices.push_back((vinv * Eigen::Vector4d(r * f, t * f, -far_, 1.)).block(0, 0, 3, 1));
-    vertices.push_back((vinv * Eigen::Vector4d(-r * f, t * f, -far_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(-r, -t, -near_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(r, -t, -near_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(r, t, -near_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(-r, t, -near_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(-r * f, -t * f, -far_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(r * f, -t * f, -far_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(r * f, t * f, -far_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(-r * f, t * f, -far_, 1.)).block(0, 0, 3, 1));
     break;
 
   case Type::Orthogonal:
     t = zoom_;
     r = zoom_ * aspect_;
-    vertices.push_back((vinv * Eigen::Vector4d(-r, -t, -near_, 1.)).block(0, 0, 3, 1));
-    vertices.push_back((vinv * Eigen::Vector4d(r, -t, -near_, 1.)).block(0, 0, 3, 1));
-    vertices.push_back((vinv * Eigen::Vector4d(r, t, -near_, 1.)).block(0, 0, 3, 1));
-    vertices.push_back((vinv * Eigen::Vector4d(-r, t, -near_, 1.)).block(0, 0, 3, 1));
-    vertices.push_back((vinv * Eigen::Vector4d(-r, -t, -far_, 1.)).block(0, 0, 3, 1));
-    vertices.push_back((vinv * Eigen::Vector4d(r, -t, -far_, 1.)).block(0, 0, 3, 1));
-    vertices.push_back((vinv * Eigen::Vector4d(r, t, -far_, 1.)).block(0, 0, 3, 1));
-    vertices.push_back((vinv * Eigen::Vector4d(-r, t, -far_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(-r, -t, -near_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(r, -t, -near_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(r, t, -near_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(-r, t, -near_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(-r, -t, -far_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(r, -t, -far_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(r, t, -far_, 1.)).block(0, 0, 3, 1));
+    vertices.push_back((vinv * Vector4d(-r, t, -far_, 1.)).block(0, 0, 3, 1));
     break;
   }
 

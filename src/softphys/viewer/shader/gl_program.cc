@@ -1,4 +1,6 @@
-#include "softphys/viewer/gl_program.h"
+#include "softphys/viewer/shader/gl_program.h"
+
+#include "softphys/scene/scene.h"
 
 namespace softphys
 {
@@ -28,7 +30,7 @@ GlProgram& GlProgram::operator = (GlProgram&& rhs) noexcept
   return *this;
 }
 
-void GlProgram::Attach(GlShaderBase&& shader)
+void GlProgram::Attach(GlShader&& shader)
 {
   shaders_.push_back(std::move(shader));
 }
@@ -113,5 +115,48 @@ void GlProgram::Uniform2f(const std::string& name, float v0, float v1)
 void GlProgram::UniformMatrix4f(const std::string& name, const Eigen::Matrix4f& m)
 {
   glUniformMatrix4fv(glGetUniformLocation(id_, name.c_str()), 1, GL_FALSE, m.data());
+}
+
+void GlProgram::SetCamera(const Camera& camera)
+{
+  Use();
+
+  UniformMatrix4f("projection", camera.Projectionf());
+  UniformMatrix4f("view", camera.Viewf());
+  Uniform3f("eye", camera.GetEye().cast<float>());
+}
+
+void GlProgram::SetLights(const std::vector<Light>& lights)
+{
+  Use();
+
+  for (int i = 0; i < lights.size() && i < scene::Scene::max_lights; i++)
+  {
+    const auto& light = lights[i];
+
+    std::string name = "lights[" + std::to_string(i) + "]";
+    Uniform1i(name + ".use", 1);
+
+    switch (light.type)
+    {
+    case Light::Type::Directional:
+      Uniform1i(name + ".type", 0);
+      Uniform3f(name + ".position", light.position.normalized());
+      break;
+    case Light::Type::Point:
+      Uniform1i(name + ".type", 1);
+      Uniform3f(name + ".position", light.position);
+      break;
+    default:
+      Uniform1i(name + ".type", 2);
+      break;
+    }
+
+    Uniform3f(name + ".ambient", light.ambient);
+    Uniform3f(name + ".diffuse", light.diffuse);
+    Uniform3f(name + ".specular", light.specular);
+  }
+  for (int i = lights.size(); i < scene::Scene::max_lights; i++)
+    Uniform1i("lights[" + std::to_string(i) + "].use", 0);
 }
 }

@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include <Eigen/Dense>
+#include "softphys/data/eigen.h"
 
 namespace softphys
 {
@@ -89,21 +89,21 @@ public:
   void Rotate(double x, double y);
   void Zoom(double x, double y);
 
-  Eigen::Matrix4f Projectionf();
-  Eigen::Matrix4d Projection();
+  Matrix4f Projectionf() const;
+  Matrix4d Projection() const;
 
-  Eigen::Matrix4f Perspectivef();
-  Eigen::Matrix4d Perspective();
+  Matrix4f Perspectivef() const;
+  Matrix4d Perspective() const;
 
-  Eigen::Matrix4f Orthogonalf();
-  Eigen::Matrix4d Orthogonal();
+  Matrix4f Orthogonalf() const;
+  Matrix4d Orthogonal() const;
 
-  Eigen::Matrix4f Viewf();
-  Eigen::Matrix4d View();
+  Matrix4f Viewf() const;
+  Matrix4d View() const;
 
-  Eigen::Matrix4f CameraTransformf();
+  Matrix4f CameraTransformf() const;
 
-  std::vector<Eigen::Vector3d> FrustrumVertices();
+  std::vector<Vector3d> FrustrumVertices();
 
 private:
   static constexpr double minimum_zoom_ = 0.001;
@@ -111,9 +111,9 @@ private:
 
   Type type_;
 
-  Eigen::Vector3d eye_;
-  Eigen::Vector3d direction_;
-  Eigen::Vector3d up_;
+  Vector3d eye_;
+  Vector3d direction_;
+  Vector3d up_;
   double zoom_;
 
   double near_;

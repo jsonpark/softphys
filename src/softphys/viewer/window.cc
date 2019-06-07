@@ -6,13 +6,6 @@
 #include <GLFW/glfw3.h>
 #include <Eigen/Dense>
 
-#include "softphys/data/texture.h"
-#include "softphys/viewer/gl_texture.h"
-#include "softphys/viewer/gl_buffer.h"
-#include "softphys/viewer/gl_program.h"
-#include "softphys/viewer/gl_shader.h"
-#include "softphys/viewer/gl_vertex_array.h"
-
 namespace softphys
 {
 Window::Window(Engine* engine, int x, int y, int width, int height)

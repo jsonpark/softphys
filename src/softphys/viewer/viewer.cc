@@ -142,27 +142,15 @@ void Viewer::Initialize()
   mouse_.SetStatus(Mouse::Button::MiddleButton, Mouse::Status::Released);
 
   // Shaders
-  texture_program_.Attach(GlVertexShader("..\\src\\shader\\texture.vert"));
-  texture_program_.Attach(GlFragmentShader("..\\src\\shader\\texture.frag"));
-  texture_program_.Link();
-
-  texture_program_.Use();
-  texture_program_.Uniform1i("texture_image1", 0);
-  texture_program_.Uniform1i("texture_image2", 1);
-
-  uniform_color_program_.Attach(GlVertexShader("..\\src\\shader\\uniform_color.vert"));
-  uniform_color_program_.Attach(GlFragmentShader("..\\src\\shader\\uniform_color.frag"));
-  uniform_color_program_.Link();
-
-  ground_program_.Attach(GlVertexShader("..\\src\\shader\\ground.vert"));
-  ground_program_.Attach(GlFragmentShader("..\\src\\shader\\ground.frag"));
+  ground_program_.Attach(GlShader("..\\src\\shader\\ground.vert"));
+  ground_program_.Attach(GlShader("..\\src\\shader\\ground.frag"));
   ground_program_.Link();
 
   ground_program_.Use();
   ground_program_.Uniform2f("max_distance", 9.f, 15.f);
 
-  light_program_.Attach(GlVertexShader("..\\src\\shader\\light.vert"));
-  light_program_.Attach(GlFragmentShader("..\\src\\shader\\light.frag"));
+  light_program_.Attach(GlShader("..\\src\\shader\\light.vert"));
+  light_program_.Attach(GlShader("..\\src\\shader\\light.frag"));
   light_program_.Link();
 
   light_program_.Use();
@@ -178,8 +166,8 @@ void Viewer::Initialize()
   ground_model_ = std::make_unique<viewer::GroundModel>();
 
   // Text rendering preparation
-  text_program_.Attach(GlVertexShader("..\\src\\shader\\text.vert"));
-  text_program_.Attach(GlFragmentShader("..\\src\\shader\\text.frag"));
+  text_program_.Attach(GlShader("..\\src\\shader\\text.vert"));
+  text_program_.Attach(GlShader("..\\src\\shader\\text.frag"));
   text_program_.Link();
 
   text_program_.Use();
@@ -212,55 +200,10 @@ void Viewer::Display()
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Setting camera
-  texture_program_.Use();
-  texture_program_.UniformMatrix4f("projection", camera_.Projectionf());
-  texture_program_.UniformMatrix4f("view", camera_.Viewf());
+  ground_program_.SetCamera(camera_);
 
-  ground_program_.Use();
-  ground_program_.UniformMatrix4f("projection", camera_.Projectionf());
-  ground_program_.UniformMatrix4f("view", camera_.Viewf());
-  ground_program_.Uniform3f("eye", camera_.GetEye().cast<float>());
-
-  uniform_color_program_.Use();
-  uniform_color_program_.UniformMatrix4f("projection", camera_.Projectionf());
-  uniform_color_program_.UniformMatrix4f("view", camera_.Viewf());
-
-  light_program_.Use();
-  light_program_.UniformMatrix4f("projection", camera_.Projectionf());
-  light_program_.UniformMatrix4f("view", camera_.Viewf());
-
-  Eigen::Vector3f eye = camera_.GetEye().cast<float>();
-  light_program_.Uniform3f("eye", eye);
-
-  const auto& lights = scene_->GetLights();
-  for (int i = 0; i < lights.size() && i < scene::Scene::max_lights; i++)
-  {
-    const auto& light = lights[i];
-
-    std::string name = "lights[" + std::to_string(i) + "]";
-    light_program_.Uniform1i(name + ".use", 1);
-
-    switch (light.type)
-    {
-    case Light::Type::Directional:
-      light_program_.Uniform1i(name + ".type", 0);
-      light_program_.Uniform3f(name + ".position", light.position.normalized());
-      break;
-    case Light::Type::Point:
-      light_program_.Uniform1i(name + ".type", 1);
-      light_program_.Uniform3f(name + ".position", light.position);
-      break;
-    default:
-      light_program_.Uniform1i(name + ".type", 2);
-      break;
-    }
-
-    light_program_.Uniform3f(name + ".ambient", light.ambient);
-    light_program_.Uniform3f(name + ".diffuse", light.diffuse);
-    light_program_.Uniform3f(name + ".specular", light.specular);
-  }
-  for (int i = lights.size(); i < scene::Scene::max_lights; i++)
-    light_program_.Uniform1i("lights[" + std::to_string(i) + "].use", 0);
+  light_program_.SetCamera(camera_);
+  light_program_.SetLights(scene_->GetLights());
 
   // Display cylinder
   light_program_.Uniform1f("alpha", 1.0f);
