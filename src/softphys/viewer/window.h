@@ -20,6 +20,7 @@ class Window
 public:
   Window() = delete;
   Window(Engine* engine, int x, int y, int width, int height);
+  Window(Engine* engine, const std::string& title, int x, int y, int width, int height);
   virtual ~Window();
 
   Window(const Window& rhs) = delete;
@@ -39,6 +40,7 @@ public:
   }
 
   bool ShouldClose();
+  void SetTitle(const std::string& title);
 
   virtual void Resize(int width, int height);
   virtual void Move(int x, int y);

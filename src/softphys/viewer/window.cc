@@ -9,6 +9,11 @@
 namespace softphys
 {
 Window::Window(Engine* engine, int x, int y, int width, int height)
+  : Window(engine, "SoftPhys", x, y, width, height)
+{
+}
+
+Window::Window(Engine* engine, const std::string& title, int x, int y, int width, int height)
   : engine_(engine), x_(x), y_(y), width_(width), height_(height), window_(nullptr)
 {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -16,7 +21,7 @@ Window::Window(Engine* engine, int x, int y, int width, int height)
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_SAMPLES, 4);
 
-  window_ = glfwCreateWindow(width, height, "SoftPhys", NULL, NULL);
+  window_ = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
   if (window_ == NULL)
   {
     std::cout << "Failed to create GLFW window" << std::endl;
@@ -48,6 +53,11 @@ void Window::MakeCurrent()
 bool Window::ShouldClose()
 {
   return glfwWindowShouldClose(window_);
+}
+
+void Window::SetTitle(const std::string& title)
+{
+  glfwSetWindowTitle(window_, title.c_str());
 }
 
 void Window::SwapBuffers()

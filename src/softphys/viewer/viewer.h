@@ -30,6 +30,7 @@ class Viewer : public Window
 public:
   Viewer() = delete;
   Viewer(Engine* engine, int x, int y, int width, int height);
+  Viewer(Engine* engine, const std::string& title, int x, int y, int width, int height);
   ~Viewer();
 
   Viewer(const Viewer& rhs) = delete;

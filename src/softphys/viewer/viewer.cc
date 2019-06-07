@@ -22,7 +22,12 @@ const double pi = 3.1415926535897932384626433832795;
 }
 
 Viewer::Viewer(Engine* engine, int x, int y, int width, int height)
-  : Window(engine, x, y, width, height),
+  : Viewer(engine, "Viewer", x, y, width, height)
+{
+}
+
+Viewer::Viewer(Engine* engine, const std::string& title, int x, int y, int width, int height)
+  : Window(engine, title, x, y, width, height),
   camera_(Camera::Type::Perspective)
 {
   scene_ = std::make_shared<scene::Scene>();

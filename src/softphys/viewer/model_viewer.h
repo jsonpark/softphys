@@ -16,6 +16,7 @@ class ModelViewer : public Window
 public:
   ModelViewer() = delete;
   ModelViewer(Engine* engine, int x, int y, int width, int height);
+  ModelViewer(Engine* engine, const std::string& title, int x, int y, int width, int height);
   ~ModelViewer();
 
   ModelViewer(const ModelViewer& rhs) = delete;

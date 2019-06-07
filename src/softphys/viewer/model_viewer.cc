@@ -17,7 +17,12 @@
 namespace softphys
 {
 ModelViewer::ModelViewer(Engine* engine, int x, int y, int width, int height)
-  : Window(engine, x, y, width, height),
+  : ModelViewer(engine, "ModelViewer", x, y, width, height)
+{
+}
+
+ModelViewer::ModelViewer(Engine* engine, const std::string& title, int x, int y, int width, int height)
+  : Window(engine, title, x, y, width, height),
   camera_(Camera::Type::Perspective)
 {
   scene_ = std::make_shared<scene::Scene>();
