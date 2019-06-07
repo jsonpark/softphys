@@ -20,11 +20,19 @@ public:
 
 public:
   Splitview() = delete;
-  Splitview(Split split, std::shared_ptr<Widget> widget1, std::shared_ptr<Widget> widget2, double portion = 0.5);
+  Splitview(Split split, std::shared_ptr<Widget> widget1, std::shared_ptr<Widget> widget2, double partition = 0.5);
+
+  void Resize(double width, double height) override;
+
+  void Draw() override;
+
+  void SetPartition(double partition);
 
 private:
+  void UpdateChildrenWidgetSize();
+
   Split split_;
-  double portion_;
+  double partition_;
   std::shared_ptr<Widget> widget1_;
   std::shared_ptr<Widget> widget2_;
 };

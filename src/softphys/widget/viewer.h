@@ -35,7 +35,7 @@ public:
   Viewer(Viewer&& rhs) = default;
   Viewer& operator = (Viewer&& rhs) = default;
 
-  void Resize(int width, int height) override;
+  void Resize(double width, double height) override;
   void Keyboard(int key, int action, int mods) override;
   void MouseMove(double x, double y) override;
   void MouseButton(int button, int action, int mods) override;

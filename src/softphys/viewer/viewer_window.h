@@ -4,6 +4,8 @@
 #include "softphys/viewer/window.h"
 
 #include "softphys/widget/viewer.h"
+#include "softphys/widget/splitview.h"
+#include "softphys/widget/treeview.h"
 
 namespace softphys
 {
@@ -34,7 +36,9 @@ public:
   void LoadScene(const std::string& filename);
 
 private:
-  std::unique_ptr<widget::Viewer> viewer_;
+  std::shared_ptr<widget::Splitview> splitview_;
+  std::shared_ptr<widget::Treeview> treeview_;
+  std::shared_ptr<widget::Viewer> viewer_;
 };
 }
 

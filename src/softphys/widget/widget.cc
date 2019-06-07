@@ -11,16 +11,20 @@ Widget::Widget()
 
 Widget::Widget(double x, double y, double width, double height)
   : size_inherited_(false),
-  size_(x, y, width, height)
+  position_(x, y), size_(width, height)
 {
 }
 
 Widget::~Widget() = default;
 
-void Widget::Resize(int width, int height)
+void Widget::Move(double x, double y)
 {
-  size_.width = width;
-  size_.height = height;
+  position_ = Vector2d(x, y);
+}
+
+void Widget::Resize(double width, double height)
+{
+  size_ = Vector2d(width, height);
 }
 
 void Widget::Keyboard(int key, int action, int mods)

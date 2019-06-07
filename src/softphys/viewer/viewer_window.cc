@@ -29,7 +29,9 @@ ViewerWindow::ViewerWindow(Engine* engine, int x, int y, int width, int height)
 ViewerWindow::ViewerWindow(Engine* engine, const std::string& title, int x, int y, int width, int height)
   : Window(engine, title, x, y, width, height)
 {
-  viewer_ = std::make_unique<widget::Viewer>(GetEngine());
+  viewer_ = std::make_shared<widget::Viewer>(GetEngine());
+  treeview_ = std::make_shared<widget::Treeview>();
+  splitview_ = std::make_shared<widget::Splitview>(widget::Splitview::Split::Vertical, treeview_, viewer_, 0.2);
 }
 
 ViewerWindow::~ViewerWindow()
@@ -38,6 +40,7 @@ ViewerWindow::~ViewerWindow()
 
 void ViewerWindow::Resize(int width, int height)
 {
+  Window::Resize(width, height);
   viewer_->Resize(width, height);
 }
 
@@ -63,12 +66,18 @@ void ViewerWindow::LoadScene(const std::string& filename)
 
 void ViewerWindow::Initialize()
 {
+  glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
+
   viewer_->Initialize();
 }
 
 void ViewerWindow::Display()
 {
-  viewer_->Resize(Width(), Height());
-  viewer_->Draw();
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  splitview_->Move(0., 0.);
+  splitview_->Resize(Width(), Height());
+  splitview_->SetScreenPosition(0., 0.);
+  splitview_->Draw();
 }
 }

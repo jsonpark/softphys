@@ -34,7 +34,7 @@ Viewer::~Viewer()
 {
 }
 
-void Viewer::Resize(int width, int height)
+void Viewer::Resize(double width, double height)
 {
   Widget::Resize(width, height);
   camera_.SetAspect(width, height);
@@ -124,7 +124,6 @@ void Viewer::Initialize()
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
   glEnable(GL_CULL_FACE);
   glEnable(GL_DEPTH_TEST);
-  glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
   glEnable(GL_MULTISAMPLE);
   glEnable(GL_PRIMITIVE_RESTART);
   glPrimitiveRestartIndex(UINT32_MAX);
@@ -173,6 +172,8 @@ void Viewer::Initialize()
 
 void Viewer::Draw()
 {
+  glViewport(ScreenPosition()(0), ScreenPosition()(1), Width(), Height());
+
   // Timestamp
   double now = engine_->GetTime();
   double time = now - timestamp_;
@@ -182,8 +183,6 @@ void Viewer::Draw()
   auto physics = engine_->GetPhysics();
   if (animation_)
     physics->Simulate(time);
-
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Setting camera
   ground_program_.SetCamera(camera_);
