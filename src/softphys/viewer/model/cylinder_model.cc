@@ -80,8 +80,8 @@ CylinderModel::CylinderModel(int subdivision_level)
     indices_.push_back(base + i * 2 + 1);
     indices_.push_back(base + i * 2);
   }
-  indices_.push_back(base);
   indices_.push_back(base + 1);
+  indices_.push_back(base);
 
   vbo_ = decltype(vbo_)(buffer_);
   ibo_ = decltype(ibo_)(indices_);
