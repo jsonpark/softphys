@@ -1,33 +1,30 @@
-#include "softphys/viewer/viewer.h"
-
-#include <iostream>
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <Eigen/Dense>
+#include "softphys/widget/viewer.h"
 
 #include "softphys/engine.h"
-#include "softphys/physics/object/rigid_body.h"
-#include "softphys/physics/object/sphere.h"
 #include "softphys/scene/scene_loader.h"
 #include "softphys/model/visual/visual_sphere.h"
 #include "softphys/model/visual/visual_cube.h"
-#include "softphys/data/eigen.h"
 
 namespace softphys
+{
+namespace widget
 {
 namespace
 {
 const double pi = 3.1415926535897932384626433832795;
 }
 
-Viewer::Viewer(Engine* engine, int x, int y, int width, int height)
-  : Viewer(engine, "Viewer", x, y, width, height)
+Viewer::Viewer(Engine* engine)
+  : Widget(),
+  engine_(engine),
+  camera_(Camera::Type::Perspective)
 {
+  scene_ = std::make_shared<scene::Scene>();
 }
 
-Viewer::Viewer(Engine* engine, const std::string& title, int x, int y, int width, int height)
-  : Window(engine, title, x, y, width, height),
+Viewer::Viewer(Engine* engine, int x, int y, int width, int height)
+  : Widget(x, y, width, height),
+  engine_(engine),
   camera_(Camera::Type::Perspective)
 {
   scene_ = std::make_shared<scene::Scene>();
@@ -39,8 +36,7 @@ Viewer::~Viewer()
 
 void Viewer::Resize(int width, int height)
 {
-  Window::Resize(width, height);
-
+  Widget::Resize(width, height);
   camera_.SetAspect(width, height);
 }
 
@@ -122,8 +118,6 @@ void Viewer::LoadScene(const std::string& filename)
 
 void Viewer::Initialize()
 {
-  const auto& engine = GetEngine();
-
   // OpenGL
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -134,17 +128,6 @@ void Viewer::Initialize()
   glEnable(GL_MULTISAMPLE);
   glEnable(GL_PRIMITIVE_RESTART);
   glPrimitiveRestartIndex(UINT32_MAX);
-
-  // Mouse
-  double x;
-  double y;
-
-  glfwGetCursorPos(PointerToWindow(), &x, &y);
-
-  mouse_.SetPos(x, y);
-  mouse_.SetStatus(Mouse::Button::LeftButton, Mouse::Status::Released);
-  mouse_.SetStatus(Mouse::Button::RightButton, Mouse::Status::Released);
-  mouse_.SetStatus(Mouse::Button::MiddleButton, Mouse::Status::Released);
 
   // Shaders
   ground_program_.Attach(GlShader("..\\src\\shader\\ground.vert"));
@@ -182,23 +165,21 @@ void Viewer::Initialize()
 
   glyph_array_.VertexAttribPointer(0, 4, glyph_buffer_);
 
-  glyphs_ = GlGlyphs(engine->LoadFont("consola"));
+  glyphs_ = GlGlyphs(engine_->LoadFont("consola"));
 
   // Timestamp
-  timestamp_ = engine->GetTime();
+  timestamp_ = engine_->GetTime();
 }
 
-void Viewer::Display()
+void Viewer::Draw()
 {
-  const auto& engine = GetEngine();
-
   // Timestamp
-  double now = engine->GetTime();
+  double now = engine_->GetTime();
   double time = now - timestamp_;
   timestamp_ = now;
 
   // Physics simulation
-  auto physics = engine->GetPhysics();
+  auto physics = engine_->GetPhysics();
   if (animation_)
     physics->Simulate(time);
 
@@ -216,7 +197,7 @@ void Viewer::Display()
 
   // Display physics objects
   light_program_.Uniform1f("alpha", 0.75f);
-  auto models = engine->GetModels();
+  auto models = engine_->GetModels();
   for (auto object : physics->GetObjects())
   {
     if (object->IsRigidBody())
@@ -236,7 +217,7 @@ void Viewer::Display()
 
       if (rb->IsSphere())
       {
-        auto visual_sphere = std::static_pointer_cast<model::VisualSphere>(engine->GetModelFromPhysicsObject(object)->GetVisual());
+        auto visual_sphere = std::static_pointer_cast<model::VisualSphere>(engine_->GetModelFromPhysicsObject(object)->GetVisual());
         const auto radius = visual_sphere->Radius();
         // TODO: material name from model
         const auto& material_name = visual_sphere->MaterialName();
@@ -262,7 +243,7 @@ void Viewer::Display()
 
       else if (rb->IsCube())
       {
-        auto visual_cube = std::static_pointer_cast<model::VisualCube>(engine->GetModelFromPhysicsObject(object)->GetVisual());
+        auto visual_cube = std::static_pointer_cast<model::VisualCube>(engine_->GetModelFromPhysicsObject(object)->GetVisual());
         const auto size = visual_cube->Size();
         // TODO: material name from model
         const auto& material_name = visual_cube->MaterialName();
@@ -321,7 +302,7 @@ void Viewer::Display()
 
 void Viewer::DrawAxis(const Affine3d& transform, double axis_length, double axis_radius)
 {
-  auto models = GetEngine()->GetModels();
+  auto models = engine_->GetModels();
 
   Affine3d t;
   Matrix4d model;
@@ -431,7 +412,7 @@ void Viewer::RenderText(const std::wstring& s, float x, float y, float font_size
   text_program_.Uniform3f("text_color", color);
 
   glyph_array_.Bind();
-  
+
   float original_x = x;
 
   // Iterate through all characters
@@ -475,5 +456,6 @@ void Viewer::RenderText(const std::wstring& s, float x, float y, float font_size
   }
 
   glEnable(GL_DEPTH_TEST);
+}
 }
 }

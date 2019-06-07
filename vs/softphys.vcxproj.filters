@@ -61,6 +61,9 @@
     <Filter Include="src\softphys\viewer\shader">
       <UniqueIdentifier>{ba675203-ccbf-439f-a278-1665901d3216}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\softphys\widget">
+      <UniqueIdentifier>{d671566c-9edf-430e-a5b7-ce4ae0016858}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\glad\glad.c">
@@ -94,9 +97,6 @@
       <Filter>src\softphys\viewer</Filter>
     </ClCompile>
     <ClCompile Include="..\src\softphys\viewer\mouse.cc">
-      <Filter>src\softphys\viewer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\softphys\viewer\viewer.cc">
       <Filter>src\softphys\viewer</Filter>
     </ClCompile>
     <ClCompile Include="..\src\softphys\viewer\window.cc">
@@ -192,6 +192,21 @@
     <ClCompile Include="..\src\softphys\viewer\shader\gl_shader.cc">
       <Filter>src\softphys\viewer\shader</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\softphys\widget\widget.cc">
+      <Filter>src\softphys\widget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\widget\viewer.cc">
+      <Filter>src\softphys\widget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\widget\treeview.cc">
+      <Filter>src\softphys\widget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\widget\splitview.cc">
+      <Filter>src\softphys\widget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\viewer\viewer_window.cc">
+      <Filter>src\softphys\viewer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\lodepng\lodepng.h">
@@ -228,9 +243,6 @@
       <Filter>src\softphys\viewer</Filter>
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\mouse_event.h">
-      <Filter>src\softphys\viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\softphys\viewer\viewer.h">
       <Filter>src\softphys\viewer</Filter>
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\window.h">
@@ -349,6 +361,21 @@
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\shader\gl_shader.h">
       <Filter>src\softphys\viewer\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\widget\widget.h">
+      <Filter>src\softphys\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\widget\viewer.h">
+      <Filter>src\softphys\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\widget\treeview.h">
+      <Filter>src\softphys\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\widget\splitview.h">
+      <Filter>src\softphys\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\viewer\viewer_window.h">
+      <Filter>src\softphys\viewer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

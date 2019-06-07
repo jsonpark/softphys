@@ -1,36 +1,32 @@
-#ifndef SOFTPHYS_VIEWER_VIEWER_H_
-#define SOFTPHYS_VIEWER_VIEWER_H_
+#ifndef SOFTPHYS_WIDGET_VIEWER_H_
+#define SOFTPHYS_WIDGET_VIEWER_H_
 
-#include "softphys/viewer/window.h"
+#include "softphys/widget/widget.h"
 
-#include "softphys/data/texture.h"
-#include "softphys/viewer/gl_texture.h"
-#include "softphys/viewer/gl_texture_cube_map.h"
-#include "softphys/viewer/gl_buffer.h"
 #include "softphys/viewer/shader/gl_program.h"
 #include "softphys/viewer/gl_vertex_array.h"
-#include "softphys/font/font_face.h"
-#include "softphys/font/gl_glyphs.h"
-#include "softphys/physics/physics.h"
-#include "softphys/viewer/model/sphere_model.h"
+#include "softphys/viewer/gl_buffer.h"
 #include "softphys/viewer/model/polar_sphere_model.h"
-#include "softphys/viewer/model/cylinder_model.h"
-#include "softphys/viewer/model/cone_model.h"
-#include "softphys/viewer/model/cube_model.h"
 #include "softphys/viewer/model/ground_model.h"
+#include "softphys/viewer/model/cone_model.h"
+#include "softphys/viewer/model/cylinder_model.h"
+#include "softphys/viewer/model/cube_model.h"
+#include "softphys/viewer/mouse.h"
 #include "softphys/scene/scene.h"
-#include "softphys/model/modelset.h"
+#include "softphys/font/gl_glyphs.h"
 
 namespace softphys
 {
-class Viewer : public Window
-{
-  friend class Engine;
+class Engine;
 
+namespace widget
+{
+class Viewer : public Widget
+{
 public:
   Viewer() = delete;
+  Viewer(Engine* engine);
   Viewer(Engine* engine, int x, int y, int width, int height);
-  Viewer(Engine* engine, const std::string& title, int x, int y, int width, int height);
   ~Viewer();
 
   Viewer(const Viewer& rhs) = delete;
@@ -45,16 +41,13 @@ public:
   void MouseButton(int button, int action, int mods) override;
 
   void Initialize() override;
-  void Display() override;
-
-  auto GetScene()
-  {
-    return scene_;
-  }
+  void Draw() override;
 
   void LoadScene(const std::string& filename);
 
 private:
+  Engine* engine_;
+
   Camera camera_;
   Mouse mouse_;
 
@@ -86,5 +79,6 @@ private:
   std::shared_ptr<scene::Scene> scene_;
 };
 }
+}
 
-#endif // SOFTPHYS_VIEWER_VIEWER_H_
+#endif // SOFTPHYS_WIDGET_VIEWER_H_

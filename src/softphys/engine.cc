@@ -110,11 +110,6 @@ void Engine::Run()
     {
       window->MakeCurrent();
       window->Display();
-    }
-
-    for (const auto& window : windows_)
-    {
-      window->MakeCurrent();
       window->SwapBuffers();
     }
 
