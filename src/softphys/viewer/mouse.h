@@ -65,6 +65,8 @@ public:
     return buttons_[ButtonToIndex(button)] == Status::Pressed;
   }
 
+  bool IsDragging() const noexcept;
+
 private:
   double x_;
   double y_;

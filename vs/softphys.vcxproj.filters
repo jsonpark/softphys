@@ -204,7 +204,7 @@
     <ClCompile Include="..\src\softphys\widget\splitview.cc">
       <Filter>src\softphys\widget</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\softphys\viewer\viewer_window.cc">
+    <ClCompile Include="..\src\softphys\viewer\painter.cc">
       <Filter>src\softphys\viewer</Filter>
     </ClCompile>
   </ItemGroup>
@@ -374,7 +374,7 @@
     <ClInclude Include="..\src\softphys\widget\splitview.h">
       <Filter>src\softphys\widget</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\softphys\viewer\viewer_window.h">
+    <ClInclude Include="..\src\softphys\viewer\painter.h">
       <Filter>src\softphys\viewer</Filter>
     </ClInclude>
   </ItemGroup>

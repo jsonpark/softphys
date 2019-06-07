@@ -60,7 +60,7 @@
     <ClCompile Include="..\src\softphys\viewer\mouse.cc" />
     <ClCompile Include="..\src\softphys\viewer\shader\gl_program.cc" />
     <ClCompile Include="..\src\softphys\viewer\shader\gl_shader.cc" />
-    <ClCompile Include="..\src\softphys\viewer\viewer_window.cc" />
+    <ClCompile Include="..\src\softphys\viewer\painter.cc" />
     <ClCompile Include="..\src\softphys\viewer\window.cc" />
     <ClCompile Include="..\src\softphys\widget\splitview.cc" />
     <ClCompile Include="..\src\softphys\widget\treeview.cc" />
@@ -118,7 +118,7 @@
     <ClInclude Include="..\src\softphys\viewer\mouse_event.h" />
     <ClInclude Include="..\src\softphys\viewer\shader\gl_program.h" />
     <ClInclude Include="..\src\softphys\viewer\shader\gl_shader.h" />
-    <ClInclude Include="..\src\softphys\viewer\viewer_window.h" />
+    <ClInclude Include="..\src\softphys\viewer\painter.h" />
     <ClInclude Include="..\src\softphys\viewer\window.h" />
     <ClInclude Include="..\src\softphys\widget\splitview.h" />
     <ClInclude Include="..\src\softphys\widget\treeview.h" />

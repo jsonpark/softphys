@@ -20,7 +20,11 @@ public:
 
 public:
   Splitview() = delete;
-  Splitview(Split split, std::shared_ptr<Widget> widget1, std::shared_ptr<Widget> widget2, double partition = 0.5);
+  Splitview(Painter* painter, Split split, std::shared_ptr<Widget> widget1, std::shared_ptr<Widget> widget2, double partition = 0.5);
+
+  void Keyboard(int key, int action, int mods) override;
+  void MouseMove(double x, double y) override;
+  void MouseButton(double x, double y, Mouse::Button button, Mouse::Status action, int mods) override;
 
   void Resize(double width, double height) override;
 
@@ -35,6 +39,8 @@ private:
   double partition_;
   std::shared_ptr<Widget> widget1_;
   std::shared_ptr<Widget> widget2_;
+
+  int mouse_dragging_widget_ = -1;
 };
 }
 }

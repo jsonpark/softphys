@@ -2,43 +2,52 @@
 #define SOFTPHYS_WIDGET_WIDGET_H_
 
 #include "softphys/data/eigen.h"
+#include "softphys/viewer/mouse.h"
 
 namespace softphys
 {
+class Painter;
+
 namespace widget
 {
 class Widget
 {
 public:
-  Widget();
-  Widget(double x, double y, double width, double height);
+  Widget() = delete;
+  Widget(Painter* painter);
+  Widget(Painter* painter, double x, double y, double width, double height);
   ~Widget();
 
   virtual void Move(double x, double y);
   virtual void Resize(double width, double height);
   virtual void Keyboard(int key, int action, int mods);
   virtual void MouseMove(double x, double y);
-  virtual void MouseButton(int button, int action, int mods);
+  virtual void MouseButton(double x, double y, Mouse::Button button, Mouse::Status action, int mods);
 
   virtual void Initialize();
   virtual void Draw();
 
-  auto Position()
+  const auto& Position() const noexcept
   {
     return position_;
   }
 
-  auto Width()
+  const auto& Size() const noexcept
+  {
+    return size_;
+  }
+
+  auto Width() const noexcept
   {
     return size_(0);
   }
 
-  auto Height()
+  auto Height() const noexcept
   {
     return size_(1);
   }
 
-  auto ScreenPosition()
+  auto ScreenPosition() const noexcept
   {
     return screen_position_;
   }
@@ -53,7 +62,14 @@ public:
     screen_position_ = position;
   }
 
+  auto GetPainter() const noexcept
+  {
+    return painter_;
+  }
+
 private:
+  Painter* painter_;
+
   bool size_inherited_ = false;
   Vector2d position_;
   Vector2d screen_position_;

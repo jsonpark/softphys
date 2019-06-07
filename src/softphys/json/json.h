@@ -182,7 +182,7 @@ public:
     switch (type_)
     {
     case Type::Float:
-      return value_.double_value_;
+      return static_cast<double>(value_.double_value_);
 
     case Type::Int:
       return static_cast<double>(value_.signed_integer_value_);
@@ -201,7 +201,7 @@ public:
     switch (type_)
     {
     case Type::Float:
-      return value_.double_value_;
+      return static_cast<float>(value_.double_value_);
 
     case Type::Int:
       return static_cast<float>(value_.signed_integer_value_);
@@ -703,7 +703,7 @@ public:
         else
         {
           j.type_ = Type::Int;
-          j.value_.signed_integer_value_ = integer_part * sign;
+          j.value_.signed_integer_value_ = integer_part * static_cast<int>(sign);
         }
 
         break;

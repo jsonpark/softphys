@@ -69,8 +69,6 @@ void Window::Resize(int width, int height)
 {
   width_ = width;
   height_ = height;
-
-  glViewport(0, 0, width, height);
 }
 
 void Window::Move(int x, int y)
@@ -93,8 +91,6 @@ void Window::MouseButton(int button, int action, int mods)
 
 void Window::Initialize()
 {
-  glEnable(GL_DEPTH_TEST);
-  glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
 }
 
 void Window::Display()

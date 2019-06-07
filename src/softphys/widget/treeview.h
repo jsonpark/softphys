@@ -10,7 +10,8 @@ namespace widget
 class Treeview : public Widget
 {
 public:
-  Treeview();
+  Treeview() = delete;
+  Treeview(Painter* painter);
   ~Treeview();
 
 private:

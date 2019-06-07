@@ -2,10 +2,10 @@
 #define SOFTPHYS_VIEWER_WINDOW_H_
 
 #include <memory>
+#include <string>
 
 #include "softphys/viewer/mouse.h"
 #include "softphys/viewer/mouse_event.h"
-#include "softphys/viewer/camera.h"
 
 struct GLFWwindow;
 
@@ -39,6 +39,11 @@ public:
     return height_;
   }
 
+  auto GetEngine() const
+  {
+    return engine_;
+  }
+
   bool ShouldClose();
   void SetTitle(const std::string& title);
 
@@ -55,11 +60,6 @@ protected:
   auto PointerToWindow() const
   {
     return window_;
-  }
-
-  auto GetEngine() const
-  {
-    return engine_;
   }
 
 private:

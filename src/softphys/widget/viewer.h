@@ -25,8 +25,8 @@ class Viewer : public Widget
 {
 public:
   Viewer() = delete;
-  Viewer(Engine* engine);
-  Viewer(Engine* engine, int x, int y, int width, int height);
+  Viewer(Painter* painter);
+  Viewer(Painter* painter, int x, int y, int width, int height);
   ~Viewer();
 
   Viewer(const Viewer& rhs) = delete;
@@ -38,7 +38,7 @@ public:
   void Resize(double width, double height) override;
   void Keyboard(int key, int action, int mods) override;
   void MouseMove(double x, double y) override;
-  void MouseButton(int button, int action, int mods) override;
+  void MouseButton(double x, double y, Mouse::Button button, Mouse::Status action, int mods) override;
 
   void Initialize() override;
   void Draw() override;
@@ -49,18 +49,14 @@ private:
   Engine* engine_;
 
   Camera camera_;
-  Mouse mouse_;
+
+  // Mouse
+  double mouse_last_x_;
+  double mouse_last_y_;
 
   // Shaders
   GlProgram ground_program_;
   GlProgram light_program_;
-
-  // Font
-  void RenderText(const std::wstring& s, float x, float y, float font_size, Eigen::Vector3f color);
-  GlProgram text_program_;
-  GlGlyphs glyphs_;
-  GlVertexArray glyph_array_;
-  GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::DynamicDraw> glyph_buffer_;
 
   // Models
   void DrawAxis(const Affine3d& transform, double axis_length, double axis_radius);

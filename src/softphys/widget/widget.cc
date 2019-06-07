@@ -4,13 +4,13 @@ namespace softphys
 {
 namespace widget
 {
-Widget::Widget()
-  : size_inherited_(true)
+Widget::Widget(Painter* painter)
+  : painter_(painter), size_inherited_(true)
 {
 }
 
-Widget::Widget(double x, double y, double width, double height)
-  : size_inherited_(false),
+Widget::Widget(Painter* painter, double x, double y, double width, double height)
+  : painter_(painter), size_inherited_(false),
   position_(x, y), size_(width, height)
 {
 }
@@ -35,7 +35,7 @@ void Widget::MouseMove(double x, double y)
 {
 }
 
-void Widget::MouseButton(int button, int action, int mods)
+void Widget::MouseButton(double x, double y, Mouse::Button button, Mouse::Status action, int mods)
 {
 }
 
