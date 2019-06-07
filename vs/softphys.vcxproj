@@ -141,6 +141,8 @@
     <None Include="..\src\shader\light_cubemap.vert" />
     <None Include="..\src\shader\ray_ground.frag" />
     <None Include="..\src\shader\ray_ground.vert" />
+    <None Include="..\src\shader\ui.frag" />
+    <None Include="..\src\shader\ui.vert" />
     <None Include="..\src\shader\uniform_color.frag" />
     <None Include="..\src\shader\uniform_color.vert" />
     <None Include="..\src\shader\ground.frag" />

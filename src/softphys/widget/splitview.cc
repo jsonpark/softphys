@@ -20,6 +20,8 @@ void Splitview::MouseMove(double x, double y)
 {
   const auto& mouse = GetPainter()->GetMouse();
 
+  UpdateChildrenWidgetSize();
+
   if (mouse_dragging_widget_ == 0)
   {
     widget1_->MouseMove(x, y);
@@ -41,6 +43,63 @@ void Splitview::MouseMove(double x, double y)
     }
 
     widget2_->MouseMove(wx, wy);
+  }
+  else if (mouse_dragging_widget_ == 2)
+  {
+    double new_partition;
+    switch (split_)
+    {
+    case Split::Horizontal:
+      new_partition = y / Height();
+      break;
+
+    case Split::Vertical:
+      new_partition = x / Width();
+      break;
+    }
+
+    constexpr double clip = 0.01;
+    if (new_partition < clip)
+      new_partition = clip;
+    if (new_partition > 1. - clip)
+      new_partition = 1. - clip;
+
+    SetPartition(new_partition);
+  }
+  else
+  {
+    const auto& w1p = widget1_->Position();
+    const auto& w1s = widget1_->Size();
+    const auto& w2p = widget2_->Position();
+    const auto& w2s = widget2_->Size();
+
+    if (w1p(0) <= x && x <= w1p(0) + w1s(0) &&
+      w1p(1) <= y && y <= w1p(1) + w1s(1))
+    {
+      mouse_dragging_widget_ = 0;
+      widget1_->MouseMove(x, y);
+    }
+
+    else if (w2p(0) <= x && x <= w2p(0) + w2s(0) &&
+      w2p(1) <= y && y <= w2p(1) + w2s(1))
+    {
+      auto wx = x;
+      auto wy = y;
+
+      switch (split_)
+      {
+      case Split::Horizontal:
+        wx -= widget1_->Height();
+        break;
+
+      case Split::Vertical:
+        wy -= widget1_->Width();
+        break;
+      }
+
+      mouse_dragging_widget_ = 1;
+      widget2_->MouseMove(wx, wy);
+    }
   }
 }
 
@@ -84,43 +143,56 @@ void Splitview::MouseButton(double x, double y, Mouse::Button button, Mouse::Sta
 
   else
   {
-    auto x = mouse.X();
-    auto y = mouse.Y();
-
-    const auto& w1p = widget1_->Position();
-    const auto& w1s = widget1_->Size();
-    const auto& w2p = widget2_->Position();
-    const auto& w2s = widget2_->Size();
-
-    if (w1p(0) <= x && x <= w1p(0) + w1s(0) &&
-      w1p(1) <= y && y <= w1p(1) + w1s(1))
+    mouse_dragging_widget_ = -1;
+    switch (split_)
     {
-      mouse_dragging_widget_ = 0;
-      widget1_->MouseButton(x, y, button, action, mods);
+    case Split::Horizontal:
+      if (widget1_->Height() - border_halfsize_ <= y && y <= widget1_->Height() + border_halfsize_)
+        mouse_dragging_widget_ = 2;
+      break;
+
+    case Split::Vertical:
+      if (widget1_->Width() - border_halfsize_ <= x && x <= widget1_->Width() + border_halfsize_)
+        mouse_dragging_widget_ = 2;
+      break;
     }
-    
-    else if (w2p(0) <= x && x <= w2p(0) + w2s(0) &&
-      w2p(1) <= y && y <= w2p(1) + w2s(1))
+
+    if (mouse_dragging_widget_ == -1)
     {
-      auto wx = x;
-      auto wy = y;
+      const auto& w1p = widget1_->Position();
+      const auto& w1s = widget1_->Size();
+      const auto& w2p = widget2_->Position();
+      const auto& w2s = widget2_->Size();
 
-      switch (split_)
+      if (w1p(0) <= x && x <= w1p(0) + w1s(0) &&
+        w1p(1) <= y && y <= w1p(1) + w1s(1))
       {
-      case Split::Horizontal:
-        wx -= widget1_->Height();
-        break;
-
-      case Split::Vertical:
-        wy -= widget1_->Width();
-        break;
+        mouse_dragging_widget_ = 0;
+        widget1_->MouseButton(x, y, button, action, mods);
       }
 
-      mouse_dragging_widget_ = 1;
-      widget2_->MouseButton(wx, wy, button, action, mods);
+      else if (w2p(0) <= x && x <= w2p(0) + w2s(0) &&
+        w2p(1) <= y && y <= w2p(1) + w2s(1))
+      {
+        auto wx = x;
+        auto wy = y;
+
+        switch (split_)
+        {
+        case Split::Horizontal:
+          wx -= widget1_->Height();
+          break;
+
+        case Split::Vertical:
+          wy -= widget1_->Width();
+          break;
+        }
+
+        mouse_dragging_widget_ = 1;
+        widget2_->MouseButton(wx, wy, button, action, mods);
+      }
     }
   }
-
 }
 
 void Splitview::Resize(double width, double height)
@@ -162,6 +234,19 @@ void Splitview::Draw()
 
   widget2_->SetScreenPosition(ScreenPosition() + widget2_->Position());
   widget2_->Draw();
+
+  const auto painter = GetPainter();
+  const Vector4f color(0.35f, 0.42f, 0.6f, 1.f);
+  switch (split_)
+  {
+  case Split::Horizontal:
+    painter->DrawRect(0.f, widget1_->Height() - border_halfsize_, Width(), widget1_->Height() + border_halfsize_, color);
+    break;
+
+  case Split::Vertical:
+    painter->DrawRect(widget1_->Width() - border_halfsize_, 0.f, widget1_->Width() + border_halfsize_, Height(), color);
+    break;
+  }
 }
 }
 }

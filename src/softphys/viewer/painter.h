@@ -36,7 +36,8 @@ public:
   void SetViewport();
   void SetViewport(int x, int y, int width, int height);
 
-  void RenderText(const std::wstring& s, float x, float y, float font_size, Eigen::Vector3f color);
+  void RenderText(const std::wstring& s, float x, float y, float font_size, const Vector3f& color);
+  void DrawRect(float xmin, float ymin, float xmax, float ymax, const Vector4f& color);
 
   const auto& GetMouse() const
   {
@@ -55,6 +56,11 @@ private:
   GlGlyphs glyphs_;
   GlVertexArray glyph_array_;
   GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::DynamicDraw> glyph_buffer_;
+
+  // Ui
+  GlProgram ui_program_;
+  GlVertexArray ui_array_;
+  GlBuffer<float, GlBufferTarget::ArrayBuffer, GlBufferUsage::DynamicDraw> ui_buffer_;
 };
 }
 

@@ -448,5 +448,11 @@
     <None Include="..\data\ryan.json">
       <Filter>data</Filter>
     </None>
+    <None Include="..\src\shader\ui.frag">
+      <Filter>src\shader</Filter>
+    </None>
+    <None Include="..\src\shader\ui.vert">
+      <Filter>src\shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

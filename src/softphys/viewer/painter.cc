@@ -122,6 +122,16 @@ void Painter::Initialize()
 
   glyphs_ = GlGlyphs(GetEngine()->LoadFont("consola"));
 
+  // Ui rendering
+  ui_program_.Attach(GlShader("..\\src\\shader\\ui.vert"));
+  ui_program_.Attach(GlShader("..\\src\\shader\\ui.frag"));
+  ui_program_.Link();
+
+  // 1024 floats
+  ui_buffer_ = decltype(ui_buffer_)(1024);
+
+  ui_array_.VertexAttribPointer(0, 2, ui_buffer_);
+
   splitview_->Initialize();
   treeview_->Initialize();
   viewer_->Initialize();
@@ -147,7 +157,7 @@ void Painter::Display()
   splitview_->Draw();
 }
 
-void Painter::RenderText(const std::wstring& s, float x, float y, float font_size, Eigen::Vector3f color)
+void Painter::RenderText(const std::wstring& s, float x, float y, float font_size, const Vector3f& color)
 {
   SetViewport();
 
@@ -216,5 +226,28 @@ void Painter::RenderText(const std::wstring& s, float x, float y, float font_siz
   }
 
   glEnable(GL_DEPTH_TEST);
+}
+
+void Painter::DrawRect(float xmin, float ymin, float xmax, float ymax, const Vector4f& color)
+{
+  SetViewport();
+
+  glDisable(GL_CULL_FACE);
+  glDisable(GL_DEPTH_TEST);
+
+  ui_program_.Use();
+  ui_program_.Uniform4f("monitor", 0.f, 0.f, static_cast<float>(Width()), static_cast<float>(Height()));
+  ui_program_.Uniform4f("color", color);
+
+  std::vector<float> buffer {
+    xmin, ymin,
+    xmin, ymax,
+    xmax, ymin,
+    xmax, ymax,
+  };
+
+  ui_buffer_.BufferSubData(buffer);
+
+  ui_array_.DrawArrays(GlVertexArray::DrawType::TriangleStrip, 4);
 }
 }

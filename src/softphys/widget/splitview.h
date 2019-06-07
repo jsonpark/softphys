@@ -11,6 +11,9 @@ namespace widget
 {
 class Splitview : public Widget
 {
+private:
+  static const int border_halfsize_ = 3;
+
 public:
   enum class Split
   {

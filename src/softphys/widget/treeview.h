@@ -14,6 +14,8 @@ public:
   Treeview(Painter* painter);
   ~Treeview();
 
+  void Draw() override;
+
 private:
 };
 }
