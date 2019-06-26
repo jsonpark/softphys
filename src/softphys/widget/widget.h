@@ -32,6 +32,16 @@ public:
     return position_;
   }
 
+  auto X() const noexcept
+  {
+    return position_(0);
+  }
+
+  auto Y() const noexcept
+  {
+    return position_(1);
+  }
+
   const auto& Size() const noexcept
   {
     return size_;

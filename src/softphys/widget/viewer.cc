@@ -54,9 +54,9 @@ void Viewer::MouseMove(double x, double y)
   double dx = x - mouse_last_x_;
   double dy = y - mouse_last_y_;
 
-  bool left = mouse.IsPressed<Mouse::Button::LeftButton>();
-  bool right = mouse.IsPressed<Mouse::Button::RightButton>();
-  bool middle = mouse.IsPressed<Mouse::Button::MiddleButton>();
+  bool left = mouse.IsPressed(Mouse::Button::LeftButton);
+  bool right = mouse.IsPressed(Mouse::Button::RightButton);
+  bool middle = mouse.IsPressed(Mouse::Button::MiddleButton);
 
   if (left && right)
   {

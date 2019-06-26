@@ -59,8 +59,7 @@ public:
     buttons_[ButtonToIndex(button)] = status;
   }
 
-  template<Button button>
-  bool IsPressed() const noexcept
+  bool IsPressed(Button button) const noexcept
   {
     return buttons_[ButtonToIndex(button)] == Status::Pressed;
   }

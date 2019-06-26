@@ -51,7 +51,7 @@ public:
   virtual void Move(int x, int y);
   virtual void Keyboard(int key, int action, int mods);
   virtual void MouseMove(double x, double y);
-  virtual void MouseButton(int button, int action, int mods);
+  virtual void MouseButton(Mouse::Button button, Mouse::Status action, int mods);
 
   virtual void Initialize();
   virtual void Display();

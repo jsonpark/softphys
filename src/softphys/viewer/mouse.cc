@@ -10,6 +10,6 @@ Mouse::Mouse()
 
 bool Mouse::IsDragging() const noexcept
 {
-  return IsPressed<Button::LeftButton>() || IsPressed<Button::RightButton>() || IsPressed<Button::MiddleButton>();
+  return IsPressed(Button::LeftButton) || IsPressed(Button::RightButton) || IsPressed(Button::MiddleButton);
 }
 }

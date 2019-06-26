@@ -28,7 +28,7 @@ public:
   void Resize(int width, int height) override;
   void Keyboard(int key, int action, int mods) override;
   void MouseMove(double x, double y) override;
-  void MouseButton(int button, int action, int mods) override;
+  void MouseButton(Mouse::Button button, Mouse::Status action, int mods) override;
 
   void Initialize() override;
   void Display() override;

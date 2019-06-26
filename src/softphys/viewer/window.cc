@@ -85,7 +85,7 @@ void Window::MouseMove(double x, double y)
 {
 }
 
-void Window::MouseButton(int button, int action, int mods)
+void Window::MouseButton(Mouse::Button button, Mouse::Status action, int mods)
 {
 }
 

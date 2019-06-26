@@ -45,8 +45,37 @@ void KeyCallback(GLFWwindow* glfw_window, int key, int scancode, int action, int
 // @mods  Bit field describing which modifier keys were held down.
 void MouseButtonCallback(GLFWwindow* glfw_window, int button, int action, int mods)
 {
+  Mouse::Button mouse_button;
+  switch (button)
+  {
+  case GLFW_MOUSE_BUTTON_LEFT:
+    mouse_button = Mouse::Button::LeftButton;
+    break;
+  case GLFW_MOUSE_BUTTON_RIGHT:
+    mouse_button = Mouse::Button::RightButton;
+    break;
+  case GLFW_MOUSE_BUTTON_MIDDLE:
+    mouse_button = Mouse::Button::MiddleButton;
+    break;
+  default:
+    return;
+  }
+
+  Mouse::Status mouse_status;
+  switch (action)
+  {
+  case GLFW_PRESS:
+    mouse_status = Mouse::Status::Pressed;
+    break;
+  case GLFW_RELEASE:
+    mouse_status = Mouse::Status::Released;
+    break;
+  default:
+    return;
+  }
+
   auto window = ToWindow(glfw_window);
-  window->MouseButton(button, action, mods);
+  window->MouseButton(mouse_button, mouse_status, mods);
 }
 }
 

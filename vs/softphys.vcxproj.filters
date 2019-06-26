@@ -64,6 +64,9 @@
     <Filter Include="src\softphys\widget">
       <UniqueIdentifier>{d671566c-9edf-430e-a5b7-ce4ae0016858}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\softphys\widget\treeview">
+      <UniqueIdentifier>{1d66a252-fc6e-4cce-a680-6d4165a5b0dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\glad\glad.c">
@@ -206,6 +209,9 @@
     </ClCompile>
     <ClCompile Include="..\src\softphys\viewer\painter.cc">
       <Filter>src\softphys\viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\softphys\widget\treeview\entry.cc">
+      <Filter>src\softphys\widget\treeview</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -376,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="..\src\softphys\viewer\painter.h">
       <Filter>src\softphys\viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\softphys\widget\treeview\entry.h">
+      <Filter>src\softphys\widget\treeview</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,74 @@
+{
+  "materials": [
+    {
+      "name": "bronze",
+      "ambient": [ 0.1, 0.1, 0.1 ],
+      "diffuse": [ 0.960784, 0.870588, 0.701961 ],
+      "specular": [ 0.5, 0.5, 0.5 ],
+      "shininess": 76.8
+    },
+    {
+      "name": "white",
+      "ambient": [ 0.1, 0.1, 0.1 ],
+      "diffuse": [ 0.9, 0.9, 0.9 ],
+      "specular": [ 0.9, 0.9, 0.9 ],
+      "shininess": 76.8
+    },
+    {
+      "name": "black",
+      "ambient": [ 0.1, 0.1, 0.1 ],
+      "diffuse": [ 0.1, 0.1, 0.1 ],
+      "specular": [ 0.9, 0.9, 0.9 ],
+      "shininess": 76.8
+    }
+  ],
+  "links": [
+    {
+      "link_name": "head",
+      "visuals": [
+        {
+          "name": "head",
+          "shape": "sphere",
+          "material": "brown",
+          "radius": 0.5
+        },
+        {
+          "name": "left_eyebrow",
+          "shape": "cubic_bezier",
+          "control_points": [
+            [ 0.5, -0.5, 0.25 ],
+            [ 0.5, -0.4, 0.25 ],
+            [ 0.5, -0.3, 0.25 ],
+            [ 0.5, -0.2, 0.25 ]
+          ],
+          "radius": 0.05
+        }
+      ],
+      "physics": [
+        {
+          "shape": "sphere",
+          "radius": 0.5
+        }
+      ]
+    },
+    {
+      "link_name": "body",
+      "visuals": [
+        {
+          "name": "body",
+          "shape": "cylinder",
+          "material": "brown",
+          "radius": 0.3,
+          "height": 0.3
+        }
+      ]
+    }
+  ],
+  "joints": [
+    {
+      "joint_name": "body_to_head",
+      "parent_link": "body",
+      "child_link": "head"
+    }
+  ]
+}

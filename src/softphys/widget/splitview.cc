@@ -89,11 +89,11 @@ void Splitview::MouseMove(double x, double y)
       switch (split_)
       {
       case Split::Horizontal:
-        wx -= widget1_->Height();
+        wy -= widget1_->Height();
         break;
 
       case Split::Vertical:
-        wy -= widget1_->Width();
+        wx -= widget1_->Width();
         break;
       }
 
@@ -136,7 +136,7 @@ void Splitview::MouseButton(double x, double y, Mouse::Button button, Mouse::Sta
 
     if (action == Mouse::Status::Released)
     {
-      if (mouse.IsPressed<Mouse::Button::LeftButton>() + mouse.IsPressed<Mouse::Button::RightButton>() + mouse.IsPressed<Mouse::Button::MiddleButton>() == 1)
+      if (mouse.IsPressed(Mouse::Button::LeftButton) + mouse.IsPressed(Mouse::Button::RightButton) + mouse.IsPressed(Mouse::Button::MiddleButton) == 1)
         mouse_dragging_widget_ = -1;
     }
   }
@@ -147,12 +147,12 @@ void Splitview::MouseButton(double x, double y, Mouse::Button button, Mouse::Sta
     switch (split_)
     {
     case Split::Horizontal:
-      if (widget1_->Height() - border_halfsize_ <= y && y <= widget1_->Height() + border_halfsize_)
+      if (widget1_->Height() <= y && y <= widget2_->Y())
         mouse_dragging_widget_ = 2;
       break;
 
     case Split::Vertical:
-      if (widget1_->Width() - border_halfsize_ <= x && x <= widget1_->Width() + border_halfsize_)
+      if (widget1_->Width() <= x && x <= widget2_->X())
         mouse_dragging_widget_ = 2;
       break;
     }
@@ -213,16 +213,16 @@ void Splitview::UpdateChildrenWidgetSize()
   {
   case Split::Horizontal:
     widget1_->Move(0., 0.);
-    widget1_->Resize(Width(), Height() * partition_);
-    widget2_->Move(0., Height() * partition_);
-    widget2_->Resize(Width(), Height() * (1. - partition_));
+    widget1_->Resize(Width(), Height() * partition_ - border_halfsize_);
+    widget2_->Move(0., Height() * partition_ + border_halfsize_);
+    widget2_->Resize(Width(), Height() * (1. - partition_) - border_halfsize_);
     break;
 
   case Split::Vertical:
     widget1_->Move(0., 0.);
-    widget1_->Resize(Width() * partition_, Height());
-    widget2_->Move(Width() * partition_, 0.);
-    widget2_->Resize(Width() * (1. - partition_), Height());
+    widget1_->Resize(Width() * partition_ - border_halfsize_, Height());
+    widget2_->Move(Width() * partition_ + border_halfsize_, 0.);
+    widget2_->Resize(Width() * (1. - partition_) - border_halfsize_, Height());
     break;
   }
 }
@@ -240,11 +240,11 @@ void Splitview::Draw()
   switch (split_)
   {
   case Split::Horizontal:
-    painter->DrawRect(0.f, widget1_->Height() - border_halfsize_, Width(), widget1_->Height() + border_halfsize_, color);
+    painter->DrawRect(0.f, widget1_->Height(), Width(), widget1_->Height() + border_halfsize_ * 2, color);
     break;
 
   case Split::Vertical:
-    painter->DrawRect(widget1_->Width() - border_halfsize_, 0.f, widget1_->Width() + border_halfsize_, Height(), color);
+    painter->DrawRect(widget1_->Width(), 0.f, widget1_->Width() + border_halfsize_ * 2, Height(), color);
     break;
   }
 }

@@ -3,6 +3,8 @@
 
 #include "softphys/widget/widget.h"
 
+#include "softphys/widget/treeview/entry.h"
+
 namespace softphys
 {
 namespace widget
@@ -16,7 +18,15 @@ public:
 
   void Draw() override;
 
+  void AddEntry(std::shared_ptr<Entry> entry);
+
 private:
+  std::vector<std::shared_ptr<Entry>> entries_;
+  double scroll_ = 0.;
+
+  // Drawing
+  void DrawEntries(std::shared_ptr<Entry> entry);
+  int indent_ = 0;
 };
 }
 }

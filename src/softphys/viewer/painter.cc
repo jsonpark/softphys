@@ -57,44 +57,15 @@ void Painter::MouseMove(double x, double y)
   mouse_.SetPos(x, y);
 }
 
-void Painter::MouseButton(int button, int action, int mods)
+void Painter::MouseButton(Mouse::Button button, Mouse::Status action, int mods)
 {
-  Mouse::Button mouse_button;
-  switch (button)
-  {
-  case GLFW_MOUSE_BUTTON_LEFT:
-    mouse_button = Mouse::Button::LeftButton;
-    break;
-  case GLFW_MOUSE_BUTTON_RIGHT:
-    mouse_button = Mouse::Button::RightButton;
-    break;
-  case GLFW_MOUSE_BUTTON_MIDDLE:
-    mouse_button = Mouse::Button::MiddleButton;
-    break;
-  default:
-    return;
-  }
-
-  Mouse::Status mouse_status;
-  switch (action)
-  {
-  case GLFW_PRESS:
-    mouse_status = Mouse::Status::Pressed;
-    break;
-  case GLFW_RELEASE:
-    mouse_status = Mouse::Status::Released;
-    break;
-  default:
-    return;
-  }
-
   // Event process
   double x, y;
   glfwGetCursorPos(PointerToWindow(), &x, &y);
-  splitview_->MouseButton(x, y, mouse_button, mouse_status, mods);
+  splitview_->MouseButton(x, y, button, action, mods);
 
   // Mouse update
-  mouse_.SetStatus(mouse_button, mouse_status);
+  mouse_.SetStatus(button, action);
 }
 
 void Painter::LoadScene(const std::string& filename)

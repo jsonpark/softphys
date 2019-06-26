@@ -64,6 +64,7 @@
     <ClCompile Include="..\src\softphys\viewer\window.cc" />
     <ClCompile Include="..\src\softphys\widget\splitview.cc" />
     <ClCompile Include="..\src\softphys\widget\treeview.cc" />
+    <ClCompile Include="..\src\softphys\widget\treeview\entry.cc" />
     <ClCompile Include="..\src\softphys\widget\viewer.cc" />
     <ClCompile Include="..\src\softphys\widget\widget.cc" />
   </ItemGroup>
@@ -122,6 +123,7 @@
     <ClInclude Include="..\src\softphys\viewer\window.h" />
     <ClInclude Include="..\src\softphys\widget\splitview.h" />
     <ClInclude Include="..\src\softphys\widget\treeview.h" />
+    <ClInclude Include="..\src\softphys\widget\treeview\entry.h" />
     <ClInclude Include="..\src\softphys\widget\viewer.h" />
     <ClInclude Include="..\src\softphys\widget\widget.h" />
   </ItemGroup>
